@@ -495,7 +495,7 @@ include 'component/pengaturantampilan.view.php';
 
                                         </form>
                                         <div class="main-signin-footer mt-5">
-                                            <p>Already have an account? <a href="/admin/login">Sign In</a></p>
+                                            <p>Already have an account? <a href="/login">Sign In</a></p>
                                         </div>
                                         <div id="result"></div>
 

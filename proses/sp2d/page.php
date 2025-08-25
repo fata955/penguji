@@ -17,6 +17,20 @@ if ($_GET["action"] === "fetchData") {
   ]);
 }
 
+if ($_GET["action"] === "fetchCart") {
+  $sql = "SELECT id,nilai_sp2d,nama_skpd FROM sp2d where status='2' ";
+  $result = mysqli_query($koneksi, $sql);
+  $data = [];
+  while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+  }
+  mysqli_close($koneksi);
+  header('Content-Type: application/json');
+  echo json_encode([
+    "data" => $data
+  ]);
+}
+
 if ($_GET["action"] === "insertData") {
 
 
@@ -62,14 +76,34 @@ if ($_GET["action"] === "insertData") {
 
 if ($_GET["action"] === "fetchSingle") {
   $id = $_POST["id"];
-  $sql = "SELECT * FROM menu WHERE id='$id'";
-  $result = mysqli_query($koneksi, $sql);
-  if (mysqli_num_rows($result) > 0) {
-    $data = mysqli_fetch_assoc($result);
-    header("Content-Type: application/json");
+  $sql = "UPDATE sp2d SET status='2' WHERE id='$id'";
+  // $result = mysqli_query($koneksi, $sql);
+  if (mysqli_query($koneksi, $sql)) {
+    // $data = mysqli_fetch_assoc($result);
+    // header("Content-Type: application/json");
     echo json_encode([
       "statusCode" => 200,
-      "data" => $data
+       "message" => "Data updated successfully 😀"
+    ]);
+  } else {
+    echo json_encode([
+      "statusCode" => 404,
+      "message" => "No user found with this id 😓"
+    ]);
+  }
+  mysqli_close($koneksi);
+}
+
+if ($_GET["action"] === "kembali") {
+  $id = $_POST["id"];
+  $sql = "UPDATE sp2d SET status='1' WHERE id='$id'";
+  // $result = mysqli_query($koneksi, $sql);
+  if (mysqli_query($koneksi, $sql)) {
+    // $data = mysqli_fetch_assoc($result);
+    // header("Content-Type: application/json");
+    echo json_encode([
+      "statusCode" => 200,
+       "message" => "Data updated successfully 😀"
     ]);
   } else {
     echo json_encode([

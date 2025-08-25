@@ -492,7 +492,7 @@ include 'component/pengaturantampilan.view.php';
                                         </form>
                                         <div class="main-signin-footer mt-5">
                                             <p class="mb-1"><a href="forgot.html">Forgot password?</a></p>
-                                            <p>Don't have an account? <a href="/admin/signup">Create an
+                                            <p>Don't have an account? <a href="/signup">Create an
                                                     Account</a></p>
                                         </div>
                                     </div>

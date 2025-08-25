@@ -1,6 +1,6 @@
 <?php
 // include '../../../lib/dbh.inc.php';
-include '../../../lib/dbh.inc.php';
+include '../../lib/dbh.inc.php';
 
 
 
