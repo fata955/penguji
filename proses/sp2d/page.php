@@ -1,5 +1,7 @@
 <?php
 // include '../../../lib/dbh.inc.php';
+session_start();
+$user = $_SESSION['username'];
 include '../../lib/dbh.inc.php';
 
 
@@ -18,7 +20,7 @@ if ($_GET["action"] === "fetchData") {
 }
 
 if ($_GET["action"] === "fetchCart") {
-  $sql = "SELECT id,nilai_sp2d,nama_skpd FROM sp2d where status='2' ";
+  $sql = "SELECT id,nilai_sp2d,nama_skpd FROM sp2d where status='2' AND id_user='$user' ";
   $result = mysqli_query($koneksi, $sql);
   $data = [];
   while ($row = mysqli_fetch_assoc($result)) {
@@ -76,7 +78,7 @@ if ($_GET["action"] === "insertData") {
 
 if ($_GET["action"] === "fetchSingle") {
   $id = $_POST["id"];
-  $sql = "UPDATE sp2d SET status='2' WHERE id='$id'";
+  $sql = "UPDATE sp2d SET status='2',id_user='$user' WHERE id='$id'";
   // $result = mysqli_query($koneksi, $sql);
   if (mysqli_query($koneksi, $sql)) {
     // $data = mysqli_fetch_assoc($result);
@@ -96,7 +98,7 @@ if ($_GET["action"] === "fetchSingle") {
 
 if ($_GET["action"] === "kembali") {
   $id = $_POST["id"];
-  $sql = "UPDATE sp2d SET status='1' WHERE id='$id'";
+  $sql = "UPDATE sp2d SET status='1',id_user='0' WHERE id='$id'";
   // $result = mysqli_query($koneksi, $sql);
   if (mysqli_query($koneksi, $sql)) {
     // $data = mysqli_fetch_assoc($result);

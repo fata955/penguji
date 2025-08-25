@@ -306,10 +306,11 @@ include 'component/pengaturantampilan.view.php';
 
     <script>
         $(document).ready(function() {
+            setInterval(fetchData, 9990);
             fetchData();
             fetchCart();
             kosong();
-
+            
             let table = new DataTable("#mytablelist");
 
             function formatRupiah(angka, prefix) {
@@ -331,6 +332,7 @@ include 'component/pengaturantampilan.view.php';
 
             // function to fetch data from database
             function fetchData() {
+                $("#tablespm").empty();
                 $.ajax({
                     url: "proses/sp2d/page.php?action=fetchData",
                     type: "POST",
@@ -429,10 +431,10 @@ include 'component/pengaturantampilan.view.php';
                         },
                         success: function(response) {
                             if (response.statusCode == 200) {
-                                window.location.replace("/kertaskerja");
+                                // window.location.replace("/kertaskerja");
 
-                                // fetchCart();
-                                // fetchData();
+                                fetchCart();
+                                fetchData();
 
                             } else if (response.statusCode == 500) {
                                 alert(' data error, Jaringan Anda');
@@ -515,7 +517,9 @@ include 'component/pengaturantampilan.view.php';
                         },
                         success: function(response) {
                             if (response.statusCode == 200) {
-                                window.location.replace("/kertaskerja");
+                                // window.location.replace("/kertaskerja");
+                                fetchData();
+                                fetchCart();
 
                             } else if (response.statusCode == 500) {
                                 alert('data error, Jaringan Anda');
