@@ -1,8 +1,8 @@
 <?php
 session_start();
 if (!isset($_SESSION['username'])) {
-  header("Location: /login");
-  exit();
+    header("Location: /login");
+    exit();
 }
 include 'component/header.view.php';
 include 'component/pengaturantampilan.view.php';
@@ -58,8 +58,9 @@ include 'component/pengaturantampilan.view.php';
                         <!-- <a class="modal-effect btn btn-primary d-grid mb-3" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8insert" id="tambah">tambah</a> -->
                         <a href="">
                             <div class="drop-down-profile" data-bs-toggle="dropdown"><img alt=""
-                                    class="rounded-circle avatar avatar-lg" src="../assets/images/faces/1.png"><span
-                                    class="assigned-task bg-purple">9</span>
+                                    class="rounded-circle avatar avatar-lg" src="../assets/images/faces/1.png">
+                                <span
+                                    class="assigned-task bg-purple" id="jumlah"></span>
                                 <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i> -->
                                 <!-- </a> -->
                             </div>
@@ -77,7 +78,7 @@ include 'component/pengaturantampilan.view.php';
 
             <!-- Start::row-1 -->
             <div class="row">
-                <div class="col-xl-9 col-md-12">
+                <div class="col-xl-8 col-md-12">
                     <!-- <form action="proses/sp2d/page.php?action=fetchSingle" method="post"> -->
                     <div class="card mb-4">
                         <form action="" method="post">
@@ -91,35 +92,59 @@ include 'component/pengaturantampilan.view.php';
                             </div>
                         </form>
                     </div>
+                    <table id="tablelistspm" style="display:none;">
+                        <thead>
+                            <tr>
+                                <th><span>keterangan</span></th>
+                                <th><span>namaskpd</span></th>
+                                <th><span>nilai</span></th>
+                                <th><span>nomor</span></th>
+                                <th><span>potongan</span></th>
+                                <th><span>tanggal</span></th>
+                                <th><span>action</span></th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+
                     <div class="row row-sm" id="tablespm">
 
                     </div>
                     <!-- </form> -->
                 </div>
 
-                <div class="col-lg-12 col-xl-3">
+                <div class="col-md-12 col-xl-4">
                     <div class="card card--events mb-4 overflow-hidden">
                         <div class="card-body">
                             <div class="p-4">
                                 <div class="main-content-label">List Pengambilan Data</div>
-                                <p class="mb-0">Rp. 12.000.000.000
+                                <h5>Total</h5>
+                                <p class="mb-0" style="font-size:x-large;" id="totalfix">
+
                                 </p>
                             </div>
                             <div class="list-group to-do-tasks rounded-0">
                                 <div class="table-responsive border border-bottom-0 userlist-table">
-                                    <table class="table card-table table-vcenter text-nowrap mb-0" id="mytablelist">
-                                        <thead>
-                                            <tr>
-                                                <th><span>OPD</span></th>
-                                                <th><span>NILAI</span></th>
-                                                <th><span>action</span></th>
+                                    <div class="row mt-2">
+                                        <div class="col-md-12">
+                                            <table class="table card-table table-vcenter text-nowrap mb-0" id="mytablelist">
+                                                <thead>
+                                                    <tr>
+                                                        <th><span>OPD</span></th>
+                                                        <th><span>NILAI</span></th>
+                                                        <th><span>action</span></th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
 
-                                        </tbody>
-                                    </table>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -127,71 +152,33 @@ include 'component/pengaturantampilan.view.php';
                     <div class="card">
                         <div class="card-body p-0">
                             <div class="pt-4 px-4">
-                                <div class="main-content-label">Recent Tasks</div>
-                                <p class="mb-4">It is Very Easy to Customize and it uses in website apllication.
-                                </p>
+                                <div class="main-content-label">Daftar Penguji</div>
+                                <!-- <label for="">Tanggal Awal</label><br>
+                                <input type="date" class="form-control" name="tanggalawal" id="tanggalawal"><br>
+                                <label for="">Tanggal Akhir</label>
+                                <input type="date"  class="form-control" name="tanggalakhir" id="tanggalakhir"> <br> -->
                             </div>
-                            <div class="d-flex p-3 border-top">
-                                <label class="ckbox"><input class="mb-2" checked="" type="checkbox"><span>Do
-                                        something
-                                        more</span></label>
-                                <span class="ms-auto">
-                                    <i class="si si-pencil text-primary me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Edit"></i>
-                                    <i class="si si-trash text-danger me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Delete"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex p-3 border-top">
-                                <label class="ckbox"><input class="mb-2" checked="" type="checkbox"><span>Update
-                                        More
-                                        Files</span></label>
-                                <span class="ms-auto">
-                                    <i class="si si-pencil text-primary me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Edit"></i>
-                                    <i class="si si-trash text-danger me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Delete"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex p-3 border-top">
-                                <label class="ckbox"><input class="mb-2" type="checkbox"><span>Complete
-                                        Projects</span></label>
-                                <span class="ms-auto">
-                                    <i class="si si-pencil text-primary me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Edit"></i>
-                                    <i class="si si-trash text-danger me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Delete"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex p-3 border-top">
-                                <label class="ckbox"><input class="mb-2" type="checkbox"><span>Finish
-                                        Something</span></label>
-                                <span class="ms-auto">
-                                    <i class="si si-pencil text-primary me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Edit"></i>
-                                    <i class="si si-trash text-danger me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Delete"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex p-3 border-top">
-                                <label class="ckbox"><input class="mb-2" checked="" type="checkbox"><span>System
-                                        Updated</span></label>
-                                <span class="ms-auto">
-                                    <i class="si si-pencil text-primary me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Edit"></i>
-                                    <i class="si si-trash text-danger me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Delete"></i>
-                                </span>
-                            </div>
-                            <div class="d-flex p-3 border-top">
-                                <label class="ckbox"><input class="mb-2" type="checkbox"><span>Change
-                                        Settings</span></label>
-                                <span class="ms-auto">
-                                    <i class="si si-pencil text-primary me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Edit"></i>
-                                    <i class="si si-trash text-danger me-2" data-bs-toggle="tooltip" title=""
-                                        data-bs-placement="top" data-bs-original-title="Delete"></i>
-                                </span>
+                            <div class="list-group to-do-tasks rounded-0">
+                                <div class="table-responsive border border-bottom-0 userlist-table">
+                                    <div class="row mt-2">
+                                        <div class="col-lg-12">
+                                            <table class="table card-table table-vcenter text-nowrap mb-0" id="mytablePenguji">
+                                                <thead>
+                                                    <tr>
+                                                        <th><span>Nomor</span></th>
+                                                        <th><span>Qty</span></th>
+                                                        <th><span>Total</span></th>
+                                                        <th><span>action</span></th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -306,12 +293,128 @@ include 'component/pengaturantampilan.view.php';
 
     <script>
         $(document).ready(function() {
-            setInterval(fetchData, 9990);
-            fetchData();
-            fetchCart();
-            kosong();
-            
+            // setInterval(fetchData, 9990);
+            // fetchData();
             let table = new DataTable("#mytablelist");
+            let table1 = new DataTable("#mytablePenguji");
+            let table2 = new DataTable("#tablelistspm");
+            // let table3 = ("#tablespm");
+
+            fetchCart();
+            fetchPenguji();
+            kosong();
+
+            $("#tab").hide();
+
+            $("#tablespm").empty();
+
+            $.ajax({
+                url: "proses/sp2d/page.php?action=fetchData",
+                type: "POST",
+                dataType: "json",
+                success: function(response) {
+                    var data = response.data;
+                    table2.clear().draw();
+                    // $("#tablespm").hide();
+                    $.each(data, function(index, item) {
+                        table2.row
+                            .add([
+                                // counter,
+                                item.keterangan_sp2d,
+                                item.nama_skpd,
+                                formatRupiah(item.nilai_sp2d),
+                                item.nomor_sp2d,
+                                formatRupiah(item.potongan),
+                                item.tanggal_sp2d,
+                                '<button type="button" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8edit" class="btn btn-sm btn-info btn-b  editBtn" value="' +
+                                item.id +
+                                '"><i class="ri-eye-line"></i></button>' +
+                                '<Button type="button" class="btn btn-sm btn-danger deleteBtn" value="' +
+                                item.id +
+                                '"><i class="ri-delete-bin-line"></i></Button>'
+                            ])
+
+                            .draw(false);
+                    })
+
+                    $.each(data, function(index, value) {
+
+                        $("#tablespm").append(`
+                            <div class="col-xl-4 col-md-6">
+                            <div class="card mb-4">
+                                <div class="card-body p-0">
+                                    <div class="todo-widget-header d-flex pb-2 p-4">
+                                    </div>
+                                    <div class="p-4">
+                                        <span class="fs-12 text-muted">Nomor SP2D</span><span
+                                            class="badge bg-primary-transparent text-primary ms-auto float-end">` + value.nama_skpd + `</span>
+                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.nomor_sp2d + `</h5>
+                                    </div>
+                                    <div class="p-4 border-top">
+                                        <span class="fs-12 text-muted">Keterangan Sp2d</span><span
+                                            class="badge bg-danger-transparent text-danger ms-auto float-end">` + value.tanggal_sp2d + `</span>
+                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.keterangan_sp2d + `</h5>
+                                    </div>
+                                     <div class="p-4 border-top">
+                                        <span class="fs-12 text-muted">Potongan</span>
+                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + formatRupiah(value.potongan) + `</h5>
+                                    </div>
+                                </div>
+                                <div class="card-footer ">
+                                    <a class="btn btn-primary" href="javascript:void(0);" data-bs-placement="top"
+                                        data-bs-toggle="tooltip" title="Assign Task">` + formatRupiah(value.nilai_sp2d) + `</a>
+                                    <button class="btn btn-outline-primary ms-auto float-end editBtn"
+                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id + `" title="View Task">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        `)
+                        // .draw(false);
+                    });
+                    // let table2 = new DataTable("#tablelistspm");
+                    // Update card saat pencarian
+                    table2.on('search at', function() {
+                        const filteredData = table2.rows({search: 'applied'}).data().toArray();
+                        $("#tablespm").empty();
+                        filteredData.forEach(row => {
+                            $("#tablespm").append(`
+                            <div class="col-xl-4 col-md-6">
+                            <div class="card mb-4">
+                                <div class="card-body p-0">
+                                    <div class="todo-widget-header d-flex pb-2 p-4">
+                                    </div>
+                                    <div class="p-4">
+                                        <span class="fs-12 text-muted">Nomor SP2D</span><span
+                                            class="badge bg-primary-transparent text-primary ms-auto float-end">` + row.nama_skpd + `</span>
+                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + row.nomor_sp2d + `</h5>
+                                    </div>
+                                    <div class="p-4 border-top">
+                                        <span class="fs-12 text-muted">Keterangan Sp2d</span><span
+                                            class="badge bg-danger-transparent text-danger ms-auto float-end">` + row.tanggal_sp2d + `</span>
+                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + row.keterangan_sp2d + `</h5>
+                                    </div>
+                                     <div class="p-4 border-top">
+                                        <span class="fs-12 text-muted">Potongan</span>
+                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + formatRupiah(row.potongan) + `</h5>
+                                    </div>
+                                </div>
+                                <div class="card-footer ">
+                                    <a class="btn btn-primary" href="javascript:void(0);" data-bs-placement="top"
+                                        data-bs-toggle="tooltip" title="Assign Task">` + formatRupiah(row.nilai_sp2d) + `</a>
+                                    <button class="btn btn-outline-primary ms-auto float-end editBtn"
+                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + row.id + `" title="View Task">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        `);
+                        });
+                    });
+
+                }
+            });
+
 
             function formatRupiah(angka, prefix) {
                 var number_string = angka.replace(/[^,\d]/g, '').toString(),
@@ -332,57 +435,23 @@ include 'component/pengaturantampilan.view.php';
 
             // function to fetch data from database
             function fetchData() {
-                $("#tablespm").empty();
-                $.ajax({
-                    url: "proses/sp2d/page.php?action=fetchData",
-                    type: "POST",
-                    dataType: "json",
-                    success: function(response) {
-                        var data = response.data;
-                        // $("#tablespm").hide();
 
-                        $.each(data, function(index, value) {
-
-                            $("#tablespm").append(`
-                            <div class="col-xl-4 col-md-6">
-                            <div class="card mb-4">
-                                <div class="card-body p-0">
-                                    <div class="todo-widget-header d-flex pb-2 p-4">
-                                    </div>
-                                    <div class="p-4">
-                                        <span class="fs-12 text-muted">Nomor SP2D</span><span
-                                            class="badge bg-primary-transparent text-primary ms-auto float-end">` + value.nama_skpd + `</span>
-                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.nomor_sp2d + `</h5>
-                                    </div>
-                                    <div class="p-4 border-top">
-                                        <span class="fs-12 text-muted">Keterangan Sp2d</span><span
-                                            class="badge bg-danger-transparent text-danger ms-auto float-end">` + value.tanggal_sp2d + `</span>
-                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.keterangan_sp2d + `</h5>
-                                    </div>
-                                </div>
-                                <div class="card-footer ">
-                                    <a class="btn btn-primary" href="javascript:void(0);" data-bs-placement="top"
-                                        data-bs-toggle="tooltip" title="Assign Task">` + formatRupiah(value.nilai_sp2d) + `</a>
-                                    <button class="btn btn-outline-primary ms-auto float-end editBtn"
-                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id + `" title="View Task">Add</button>
-                                </div>
-                            </div>
-                        </div>
-                    
-                        `)
-                            // .draw(false);
-                        });
-                    }
-                });
             }
+
+
             // function to fetch data from database
             function fetchCart() {
+                $("#totalfix").empty();
+                $("#jumlah").empty();
                 $.ajax({
                     url: "proses/sp2d/page.php?action=fetchCart",
                     type: "POST",
                     dataType: "json",
                     success: function(response) {
                         var data = response.data;
+                        var nilai = response.total.nilai;
+                        var jumlah = response.jumlah;
+                        // console.log(nilai);
                         table.clear().draw();
                         // var counter = 1;
                         $.each(data, function(index, value) {
@@ -402,6 +471,45 @@ include 'component/pengaturantampilan.view.php';
                                 .draw(false);
                             // counter++;
                         });
+                        $("#totalfix").append(formatRupiah(nilai));
+                        $("#jumlah").append(jumlah);
+                    }
+                });
+            }
+
+            function fetchPenguji() {
+                // $("#totalfix").empty();
+                // $("#jumlah").empty();
+                $.ajax({
+                    url: "proses/sp2d/page.php?action=fetchPenguji",
+                    type: "POST",
+                    dataType: "json",
+                    success: function(response) {
+                        var data = response.data;
+
+                        // console.log(nilai);
+                        table1.clear().draw();
+                        // var counter = 1;
+                        $.each(data, function(index, value) {
+                            table1.row
+                                .add([
+                                    // counter,
+                                    value.nomor,
+                                    value.count,
+                                    formatRupiah(value.nilai),
+                                    '<button type="button" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8edit" class="btn btn-sm btn-info btn-b  editBtn" value="' +
+                                    value.id +
+                                    '"><i class="ri-eye-line"></i></button>' +
+                                    '<Button type="button" class="btn btn-sm btn-danger deleteBtn" value="' +
+                                    value.id +
+                                    '"><i class="ri-delete-bin-line"></i></Button>'
+                                ])
+
+                                .draw(false);
+                            // counter++;
+                        });
+                        // $("#totalfix").append(formatRupiah(nilai));
+                        // $("#jumlah").append(jumlah);
                     }
                 });
             }
@@ -531,3 +639,54 @@ include 'component/pengaturantampilan.view.php';
         });
     </script>
 
+    <script>
+        $(document).ready(function() {
+            // Ambil data dari server (contoh: JSON lokal atau API)
+            $.ajax({
+                url: 'https://mocki.io/v1/9c3e1e9e-4e3a-4b0f-9c3e-5d2f2a5e3c3e', // Ganti dengan URL API kamu
+                method: 'GET',
+                dataType: 'json',
+                success: function(data) {
+                    const tableBody = $('#dataTable tbody');
+                    const cardContainer = $('#cardContainer');
+
+                    data.forEach(item => {
+                        // Tambahkan ke tabel
+                        tableBody.append(`
+                                    <tr>
+                                    <td>${item.nama}</td>
+                                    <td>${item.deskripsi}</td>
+                                    </tr>
+                                `);
+
+                        // Tambahkan ke card
+                        cardContainer.append(`
+                        <div class="card">
+                            <h4>${item.nama}</h4>
+                            <p>${item.deskripsi}</p>
+                        </div>
+                        `);
+                    });
+
+                    // Inisialisasi DataTables
+                    const table = $('#dataTable').DataTable();
+
+                    // Update card saat pencarian
+                    table.on('search.dt', function() {
+                        const filteredData = table.rows({
+                            search: 'applied'
+                        }).data().toArray();
+                        cardContainer.empty();
+                        filteredData.forEach(row => {
+                            cardContainer.append(`
+            <div class="card">
+              <h4>${row[0]}</h4>
+              <p>${row[1]}</p>
+            </div>
+          `);
+                        });
+                    });
+                }
+            });
+        });
+    </script>

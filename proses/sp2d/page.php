@@ -6,22 +6,29 @@ include '../../lib/dbh.inc.php';
 
 
 if ($_GET["action"] === "fetchData") {
-  $sql = "SELECT id,nomor_sp2d,nama_skpd,keterangan_sp2d,nilai_sp2d,tanggal_sp2d FROM sp2d where status='1' ";
+  $sql = "SELECT a.id,a.nomor_sp2d,a.nama_skpd,a.keterangan_sp2d,a.nilai_sp2d,a.tanggal_sp2d,(select sum(b.nilai) as potongan from potongan b where a.idhalaman=b.id_sp2d) as potongan FROM sp2d a where a.status='1'";
   $result = mysqli_query($koneksi, $sql);
   $data = [];
   while ($row = mysqli_fetch_assoc($result)) {
     $data[] = $row;
+   
   }
-  mysqli_close($koneksi);
+    mysqli_close($koneksi);
   header('Content-Type: application/json');
   echo json_encode([
     "data" => $data
+    // "potongan" => $result1
   ]);
 }
 
 if ($_GET["action"] === "fetchCart") {
   $sql = "SELECT id,nilai_sp2d,nama_skpd FROM sp2d where status='2' AND id_user='$user' ";
   $result = mysqli_query($koneksi, $sql);
+  $sql1 = "SELECT sum(nilai_sp2d) as nilai FROM sp2d where status='2' AND id_user='$user' ";
+  $result1 = mysqli_fetch_assoc(mysqli_query($koneksi, $sql1));
+  $sql2 = "SELECT * FROM sp2d where status='2' AND id_user='$user' ";
+  $jumlah = mysqli_num_rows(mysqli_query($koneksi, $sql2));
+
   $data = [];
   while ($row = mysqli_fetch_assoc($result)) {
     $data[] = $row;
@@ -29,7 +36,25 @@ if ($_GET["action"] === "fetchCart") {
   mysqli_close($koneksi);
   header('Content-Type: application/json');
   echo json_encode([
+    "data" => $data,
+    "total" => $result1,
+    "jumlah" => $jumlah
+  ]);
+}
+
+if ($_GET["action"] === "fetchPenguji") {
+  $sql = "SELECT a.id,a.nomor,(select sum(c.nilai_sp2d) from tb_control b, sp2d c where a.id=b.id_penguji AND b.id_sp2d=c.idhalaman AND c.status='3' ) as nilai,(select COUNT(c.nomor_sp2d) from tb_control b, sp2d c where a.id=b.id_penguji AND b.id_sp2d=c.idhalaman AND c.status='3' ) as count FROM tb_penguji a where order by a.id desc";
+  $result = mysqli_query($koneksi, $sql);
+  $data = [];
+  while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+   
+  }
+    mysqli_close($koneksi);
+  header('Content-Type: application/json');
+  echo json_encode([
     "data" => $data
+    // "potongan" => $result1
   ]);
 }
 
@@ -85,7 +110,7 @@ if ($_GET["action"] === "fetchSingle") {
     // header("Content-Type: application/json");
     echo json_encode([
       "statusCode" => 200,
-       "message" => "Data updated successfully 😀"
+      "message" => "Data updated successfully 😀"
     ]);
   } else {
     echo json_encode([
@@ -105,7 +130,7 @@ if ($_GET["action"] === "kembali") {
     // header("Content-Type: application/json");
     echo json_encode([
       "statusCode" => 200,
-       "message" => "Data updated successfully 😀"
+      "message" => "Data updated successfully 😀"
     ]);
   } else {
     echo json_encode([
@@ -118,7 +143,7 @@ if ($_GET["action"] === "kembali") {
 
 // function to update data
 if ($_GET["action"] === "updateData") {
-    $id = $_POST["id"];
+  $id = $_POST["id"];
   if (!empty($_POST["judul"]) && !empty($_POST["link"]) && !empty($_POST["urutan"])) {
     // $id = mysqli_real_escape_string($conn, $_POST["id"]);
     $judul = mysqli_real_escape_string($koneksi, $_POST["judul"]);
@@ -174,7 +199,6 @@ if ($_GET["action"] === "deleteData") {
       "statusCode" => 200,
       "message" => "Data deleted successfully 😀"
     ]);
-    
   } else {
     echo json_encode([
       "statusCode" => 500,
@@ -182,6 +206,3 @@ if ($_GET["action"] === "deleteData") {
     ]);
   }
 }
-
-
-
