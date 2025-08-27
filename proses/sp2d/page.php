@@ -11,9 +11,8 @@ if ($_GET["action"] === "fetchData") {
   $data = [];
   while ($row = mysqli_fetch_assoc($result)) {
     $data[] = $row;
-   
   }
-    mysqli_close($koneksi);
+  mysqli_close($koneksi);
   header('Content-Type: application/json');
   echo json_encode([
     "data" => $data
@@ -43,14 +42,13 @@ if ($_GET["action"] === "fetchCart") {
 }
 
 if ($_GET["action"] === "fetchPenguji") {
-  $sql = "SELECT a.id,a.nomor,(select sum(c.nilai_sp2d) from tb_control b, sp2d c where a.id=b.id_penguji AND b.id_sp2d=c.idhalaman AND c.status='3' ) as nilai,(select COUNT(c.nomor_sp2d) from tb_control b, sp2d c where a.id=b.id_penguji AND b.id_sp2d=c.idhalaman AND c.status='3' ) as count FROM tb_penguji a where order by a.id desc";
-  $result = mysqli_query($koneksi, $sql);
+  $sql = "SELECT a.id,a.nomor,(select sum(c.nilai_sp2d) from tb_control b, sp2d c where a.nomor=b.id_penguji AND b.id_sp2d=c.idhalaman AND c.status=3) as nilai,(select COUNT(c.nomor_sp2d) from tb_control b, sp2d c where a.nomor=b.id_penguji AND b.id_sp2d=c.idhalaman AND c.status=3 ) as count FROM tb_penguji a order by a.nomor desc";
+  $result2 = mysqli_query($koneksi, $sql);
   $data = [];
-  while ($row = mysqli_fetch_assoc($result)) {
+  while ($row = mysqli_fetch_assoc($result2)) {
     $data[] = $row;
-   
   }
-    mysqli_close($koneksi);
+  mysqli_close($koneksi);
   header('Content-Type: application/json');
   echo json_encode([
     "data" => $data
@@ -58,27 +56,61 @@ if ($_GET["action"] === "fetchPenguji") {
   ]);
 }
 
-if ($_GET["action"] === "insertData") {
+if ($_GET["action"] === "searchpenguji") {
+  $data = $_POST["dsearch"];
 
+  $sql = "SELECT a.id,a.nomor_sp2d,a.nama_skpd,a.keterangan_sp2d,a.nilai_sp2d,a.tanggal_sp2d,(select sum(b.nilai) as potongan from potongan b where a.idhalaman=b.id_sp2d) as potongan FROM sp2d a where a.keterangan_sp2d like '%$data%' OR a.nilai_sp2d like '%$data%' AND a.status='1' AND id_user='0'";
+  $result = mysqli_query($koneksi, $sql);
+  $data = [];
+  while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+  }
+  mysqli_close($koneksi);
+  header('Content-Type: application/json');
+  echo json_encode([
+    "data" => $data
+    // "potongan" => $result1
+  ]);
+}
 
-  if (!empty($_POST["judul"]) && !empty($_POST["link"]) && !empty($_POST["urutan"]) != 0) {
-    $judul = mysqli_real_escape_string($koneksi, $_POST["judul"]);
-    $link = mysqli_real_escape_string($koneksi, $_POST["link"]);
-    $urutan = mysqli_real_escape_string($koneksi, $_POST["urutan"]);
+if ($_GET["action"] === "simpanpenguji") {
+  if (!empty($_POST["qty"]) != 0) {
+    $tanggal = date("Y-m-d");
 
-    // $judul = $_POST["judul"];
-    // $link = $_POST["link"];
-    // $urutan = $_POST["urutan"];
+    // cek dan buat nomor penguji
+    $ceknomorpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT max(nomor) as nourut FROM tb_penguji"));
+    $nomor = $ceknomorpenguji['nourut'];
+    $nomordipake = $nomor + 1;
 
-    $cek = mysqli_query($koneksi, "SELECT * FROM menu where judul='$judul'");
-    $double = mysqli_num_rows($cek);
-    if ($double == null) {
-      $sql = "INSERT INTO menu (judul,link,urutan) VALUES ('$judul','$link','$urutan')";
+    // cek sp2d yg sudah dimasukkan ke list penguji
+    $cek = mysqli_query($koneksi, "SELECT id as nosp2d FROM sp2d where status=2 AND id_user='$user'");
+    
+    // $value=[];
+    $dataada = mysqli_num_rows($cek);
+    if ($dataada > 0) {
+      $datasp2d = mysqli_fetch_array($cek);
+      // $id_sp2d = $datasp2d["nosp2d"];
+    $sql = mysqli_query($koneksi,"INSERT INTO tb_control (id_sp2d,id_penguji) SELECT idhalaman, $nomordipake FROM sp2d WHERE status=2 AND id_user='$user'");
+      // $jumlah_dipilih = count($id_sp2d);
+
+      // for ($x = 0; $x < $dataada; $x++) {
+      //   $input1 = mysqli_query($koneksi, "INSERT INTO tb_control (id_sp2d,id_penguji)value('$id_sp2d','$nomordipake')");
+      //   // mysql_query("INSERT INTO makanan values('','$id_sp2d[$x]')");
+      // }
+
+      
+
+      // 
+      $input = mysqli_query($koneksi, "INSERT INTO tb_penguji (nomor,pejabat,tanggal,status,user)value('$nomordipake','FADHILA YUNUS','$tanggal','aktif','$user')");
+
+      //  $dt = json_decode($datasp2d, true);
+      $sql = "UPDATE sp2d SET status='3' where status='2' AND id_user='$user'";
       // header("Content-Type: application/json");
       if (mysqli_query($koneksi, $sql)) {
         echo json_encode([
           "statusCode" => 200,
-          "message" => "Data inserted successfully 😀"
+          "message" => "Data inserted successfully 😀",
+
         ]);
       } else {
         echo json_encode([
@@ -89,7 +121,8 @@ if ($_GET["action"] === "insertData") {
     } else {
       echo json_encode([
         "statusCode" => 800,
-        "message" => "DATA SUDAH ADA BRO 😓"
+        "message" => "DATA SUDAH ADA BRO 😓",
+        "data" => $datasp2d
       ]);
     }
   } else {
