@@ -297,16 +297,10 @@ include 'component/pengaturantampilan.view.php';
             let table = new DataTable("#mytablelist");
             let table1 = new DataTable("#mytablePenguji");
             // let table2 = new DataTable("#tablelistspm");
-
-
-
             fetchCart();
             fetchPenguji();
             kosong();
-
             $("#tab").hide();
-
-
 
             function formatRupiah(angka, prefix) {
                 var number_string = angka.replace(/[^,\d]/g, '').toString(),
@@ -436,10 +430,13 @@ include 'component/pengaturantampilan.view.php';
                                     '<label>000' +value.nomor+'/PENGUJI/BPKAD/2025 </label>',
                                     value.count,
                                     formatRupiah(value.nilai),
-                                    '<button type="button" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8edit" class="btn btn-sm btn-info btn-b  editBtn" value="' +
+                                     '<button type="button" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8print" class="btn btn-sm btn-success btn-b  printBtnpenguji" value="' +
+                                    value.id +
+                                    '"><i class="mdi mdi-printer"></i></button>' +
+                                    '<button type="button" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8edit" class="btn btn-sm btn-info btn-b  lihatBtn" value="' +
                                     value.id +
                                     '"><i class="ri-eye-line"></i></button>' +
-                                    '<Button type="button" class="btn btn-sm btn-danger deleteBtn" value="' +
+                                    '<Button type="button" class="btn btn-sm btn-danger deleteBtnpenguji" value="' +
                                     value.id +
                                     '"><i class="ri-delete-bin-line"></i></Button>'
                                 ])
@@ -546,6 +543,8 @@ include 'component/pengaturantampilan.view.php';
                             kosong();
                         } else if (response.statusCode == 400) {
                             alert('list masih kosong');
+                        } else if (response.statusCode == 800) {
+                            alert('Tidak ada Datanya Bro');
                         }
                     }
                 });
@@ -667,6 +666,24 @@ include 'component/pengaturantampilan.view.php';
                         }
                     });
                 }
+            });
+
+             $("#mytablePenguji").on("click", ".printBtnpenguji", function() {
+                // if (confirm("Apakah yakin Menghapus Data Ini?")) {
+                    // var id = $(this).val();
+                    $.ajax({
+                        url: "proses/sp2d/page.php?action=cetakpenguji",
+                        // type: "POST",
+                        // dataType: "json",
+                        // data: {
+                        //     id
+                        //     //   delete_image
+                        // },
+                        success: function(response) {
+                          
+                        }
+                    });
+                // }
             });
         });
     </script>

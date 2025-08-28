@@ -3,6 +3,7 @@
 session_start();
 $user = $_SESSION['username'];
 include '../../lib/dbh.inc.php';
+require('../../assets/tcpdf/tcpdf.php');
 
 
 if ($_GET["action"] === "fetchData") {
@@ -84,26 +85,14 @@ if ($_GET["action"] === "simpanpenguji") {
 
     // cek sp2d yg sudah dimasukkan ke list penguji
     $cek = mysqli_query($koneksi, "SELECT id as nosp2d FROM sp2d where status=2 AND id_user='$user'");
-    
+
     // $value=[];
     $dataada = mysqli_num_rows($cek);
     if ($dataada > 0) {
       $datasp2d = mysqli_fetch_array($cek);
       // $id_sp2d = $datasp2d["nosp2d"];
-    $sql = mysqli_query($koneksi,"INSERT INTO tb_control (id_sp2d,id_penguji) SELECT idhalaman, $nomordipake FROM sp2d WHERE status=2 AND id_user='$user'");
-      // $jumlah_dipilih = count($id_sp2d);
-
-      // for ($x = 0; $x < $dataada; $x++) {
-      //   $input1 = mysqli_query($koneksi, "INSERT INTO tb_control (id_sp2d,id_penguji)value('$id_sp2d','$nomordipake')");
-      //   // mysql_query("INSERT INTO makanan values('','$id_sp2d[$x]')");
-      // }
-
-      
-
-      // 
+      $sql = mysqli_query($koneksi, "INSERT INTO tb_control (id_sp2d,id_penguji) SELECT idhalaman, $nomordipake FROM sp2d WHERE status=2 AND id_user='$user'");
       $input = mysqli_query($koneksi, "INSERT INTO tb_penguji (nomor,pejabat,tanggal,status,user)value('$nomordipake','FADHILA YUNUS','$tanggal','aktif','$user')");
-
-      //  $dt = json_decode($datasp2d, true);
       $sql = "UPDATE sp2d SET status='3' where status='2' AND id_user='$user'";
       // header("Content-Type: application/json");
       if (mysqli_query($koneksi, $sql)) {
@@ -121,7 +110,7 @@ if ($_GET["action"] === "simpanpenguji") {
     } else {
       echo json_encode([
         "statusCode" => 800,
-        "message" => "DATA SUDAH ADA BRO 😓",
+        "message" => "Tidak Ada Datanya BRO",
         "data" => $datasp2d
       ]);
     }
@@ -174,68 +163,63 @@ if ($_GET["action"] === "kembali") {
   mysqli_close($koneksi);
 }
 
-// function to update data
-if ($_GET["action"] === "updateData") {
+
+if ($_GET["action"] === "deletepenguji") {
   $id = $_POST["id"];
-  if (!empty($_POST["judul"]) && !empty($_POST["link"]) && !empty($_POST["urutan"])) {
-    // $id = mysqli_real_escape_string($conn, $_POST["id"]);
-    $judul = mysqli_real_escape_string($koneksi, $_POST["judul"]);
-    $link = mysqli_real_escape_string($koneksi, $_POST["link"]);
-    $urutan = mysqli_real_escape_string($koneksi, $_POST["urutan"]);
-    // $email = mysqli_real_escape_string($conn, $_POST["email"]);
-    // $country = mysqli_real_escape_string($conn, $_POST["country"]);
-    // $gender = mysqli_real_escape_string($conn, $_POST["gender"]);
-
-    // if ($_FILES["image"]["size"] != 0) {
-    //   // rename the image before saving to database
-    //   $original_name = $_FILES["image"]["name"];
-    //   $new_name = uniqid() . time() . "." . pathinfo($original_name, PATHINFO_EXTENSION);
-    //   move_uploaded_file($_FILES["image"]["tmp_name"], "uploads/" . $new_name);
-    //   // remove the old image from uploads directory
-    //   unlink("uploads/" . $_POST["image_old"]);
-    // } else {
-    //   $new_name = mysqli_real_escape_string($conn, $_POST["image_old"]);
-    // }
-    $sql = "UPDATE menu SET judul='$judul',link='$link', urutan='$urutan' WHERE id=$id";
-    if (mysqli_query($koneksi, $sql)) {
-      echo json_encode([
-        "statusCode" => 200,
-        "message" => "Data updated successfully 😀"
-      ]);
-    } else {
-      echo json_encode([
-        "statusCode" => 500,
-        "message" => "Failed to update data 😓"
-      ]);
-    }
-    mysqli_close($koneksi);
-  } else {
-    echo json_encode([
-      "statusCode" => 400,
-      "message" => "Please fill all the required fields 🙏"
-    ]);
-  }
-}
-
-
-// function to delete data
-if ($_GET["action"] === "deleteData") {
-  $id = $_POST["id"];
-  // $delete_image = $_POST["delete_image"];
-
-  $sql = "DELETE FROM menu WHERE id=$id";
-
+  $sql = "UPDATE sp2d SET status='1',id_user='0' WHERE id='$id'";
+  // $result = mysqli_query($koneksi, $sql);
   if (mysqli_query($koneksi, $sql)) {
-    // remove the image
-    // unlink("uploads/" . $delete_image);
+    // $data = mysqli_fetch_assoc($result);
+    // header("Content-Type: application/json");
     echo json_encode([
       "statusCode" => 200,
-      "message" => "Data deleted successfully 😀"
+      "message" => "Data updated successfully 😀"
     ]);
   } else {
     echo json_encode([
-      "statusCode" => 500,
-      "message" => "Failed to delete data 😓"
+      "statusCode" => 404,
+      "message" => "No user found with this id 😓"
     ]);
   }
+  mysqli_close($koneksi);
+}
+
+if ($_GET["action"] === "cetakpenguji") {
+  // $id = $_POST["id"];
+
+  
+  $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+  $pdf->setCreator(PDF_CREATOR);
+  $pdf->setAuthor('Aplikasi daftar Penguji');
+  $pdf->setTitle('DataPenguji');
+  $pdf->setSubject('Data Penguji');
+  $pdf->setKeywords('Data Penguji');
+
+  $pdf->setFont('times', '', 11, '', true);
+  $pdf->AddPAge();
+
+  $html = file_get_contents("http://localhost/report/daftarpenguji.php",true);
+  // $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
+  $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+
+  $pdf->Output('daftarpenguji.pdf', 'I');
+
+
+  // $sql = "UPDATE sp2d SET status='1',id_user='0' WHERE id='$id'";
+  // // $result = mysqli_query($koneksi, $sql);
+  // if (mysqli_query($koneksi, $sql)) {
+  //   // $data = mysqli_fetch_assoc($result);
+  //   // header("Content-Type: application/json");
+  //   echo json_encode([
+  //     "statusCode" => 200,
+  //     "message" => "Data updated successfully 😀"
+  //   ]);
+  // } else {
+  //   echo json_encode([
+  //     "statusCode" => 404,
+  //     "message" => "No user found with this id 😓"
+  //   ]);
+  // }
+  // mysqli_close($koneksi);
 }
