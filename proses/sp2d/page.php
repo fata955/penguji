@@ -3,7 +3,7 @@
 session_start();
 $user = $_SESSION['username'];
 include '../../lib/dbh.inc.php';
-require('../../assets/tcpdf/tcpdf.php');
+// require_once('../../assets/tcpdf/tcpdf.php');
 
 
 if ($_GET["action"] === "fetchData") {
