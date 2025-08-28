@@ -669,20 +669,19 @@ include 'component/pengaturantampilan.view.php';
             });
 
              $("#mytablePenguji").on("click", ".printBtnpenguji", function() {
-                // if (confirm("Apakah yakin Menghapus Data Ini?")) {
-                    // var id = $(this).val();
-                    $.ajax({
-                        url: "proses/sp2d/page.php?action=cetakpenguji",
-                        // type: "POST",
-                        // dataType: "json",
-                        // data: {
-                        //     id
-                        //     //   delete_image
-                        // },
-                        success: function(response) {
+                window.location.href = 'proses/sp2d/page.php?action=cetakpenguji';
+                    // $.ajax({
+                    //     url: "proses/sp2d/page.php?action=cetakpenguji",
+                    //     // type: "POST",
+                    //     // dataType: "json",
+                    //     // data: {
+                    //     //     id
+                    //     //     //   delete_image
+                    //     // },
+                    //     success: function(response) {
                           
-                        }
-                    });
+                    //     }
+                    // });
                 // }
             });
         });

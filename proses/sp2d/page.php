@@ -187,7 +187,7 @@ if ($_GET["action"] === "deletepenguji") {
 if ($_GET["action"] === "cetakpenguji") {
   // $id = $_POST["id"];
 
-  
+  require_once('../../assets/tcpdf/tcpdf.php');
   $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
   $pdf->setCreator(PDF_CREATOR);
@@ -197,11 +197,20 @@ if ($_GET["action"] === "cetakpenguji") {
   $pdf->setKeywords('Data Penguji');
 
   $pdf->setFont('times', '', 11, '', true);
-  $pdf->AddPAge();
+  // $pdf->SetMargins(15, 20, 15);
 
-  $html = file_get_contents("http://localhost/report/daftarpenguji.php",true);
+  $pdf->AddPAge('L','F4');
+  $html = '<div style="text-align:center;line-height:7px"><h3>PEMERINTAH KOTA PALU</h3>
+                <h3>DAFTAR PENGUJI</h3>
+                <h5>Nomor : Tanggal :</h5></div>';
+  $html .= '<div style="text-align:left;line-height:7px"><h3>Bank</h3>
+          <h3>No Rekening</h3>
+          </div>';
+  $html .= file_get_contents("../../report/daftarpenguji.php");
   // $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
-  $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+  // $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+  $pdf->writeHTML($html, true, false, true, false, '');
+
 
   $pdf->Output('daftarpenguji.pdf', 'I');
 
