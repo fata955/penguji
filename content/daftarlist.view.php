@@ -58,9 +58,9 @@ include 'component/pengaturantampilan.view.php';
                         <!-- <a class="modal-effect btn btn-primary d-grid mb-3" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8insert" id="tambah">tambah</a> -->
                         <form method="post" id="simpanpenguji">
                             <div class="drop-down-profile" data-bs-toggle="dropdown">
-                               
+
                                 <span class="assigned-task bg-purple" id="jumlahpenguji"></span>
-                                 <button type="submit" class="btn" id="savepenguji"><img alt=""class="rounded-circle avatar avatar-lg" src="../assets/images/faces/1.png"></button>
+                                <button type="submit" class="btn" id="savepenguji"><img alt="" class="rounded-circle avatar avatar-lg" src="../assets/images/faces/1.png"></button>
                                 <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i> -->
                                 <!-- </a> -->
                             </div>
@@ -427,10 +427,10 @@ include 'component/pengaturantampilan.view.php';
                             table1.row
                                 .add([
                                     // counter,
-                                    '<label>000' +value.nomor+'/PENGUJI/BPKAD/2025 </label>',
+                                    '<label>000' + value.nomor + '/PENGUJI/BPKAD/2025 </label>',
                                     value.count,
                                     formatRupiah(value.nilai),
-                                     '<button type="button" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8print" class="btn btn-sm btn-success btn-b  printBtnpenguji" value="' +
+                                    '<button type="button" data-bs-effect="effect-fall"  data-bs-toggle="modal" href="#modaldemo8print" class="btn btn-sm btn-success btn-b  printBtnpenguji" value="' +
                                     value.id +
                                     '"><i class="mdi mdi-printer"></i></button>' +
                                     '<button type="button" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8edit" class="btn btn-sm btn-info btn-b  lihatBtn" value="' +
@@ -517,17 +517,17 @@ include 'component/pengaturantampilan.view.php';
                 //     }
                 // });
             });
- // function to update data in database
-            $("#simpanpenguji").on("click","#savepenguji", function(e) {
+            // function to update data in database
+            $("#simpanpenguji").on("click", "#savepenguji", function(e) {
                 var qty = $("#jumlahpenguji").text();
-             
+
                 e.preventDefault();
                 $.ajax({
                     url: "proses/sp2d/page.php?action=simpanpenguji",
                     type: "POST",
-                     data: {
-                            qty: qty
-                        },
+                    data: {
+                        qty: qty
+                    },
                     success: function(response) {
                         var response = JSON.parse(response);
                         if (response.statusCode == 200) {
@@ -668,21 +668,24 @@ include 'component/pengaturantampilan.view.php';
                 }
             });
 
-             $("#mytablePenguji").on("click", ".printBtnpenguji", function() {
-                window.location.href = 'proses/sp2d/page.php?action=cetakpenguji';
-                    // $.ajax({
-                    //     url: "proses/sp2d/page.php?action=cetakpenguji",
-                    //     // type: "POST",
-                    //     // dataType: "json",
-                    //     // data: {
-                    //     //     id
-                    //     //     //   delete_image
-                    //     // },
-                    //     success: function(response) {
-                          
-                    //     }
-                    // });
-                // }
+            $("#mytablePenguji").on("click", ".printBtnpenguji", function() {
+                var id = $(this).val();
+                // $.ajax({
+                //     url: "proses/sp2d/page.php?action=cetakpenguji",
+                //     type: "POST",
+                //     dataType: "json",
+                //     data: {
+                //         id
+                //         //   delete_image
+                //     },
+                //     success: function(response) {
+                        
+                //     }
+                // });
+
+                window.location.href = "proses/sp2d/page.php?action=cetakpenguji&id="+id+"";
+                
+            
             });
         });
     </script>
