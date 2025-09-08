@@ -1,8 +1,8 @@
 <?php
-session_start();
+// session_start();
 $id = $_GET['id'];
-
-$sql1       = "SELECT ";
+// echo $id;
+$sql1       = "SELECT a.nomor,a.pejabat,a.tanggal,a.user,b.id_sp2d,c.keterangan_sp2d,c.nomor_rekening,c.nomor_sp2d,c.tanggal_sp2d,c.nama_skpd,c.nilai_sp2d, (select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') as belanja, (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as potongan,(select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as netto from tb_penguji a, tb_control b, sp2d c where a.nomor=$id AND id_penguji=$id AND b.id_sp2d=c.idhalaman;";
 $q1         = mysqli_query($koneksi, $sql1);
 ?>
 <!DOCTYPE html>
@@ -153,16 +153,23 @@ $q1         = mysqli_query($koneksi, $sql1);
         </thead>
         <tbody>
             <tr>
-                <td style="width: 2%">1</td>
-                <td style="width: 8%">2025-12-30</td>
-                <td style="width: 22%">72.71/04.00/00155/LS/0.06654654361321/M/3/2025</td>
-                <td>2.000.000</td>
-                <td>2.000.000</td>
-                <td>2.000.000</td>
-                <td>2.000.000</td>
-                <td>2.000.000</td>
-                <td>Dinas Kesehatan</td>
-                <td>151-000-1515-21151</td>
+                <?php
+                $no = 1;
+                while ($q2 = mysqli_fetch_array($q1)){
+                ?>
+                <td style="width: 2%"><?=$no;?></td>
+                <td style="width: 8%"><?=$q2['tanggal_sp2d'];?></td>
+                <td style="width: 22%"><?=$q2['nomor_sp2d'];?></td>
+                <td><?=$q2['nilai'];?></td>
+                <td><?=$q2['potongan'];?></td>
+                <td></td>
+                <td></td>
+                <td><?=$q2['netto'];?></td>
+                <td><?=$q2['nama_skpd'];?></td>
+                <td><?=$q2['nomor_rekening'];?></td>
+                <?php 
+                $no++;}
+                ?>
             </tr>
         </tbody>
     </table>

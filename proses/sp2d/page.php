@@ -210,8 +210,11 @@ $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
 // This method has several options, check the source code documentation for more information.
 $pdf->Output('Data Customer.pdf', 'I');
 }
+
+
+
 if ($_GET["action"] === "cetakpenguji") {
-  $id = $_POST["id"];
+  $id = $_GET["id"];
 
   require_once('../../assets/tcpdf/tcpdf.php');
   $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -228,14 +231,231 @@ if ($_GET["action"] === "cetakpenguji") {
   $pdf->AddPAge('L','F4');
   $html = '<div style="text-align:center;line-height:7px"><h3>PEMERINTAH KOTA PALU</h3>
                 <h3>DAFTAR PENGUJI</h3>
-                <h5>Nomor : Tanggal :</h5></div>';
+                <h5>Nomor :000'.$id. 'Tanggal :</h5></div>';
   $html .= '<div style="text-align:left;line-height:7px"><h3>Bank</h3>
           <h3>No Rekening</h3>
           </div>';
-  $html .= file_get_contents("../../report/daftarpenguji.php");
+$pdf->writeHTML($html, true, false, true, false, '');
+  $pdf->Ln(1);
+		$pdf->SetFont('',12);
+		$pdf->Cell(13,8,"No",1,0,'C');
+		$pdf->Cell(60,8,"Nama",1,3,'C');
+    
+
+
+  $html .= '
+      <?php
+// session_start();
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Penguji</title>
+</head>
+
+<body>
+
+    <!-- 
+    <style>
+        .cop {
+            justify-items: center;
+            line-height: 8px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            /* height: 10px; */
+            /* height:10px; */
+            height: min-content;
+            line-height: 8px;
+            font-size: 8px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+
+        }
+
+        th,
+        td {
+            padding: 10px;
+
+        }
+
+        th {
+            /* background-color: rgb(19, 110, 170); */
+            background-color: rgb(90, 150, 170);
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+    <style type="text/css">
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+            line-height: 20px;
+            text-align: center;
+            vertical-align: middle;
+            border-style: solid;
+            width: 100%;
+        }
+
+        .tg td {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: times, sans-serif;
+            font-size: 8px;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg th {
+            border-color: black;
+            border-style: solid;
+          
+            border-width: 1px;
+            font-family: times, sans-serif;
+            font-size: 8px;
+            font-weight: normal;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg .tg-c3ow {
+            text-align: center;
+            vertical-align: top;
+            
+        }
+
+        .tg .tg-0pky {
+            text-align: center;
+            vertical-align: top
+        }
+
+        .tg .tg-0lax {
+            text-align: center;
+            vertical-align: top
+        }
+    </style> -->
+    <style>
+        th {
+            background-color: #dedede;
+            color: #333333;
+            font-weight: bold;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 8px;
+        }
+
+        tr {
+            text-align: center;
+            line-height: 12px;
+        }
+
+        .tbrekap {
+            text-align: left;
+        }
+    </style>
+
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th rowspan="2" style="width: 2%">No</th>
+                <th rowspan="2" style="width: 8%">Tanggal</th>
+                <th rowspan="2" style="width: 22%">Nomor Sp2d</th>
+                <th rowspan="2">Brutto</th>
+                <th colspan="3">Potongan</th>
+                <th rowspan="2">Netto</th>
+                <th rowspan="2">OPD</th>
+                <th rowspan="2">No Rekening</th>
+            </tr>
+            <tr>
+                <th style="">PPN</th>
+                <th style="">PPh</th>
+                <th style="">Lainnya</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>'.
+            $id = $_GET['id'];
+            $sql1       = "SELECT a.nomor,a.pejabat,a.tanggal,a.user,b.id_sp2d,c.keterangan_sp2d,c.nomor_rekening,c.nomor_sp2d,c.tanggal_sp2d,c.nama_skpd,c.nilai_sp2d, (select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') as belanja, (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as potongan,(select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as netto from tb_penguji a, tb_control b, sp2d c where a.nomor=$id AND id_penguji=$id AND b.id_sp2d=c.idhalaman;";
+            $q1         = mysqli_query($koneksi, $sql1);
+                $no = 0;
+                while ($q2 = mysqli_fetch_array($q1)){ '<td style="width: 2%">'.$no;'</td>
+                <td style="width: 8%">'.$q2["tanggal_sp2d"];'</td>
+                <td style="width: 22%">'.$q2['nomor_sp2d'];'</td>
+                <td>'.$q2['nilai_sp2d'];'</td>
+                <td>'.$q2['potongan'];'</td>
+                <td></td>
+                <td></td>
+                <td>'.$q2['netto'];'</td>
+                <td>'.$q2['nama_skpd'];'</td>
+                <td>'.$q2['nomor_rekening'];'</td>
+                '. 
+                $no++;}
+                '
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+
+    <table class="tbrekap" style="text-align:left">
+        <tr>
+            <td style="width:200px">Total SP2D S/D DAFTAR PENGUJI YANG LALU</td>
+            <td style="width:10px">:</td>
+            <td style="width:200px">Rp. 2.000.000</td>
+        </tr>
+        <tr>
+            <td style="width:200px">Total SP2D DAFTAR PENGUJI INI</td>
+            <td style="width:10px">:</td>
+            <td style="width:200px">Rp. 2.000.000</td>
+        </tr>
+        <tr>
+            <td>Total SP2D S/D DAFTAR PENGUJI INI</td>
+            <td>:</td>
+            <td>Rp. 2.000.000</td>
+        </tr>
+    </table>
+
+    <br><br>
+    <table style="text-align:center">
+        <tr>
+            <td>Mengetahui,<br><br><br><br><br>Nip.
+            </td>
+            <td>Mengetahui,<br>Kuasa Bendahara Umum Daerah Kota Palu<br><br><br><br><br>FADHILA,SE<br>Nip.19791113 200804 2 001
+            </td>
+        </tr>
+
+    </table>
+
+</body>
+
+</html>
+  ';
+  // $html .= file_get_contents("../../report/daftarpenguji.php");
   // $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
   // $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-  $pdf->writeHTML($html, true, false, true, false, '');
+  
 
 
   $pdf->Output('daftarpenguji.pdf', 'I');

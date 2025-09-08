@@ -431,7 +431,7 @@ include 'component/pengaturantampilan.view.php';
                                     value.count,
                                     formatRupiah(value.nilai),
                                     '<button type="button" data-bs-effect="effect-fall"  data-bs-toggle="modal" href="#modaldemo8print" class="btn btn-sm btn-success btn-b  printBtnpenguji" value="' +
-                                    value.id +
+                                    value.nomor +
                                     '"><i class="mdi mdi-printer"></i></button>' +
                                     '<button type="button" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8edit" class="btn btn-sm btn-info btn-b  lihatBtn" value="' +
                                     value.id +
