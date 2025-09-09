@@ -1,6 +1,7 @@
 <?php
 // session_start();
-$id = $_GET['id'];
+include '../lib/dbh.inc.php';
+$id = 2;
 // echo $id;
 $sql1       = "SELECT a.nomor,a.pejabat,a.tanggal,a.user,b.id_sp2d,c.keterangan_sp2d,c.nomor_rekening,c.nomor_sp2d,c.tanggal_sp2d,c.nama_skpd,c.nilai_sp2d, (select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') as belanja, (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as potongan,(select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as netto from tb_penguji a, tb_control b, sp2d c where a.nomor=$id AND id_penguji=$id AND b.id_sp2d=c.idhalaman;";
 $q1         = mysqli_query($koneksi, $sql1);
@@ -155,18 +156,19 @@ $q1         = mysqli_query($koneksi, $sql1);
             <tr>
                 <?php
                 $no = 1;
-                while ($q2 = mysqli_fetch_array($q1)){
+                $q2 = mysqli_fetch_array($q1);
+                foreach ($q2 as $row){
                 ?>
                 <td style="width: 2%"><?=$no;?></td>
-                <td style="width: 8%"><?=$q2['tanggal_sp2d'];?></td>
-                <td style="width: 22%"><?=$q2['nomor_sp2d'];?></td>
-                <td><?=$q2['nilai'];?></td>
-                <td><?=$q2['potongan'];?></td>
+                <td style="width: 8%"><?=$row['tanggal_sp2d'];?></td>
+                <td style="width: 22%"><?=$row['nomor_sp2d'];?></td>
+                <td><?=$row['nilai'];?></td>
+                <td><?=$row['potongan'];?></td>
                 <td></td>
                 <td></td>
-                <td><?=$q2['netto'];?></td>
-                <td><?=$q2['nama_skpd'];?></td>
-                <td><?=$q2['nomor_rekening'];?></td>
+                <td><?=$row['netto'];?></td>
+                <td><?=$row['nama_skpd'];?></td>
+                <td><?=$row['nomor_rekening'];?></td>
                 <?php 
                 $no++;}
                 ?>
