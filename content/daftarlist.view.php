@@ -340,26 +340,50 @@ include 'component/pengaturantampilan.view.php';
                                     <div class="todo-widget-header d-flex pb-2 p-4">
                                     </div>
                                     <div class="p-4">
-                                        <span class="fs-12 text-muted">Nomor SP2D</span><span
+                                        <span class="fs-12 text-muted">Nomor SPM</span><span
                                             class="badge bg-primary-transparent text-primary ms-auto float-end">` + value.nama_skpd + `</span>
                                         <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.nomor_sp2d + `</h5>
                                     </div>
                                     <div class="p-4 border-top">
-                                        <span class="fs-12 text-muted">Keterangan Sp2d</span><span
+                                        <span class="fs-12 text-muted">Keterangan SPM</span><span
                                             class="badge bg-danger-transparent text-danger ms-auto float-end">` + value.tanggal_sp2d + `</span>
                                         <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.keterangan_sp2d + `</h5>
-                                    </div>
-                                     <div class="p-4 border-top">
-                                        <span class="fs-12 text-muted">Potongan</span>
-                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + formatRupiah(value.potongan) + `</h5>
-                                    </div>
-                                </div>
-                                <div class="card-footer ">
+                                  </div>
+                                   <div class="card-footer ">
+                              
                                     <a class="btn btn-primary" href="javascript:void(0);" data-bs-placement="top"
-                                        data-bs-toggle="tooltip" title="Assign Task">` + formatRupiah(value.nilai_sp2d) + `</a>
+                                        data-bs-toggle="tooltip" title="Assign Task"> Nilai Sp2d : ` + formatRupiah(value.nilai_sp2d) + `</a><br><br>
+                                         <a class="btn btn-secondary" href="javascript:void(0);" data-bs-placement="top"
+                                        data-bs-toggle="tooltip" title="Assign Task"> Nilai Potongan : ` + formatRupiah(value.potongan) + `</a>
                                     <button class="btn btn-outline-primary ms-auto float-end editBtn"
-                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id + `" title="View Task">Add</button>
+                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id + `" title="View Task">Tambah</button>
                                 </div>
+                                    <div class="p-4 border-top">
+                                    <span class="fs-12 text-muted">Nomor Sp2d</span>
+                                        
+                                            <input type="text" class="form-control" name="form-switch-checkbox3" >
+                                           <br>
+                                           <span class="fs-12 text-muted">Status Berkas</span><br>
+                                        <label class="form-switch">
+                                        
+                                            <a href="javascript:void(0);" class="fs-14 mb-0 me-2 text-primary">TPP PNS</a>
+                                            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                                            <span class="form-switch-indicator custom-radius"></span>
+                                        </label>
+                                        <label class="form-switch float-end mb-0">
+                                            <a href="javascript:void(0);" class="fs-14 mb-0 me-2 text-primary">GAJI</a>
+                                            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                                            <span class="form-switch-indicator custom-radius"></span>
+                                        </label>
+                                        <label class="form-switch float-end mb-0">
+                                            <a href="javascript:void(0);" class="fs-14 mb-0 me-2 text-primary">TPP PPPK</a>
+                                            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                                            <span class="form-switch-indicator custom-radius"></span>
+                                        </label>
+                                    </div>
+                                  
+                                </div>
+                               
                             </div>
                         </div>
                     
@@ -427,7 +451,7 @@ include 'component/pengaturantampilan.view.php';
                             table1.row
                                 .add([
                                     // counter,
-                                    '<label>000' + value.nomor + '/PENGUJI/BPKAD/2025 </label>',
+                                    '<label>000' + value.nomor + '/MANDIRI/BPKAD/2025 </label>',
                                     value.count,
                                     formatRupiah(value.nilai),
                                     '<button type="button" data-bs-effect="effect-fall"  data-bs-toggle="modal" href="#modaldemo8print" class="btn btn-sm btn-success btn-b  printBtnpenguji" value="' +
@@ -600,32 +624,56 @@ include 'component/pengaturantampilan.view.php';
                             $.each(data, function(index, value) {
 
                                 $("#tablespm").append(`
-                            <div class="col-xl-4 col-md-6">
+                             <div class="col-xl-4 col-md-6">
                             <div class="card mb-4">
                                 <div class="card-body p-0">
                                     <div class="todo-widget-header d-flex pb-2 p-4">
                                     </div>
                                     <div class="p-4">
-                                        <span class="fs-12 text-muted">Nomor SP2D</span><span
+                                        <span class="fs-12 text-muted">Nomor SPM</span><span
                                             class="badge bg-primary-transparent text-primary ms-auto float-end">` + value.nama_skpd + `</span>
                                         <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.nomor_sp2d + `</h5>
                                     </div>
                                     <div class="p-4 border-top">
-                                        <span class="fs-12 text-muted">Keterangan Sp2d</span><span
+                                        <span class="fs-12 text-muted">Keterangan SPM</span><span
                                             class="badge bg-danger-transparent text-danger ms-auto float-end">` + value.tanggal_sp2d + `</span>
                                         <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.keterangan_sp2d + `</h5>
-                                    </div>
-                                     <div class="p-4 border-top">
-                                        <span class="fs-12 text-muted">Potongan</span>
-                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + formatRupiah(value.potongan) + `</h5>
-                                    </div>
-                                </div>
-                                <div class="card-footer ">
+                                  </div>
+                                   <div class="card-footer ">
+                              
                                     <a class="btn btn-primary" href="javascript:void(0);" data-bs-placement="top"
-                                        data-bs-toggle="tooltip" title="Assign Task">` + formatRupiah(value.nilai_sp2d) + `</a>
+                                        data-bs-toggle="tooltip" title="Assign Task"> Nilai Sp2d : ` + formatRupiah(value.nilai_sp2d) + `</a><br><br>
+                                         <a class="btn btn-secondary" href="javascript:void(0);" data-bs-placement="top"
+                                        data-bs-toggle="tooltip" title="Assign Task"> Nilai Potongan : ` + formatRupiah(value.potongan) + `</a>
                                     <button class="btn btn-outline-primary ms-auto float-end editBtn"
-                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id + `" title="View Task">Add</button>
+                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id + `" title="View Task">Tambah</button>
                                 </div>
+                                    <div class="p-4 border-top">
+                                    <span class="fs-12 text-muted">Nomor Sp2d</span>
+                                        
+                                            <input type="text" class="form-control" name="form-switch-checkbox3" >
+                                           <br>
+                                           <span class="fs-12 text-muted">Status Berkas</span><br>
+                                        <label class="form-switch">
+                                        
+                                            <a href="javascript:void(0);" class="fs-14 mb-0 me-2 text-primary">TPP PNS</a>
+                                            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                                            <span class="form-switch-indicator custom-radius"></span>
+                                        </label>
+                                        <label class="form-switch float-end mb-0">
+                                            <a href="javascript:void(0);" class="fs-14 mb-0 me-2 text-primary">GAJI</a>
+                                            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                                            <span class="form-switch-indicator custom-radius"></span>
+                                        </label>
+                                        <label class="form-switch float-end mb-0">
+                                            <a href="javascript:void(0);" class="fs-14 mb-0 me-2 text-primary">TPP PPPK</a>
+                                            <input type="checkbox" name="form-switch-checkbox3" class="form-switch-input">
+                                            <span class="form-switch-indicator custom-radius"></span>
+                                        </label>
+                                    </div>
+                                  
+                                </div>
+                               
                             </div>
                         </div>
                     
@@ -679,13 +727,13 @@ include 'component/pengaturantampilan.view.php';
                 //         //   delete_image
                 //     },
                 //     success: function(response) {
-                        
+
                 //     }
                 // });
 
-                window.location.href = "proses/sp2d/page.php?action=cetakpenguji&id="+id+"";
-                
-            
+                window.location.href = "proses/sp2d/page.php?action=cetakpenguji&id=" + id + "";
+
+
             });
         });
     </script>

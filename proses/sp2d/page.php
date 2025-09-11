@@ -1,5 +1,25 @@
 <?php
 // include '../../../lib/dbh.inc.php';
+
+$bulan = array(
+  '01' => 'JANUARI',
+  '02' => 'FEBRUARI',
+  '03' => 'MARET',
+  '04' => 'APRIL',
+  '05' => 'MEI',
+  '06' => 'JUNI',
+  '07' => 'JULI',
+  '08' => 'AGUSTUS',
+  '09' => 'SEPTEMBER',
+  '10' => 'OKTOBER',
+  '11' => 'NOVEMBER',
+  '12' => 'DESEMBER',
+);
+
+$tanggal = date('d') . ' ' . (strtolower($bulan[date('m')])) . ' ' . date('Y');
+
+
+
 function rupiah($angka)
 {
 
@@ -66,7 +86,7 @@ if ($_GET["action"] === "fetchPenguji") {
 if ($_GET["action"] === "searchpenguji") {
   $data = $_POST["dsearch"];
 
-  $sql = "SELECT a.id,a.nomor_sp2d,a.nama_skpd,a.keterangan_sp2d,a.nilai_sp2d,a.tanggal_sp2d,(select sum(b.nilai) as potongan from potongan b where a.idhalaman=b.id_sp2d) as potongan FROM sp2d a where a.keterangan_sp2d like '%$data%' OR a.nilai_sp2d like '%$data%' AND a.status='1' AND id_user='0'";
+  $sql = "SELECT a.id,a.nomor_sp2d,a.nama_skpd,a.keterangan_sp2d,a.nilai_sp2d,a.tanggal_sp2d,(select sum(b.nilai) as potongan from potongan b where a.idhalaman=b.id_sp2d) as potongan FROM sp2d a where a.status='1' AND id_user='0' AND a.keterangan_sp2d like '%$data%' OR a.nilai_sp2d like '%$data%' OR a.nomor_sp2d like '%$data%' ";
   $result = mysqli_query($koneksi, $sql);
   $data = [];
   while ($row = mysqli_fetch_assoc($result)) {
@@ -82,7 +102,7 @@ if ($_GET["action"] === "searchpenguji") {
 
 if ($_GET["action"] === "simpanpenguji") {
   if (!empty($_POST["qty"]) != 0) {
-    $tanggal = date("Y-m-d");
+
 
     // cek dan buat nomor penguji
     $ceknomorpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT max(nomor) as nourut FROM tb_penguji"));
@@ -192,57 +212,64 @@ if ($_GET["action"] === "deletepenguji") {
 
 if ($_GET["action"] === "cetakpenguji") {
   $id = $_GET["id"];
+  $tahun = date('Y');
+  // $tanggal = date('d-M-Y');
+  $sql = mysqli_fetch_row(mysqli_query($koneksi, "SELECT * FROM tb_penguji where nomor=$id"));
+  // $row = mysqli_fetch_row($sql);
+  if ($sql != null) {
+    $sql = mysqli_query($koneksi, "SELECT a.nomor,a.pejabat,a.tanggal,a.user,b.id_sp2d,c.keterangan_sp2d,c.no_rek_pihak_ketiga as nomor_rekening,c.nomor_sp2d,c.tanggal_sp2d,c.nama_skpd,c.nilai_sp2d, (select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') as belanja, (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as potongan,(select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as netto, (select sum(a.nilai_sp2d) from sp2d a, tb_control b where b.id_sp2d=a.idhalaman AND b.id_penguji=$id) as totalsp2d from tb_penguji a, tb_control b, sp2d c where a.nomor=$id AND id_penguji=$id AND b.id_sp2d=c.idhalaman");
+    $tanggalpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM tb_penguji where nomor=$id"));
+    $tanggalpenguji = $tanggalpenguji['tanggal'];
+    $no = 1;
 
-  $sql = mysqli_query($koneksi, "SELECT a.nomor,a.pejabat,a.tanggal,a.user,b.id_sp2d,c.keterangan_sp2d,c.nomor_rekening,c.nomor_sp2d,c.tanggal_sp2d,c.nama_skpd,c.nilai_sp2d, (select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') as belanja, (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as potongan,(select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as netto, (select sum(a.nilai_sp2d) from sp2d a, tb_control b where b.id_sp2d=a.idhalaman AND b.id_penguji=$id) as totalsp2d from tb_penguji a, tb_control b, sp2d c where a.nomor=$id AND id_penguji=$id AND b.id_sp2d=c.idhalaman");
-  $no = 1;
+    require_once('../../assets/tcpdf/tcpdf.php');
+    $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-  require_once('../../assets/tcpdf/tcpdf.php');
-  $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+    // set document information
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Fatahillah');
+    $pdf->SetTitle('Daftar Penguji');
+    $pdf->SetSubject('Pemerintah Kota Palu');
+    $pdf->SetKeywords('Pemerintah Kota pAlu');
 
-  // set document information
-  $pdf->SetCreator(PDF_CREATOR);
-  $pdf->SetAuthor('Fatahillah');
-  $pdf->SetTitle('Daftar Penguji');
-  $pdf->SetSubject('Pemerintah Kota Palu');
-  $pdf->SetKeywords('Pemerintah Kota pAlu');
-
-
-  $pdf->setPrintHeader(false);
-  $pdf->AddPage('L', 'cm', 'F4');
-  $pdf->SetFont('', 'B', 8);
-  $pdf->Image('../../palukota.jpg', 10, 10, 14, 15, 'JPG', '', '', true, 50, '', false, false, '', false, false, false);
-  $pdf->Cell(277, 1, "PEMERINTAH KOTA PALU", 0, 1, 'C');
-  $pdf->Cell(277, 1, "DAFTAR PENGUJI", 0, 1, 'C');
-  $pdf->Cell(277, 1, "Nomor", 0, 1, 'C');
-  $pdf->Ln(2);
-  $html = '<div style="text-align:left;line-height:7px"><h3>Bank : Bank Mandiri</h3>
+    // $data1 = mysqli_fetch_array($sql);
+    //  $data1       = date($data1['tanggal']);
+    $pdf->setPrintHeader(false);
+    $pdf->AddPage('L', 'cm', 'F4');
+    $pdf->SetFont('', 'B', 8);
+    $pdf->Image('../../palu1.jpg', 10, 10, 14, 15, 'JPG', '', '', true, 50, '', false, false, '', false, false, false);
+    $pdf->Cell(277, 1, "PEMERINTAH KOTA PALU", 0, 1, 'C');
+    $pdf->Cell(277, 1, "DAFTAR PENGUJI", 0, 1, 'C');
+    $pdf->Cell(277, 1, "Nomor : 00$id/MANDIRI/BPKAD/$tahun : Tanggal : $tanggalpenguji  ", 0, 1, 'C');
+    $pdf->Ln(2);
+    $html = '<div style="text-align:left;line-height:7px"><h3>Bank : Bank Mandiri</h3>
           <h3>No Rekening : 151-000-000-009-8</h3>
           </div>';
-  $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-  $pdf->SetCellPadding(-1);
-  $pdf->SetAutoPageBreak(true, 0);
+    $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
+    $pdf->SetCellPadding(-1);
+    $pdf->SetAutoPageBreak(true, 0);
 
 
-  // Add Header
-  $pdf->Ln(1);
-  $pdf->SetFont('times', 'B', 8);
-  $pdf->Cell(7, 8, "No", 1, 0, 'C');
-  $pdf->Cell(16, 8, "Tanggal", 1, 0, 'C');
-  $pdf->Cell(68, 8, "No Sp2d", 1, 0, 'C');
-  $pdf->Cell(25, 8, "Bruto", 1, 0, 'C');
-  $pdf->Cell(25, 8, "Potongan", 1, 0, 'C');
-  $pdf->Cell(25, 8, "Netto", 1, 0, 'C');
-  $pdf->Cell(90, 8, "Nama OPD", 1, 0, 'C');
-  $pdf->Cell(25, 8, "No Rekening / Bank", 1, 1, 'C');
+    // Add Header
+    $pdf->Ln(1);
+    $pdf->SetFont('times', 'B', 8);
+    $pdf->Cell(7, 8, "No", 1, 0, 'C');
+    $pdf->Cell(16, 8, "Tanggal", 1, 0, 'C');
+    $pdf->Cell(68, 8, "No Sp2d", 1, 0, 'C');
+    $pdf->Cell(25, 8, "Bruto", 1, 0, 'C');
+    $pdf->Cell(25, 8, "Potongan", 1, 0, 'C');
+    $pdf->Cell(25, 8, "Netto", 1, 0, 'C');
+    $pdf->Cell(90, 8, "Nama OPD", 1, 0, 'C');
+    $pdf->Cell(25, 8, "No Rekening / Bank", 1, 1, 'C');
 
-  $pdf->SetFont('times', '', 8);
-  // $pegawai = $this->db->get('pegawai')->result();
-  $no = 0;
+    $pdf->SetFont('times', '', 8);
+    // $pegawai = $this->db->get('pegawai')->result();
+    $no = 0;
     while ($data = mysqli_fetch_array($sql)) {
       $no++;
-
+      $tanggalsp2d = substr($data['tanggal_sp2d'], 0, 10);
       $pdf->Cell(7, 8, $no, 1, 0, 'C');
-      $pdf->Cell(16, 8, '20/12/2025', 1, 0);
+      $pdf->Cell(16, 8, "2025-09-09", 1, 0);
       $pdf->Cell(68, 8, $data['nomor_sp2d'], 1, 0);
       $pdf->Cell(25, 8, rupiah($data['belanja']), 1, 0, 'C');
       $pdf->Cell(25, 8, rupiah($data['potongan']), 1, 0, 'C');
@@ -252,125 +279,75 @@ if ($_GET["action"] === "cetakpenguji") {
       // $pdf->Cell(120,8,$data->nomor_sp2d,1,0);
       // $pdf->Cell(37,8,$data->nilai_sp2d,1,1);
     }
-    $sql = mysqli_query($koneksi, "SELECT (select sum(a.nilai_sp2d) from sp2d a, tb_control b where b.id_sp2d=a.idhalaman AND b.id_penguji=$id) as totalsp2d, (select sum(e.nilai) from potongan e, tb_control b where b.id_sp2d=e.id_sp2d AND b.id_penguji=$id) as totalpotongan, sum((select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman)) as totalnetto from tb_penguji a, tb_control b, sp2d c where a.nomor=$id AND id_penguji=$id AND b.id_sp2d=c.idhalaman");
- 
-  $data2 = mysqli_fetch_array($sql);
-  $pdf->Cell(7, 8, "", 1, 0, 'C');
-  $pdf->Cell(16, 8, "", 1, 0, 'C');
-  $pdf->Cell(68, 8, "Total", 1, 0, 'C');
-  $pdf->Cell(25, 8, rupiah($data2['totalsp2d']), 1, 0, 'C');
-  $pdf->Cell(25, 8, rupiah($data2['totalpotongan']), 1, 0, 'C');
-  $pdf->Cell(25, 8, rupiah($data2['totalnetto']), 1, 0, 'C');
-  $pdf->Cell(90, 8, "", 1, 0, 'C');
-  $pdf->Cell(25, 8, "", 1, 1, 'C');
-  // $nilaisp2dsampaihariini = mysqli_fetch_assoc(mysqli_query($koneksi,"SELECT sum(a.nilai_sp2d) as nilai_total from sp2d a where status=3"));
-  // $nilaisp2dsampaihariini = mysqli_fetch_assoc(mysqli_query($koneksi,"SELECT sum(a.nilai_sp2d) as nilai_total from sp2d a where status=3 AND "));
+    $sql4 = mysqli_query($koneksi, "SELECT (select sum(a.nilai_sp2d) from sp2d a, tb_control b where b.id_sp2d=a.idhalaman AND b.id_penguji=$id) as totalsp2d, (select sum(e.nilai) from potongan e, tb_control b where b.id_sp2d=e.id_sp2d AND b.id_penguji=$id) as totalpotongan, sum((select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman)) as totalnetto from tb_penguji a, tb_control b, sp2d c where a.nomor=$id AND id_penguji=$id AND b.id_sp2d=c.idhalaman");
+
+    $data2 = mysqli_fetch_array($sql4);
+    $pdf->SetFont('times', 'B', 10);
+    $pdf->Cell(7, 8, "", 1, 0, 'C');
+    $pdf->Cell(16, 8, "", 1, 0, 'C');
+    $pdf->Cell(68, 8, "TOTAL", 1, 0, 'C');
+    $pdf->Cell(25, 8, rupiah($data2['totalsp2d']), 1, 0, 'C');
+    $pdf->Cell(25, 8, rupiah($data2['totalpotongan']), 1, 0, 'C');
+    $pdf->Cell(25, 8, rupiah($data2['totalnetto']), 1, 0, 'C');
+    $pdf->Cell(90, 8, "", 1, 0, 'C');
+    $pdf->Cell(25, 8, "", 1, 1, 'C');
+    $nilaisp2dsampaihariini = mysqli_fetch_array(mysqli_query($koneksi, "SELECT sum(a.nilai_sp2d) as nilai_total from sp2d a where status=$id"));
+    $nilaisp2dsampaipengujiini = mysqli_fetch_array(mysqli_query($koneksi, "SELECT sum(a.nilai_sp2d) as sampaipengujiini from sp2d a, tb_control b where b.id_sp2d=a.idhalaman AND b.id_penguji<$id "));
+    $satu = $nilaisp2dsampaipengujiini['sampaipengujiini'];
+    $dua = $data2['totalsp2d'];
+    $tiga = $satu + $dua;
+    $tiga = rupiah($tiga);
+    $nilainyapengujisebelumnya = rupiah($nilaisp2dsampaipengujiini['sampaipengujiini']);
+    // $nilaihinggasekarang = $nilainya+ $nilainyapengujisebelumnya;
+    // $nilaihinggasekarang = $nilaisp2dsampaipengujiini['sampaipengujiini'] + $nilaisp2dsampaihariini['nilai_total'];
+    // $nilaihinggasekarang = rupiah($nilaihinggasekarang);  
+    $totalsp2d = rupiah($data2['totalsp2d']);
+    // $nilaisp2dsampaihariini = mysqli_fetch_assoc(mysqli_query($koneksi,"SELECT sum(a.nilai_sp2d) as nilai_total from sp2d a where status=3 AND "));
 
 
-
-  $pdf->SetFont('times', '', 8);
-  $pdf->Cell(277, 1, "Total SP2D S/D Daftar Penguji Yang Lalu : ", 0, 1, 'L');
-  $pdf->Cell(277, 1, "Total SP2D Daftar Penguji Ini : ", 0, 1, 'L');
-  $pdf->Cell(277, 1, "Total SP2D S/D Daftar penguji Ini : ", 0, 1, 'L');
-  // $pdf->Output('Laporan-Tcpdf-CodeIgniter.pdf'); 
-  // $pdf->ln(120);br
-
-  $pdf->Cell(7, 8, "", 0, 0, 'C');
-  $pdf->Cell(18, 8, "", 0, 0, 'C');
-  $pdf->Cell(68, 8, "Mengetahui", 0, 0, 'C');
-  $pdf->Cell(20, 8, "", 0, 0, 'C');
-  $pdf->Cell(20, 8, "", 0, 0, 'C');
-  $pdf->Cell(20, 8, "", 0, 0, 'C');
-  $pdf->Cell(90, 8, "Palu, 18 Agustus 2025,", 0, 0, 'C');
-  $pdf->Cell(30, 8, "", 0, 1, 'C');
-  $pdf->Ln(15);
-
-  $pdf->Cell(7, 8, "", 0, 0, 'C');
-  $pdf->Cell(18, 8, "", 0, 0, 'C');
-  $pdf->Cell(68, 8, "Nip.", 0, 0, 'C');
-  $pdf->Cell(20, 8, "", 0, 0, 'C');
-  $pdf->Cell(20, 8, "", 0, 0, 'C');
-  $pdf->Cell(20, 8, "", 0, 0, 'C');
-  $pdf->Cell(90, 8, "Fadhila Yunus,SE,", 0, 0, 'C');
-  $pdf->Cell(30, 8, "", 0, 1, 'C');
-
-  // $pdf->setFont('times', '', 11, '', true);
-  // $pdf->SetMargins(15, 20, 15);
+    $pdf->Ln(2);
+    $pdf->SetFont('times', '', 8);
+    $pdf->Cell(50, 1, "Total SP2D S/D Daftar Penguji Yang Lalu  ", 0, 0, 'L');
+    $pdf->Cell(2, 1, ":", 0, 0, 'L');
+    $pdf->Cell(20, 1, "$nilainyapengujisebelumnya", 0, 1, 'R');
+    $pdf->Cell(50, 1, "Total SP2D Daftar Penguji Ini", 0, 0, 'L');
+    $pdf->Cell(2, 1, ":", 0, 0, 'L');
+    $pdf->Cell(20, 1, "$totalsp2d", 0, 1, 'R');
+    $pdf->Cell(50, 1, "Total SP2D S/D Daftar penguji Ini ", 0, 0, 'L');
+    $pdf->Cell(2, 1, ":", 0, 0, 'L');
+    $pdf->Cell(20, 1, "$tiga", 0, 1, 'R');
 
 
-  // $html = '<div style="text-align:center;line-height:7px"><h3>PEMERINTAH KOTA PALU</h3>
-  //               <h3>DAFTAR PENGUJI</h3>
-  //               <h5>Nomor :000 Tanggal :</h5></div>';
-  // $html .= '<div style="text-align:left;line-height:7px"><h3>Bank</h3>
-  //         <h3>No Rekening</h3>
-  //         </div>';
-  //   $html .= '
-  // <table border="1" cellpadding="0" cellspacing="0" nobr="true" style="font-size:8px">
-  //  <tr>
-  //   <th width="20" rowspan="2" align="center">NO</th>
-  //   <th rowspan="2" align="center" width="40">Tanggal</th>
-  //   <th rowspan="2" align="center" width="198">No Sp2d</th>
-  //   <th width="50" rowspan="2" align="center">Bruto</th>
-  //   <th colspan="3" align="center">Potongan</th>
-  //   <th rowspan="2" align="center">Netto</th>
-  //   <th rowspan="2" align="center">Nama OPD</th>
-  //   <th rowspan="2" align="center">No Rekening / Bank </th>
-  //  </tr>
-  //  <tr>
-  //    <th  align="center">PPN</th>
-  //    <th  align="center">PPH</th>
-  //    <th  align="center">Lainnya</th>
-  //   </tr>
-  //  <tbody>
-  //   <tr align="center">' . 
-  //   $id = $_GET['id'];
-  //     foreach($q as $row){
-  //       echo "<td>1</td>";
-  //   }
-  //    '';
+    $pdf->Cell(7, 8, "", 0, 0, 'C');
+    $pdf->Cell(18, 8, "", 0, 0, 'C');
+    $pdf->Cell(68, 8, "Mengetahui", 0, 0, 'C');
+    $pdf->Cell(20, 8, "", 0, 0, 'C');
+    $pdf->Cell(20, 8, "", 0, 0, 'C');
+    $pdf->Cell(20, 8, "", 0, 0, 'C');
+    $pdf->Cell(90, 8, "Palu, $tanggal,", 0, 0, 'C');
+    $pdf->Cell(30, 8, "", 0, 1, 'C');
+    $pdf->Ln(-1);
+    $pdf->Cell(7, 8, "", 0, 0, 'C');
+    $pdf->Cell(18, 8, "", 0, 0, 'C');
+    $pdf->Cell(68, 8, "", 0, 0, 'C');
+    $pdf->Cell(20, 8, "", 0, 0, 'C');
+    $pdf->Cell(20, 8, "", 0, 0, 'C');
+    $pdf->Cell(20, 8, "", 0, 0, 'C');
+    $pdf->Cell(90, 8, "Kuasa Bendahara Umum Daerah Kota Palu", 0, 0, 'C');
+    $pdf->Cell(30, 8, "", 0, 1, 'C');
+    $pdf->Ln(15);
 
+    $pdf->Cell(7, 8, "", 0, 0, 'C');
+    $pdf->Cell(18, 8, "", 0, 0, 'C');
+    $pdf->Cell(68, 8, "Nip.", 0, 0, 'C');
+    $pdf->Cell(20, 8, "", 0, 0, 'C');
+    $pdf->Cell(20, 8, "", 0, 0, 'C');
+    $pdf->Cell(20, 8, "", 0, 0, 'C');
+    $pdf->Cell(90, 8, "Fadhila Yunus,SE,", 0, 0, 'C');
+    $pdf->Cell(30, 8, "", 0, 1, 'C');
 
-
-
-  // $html .= file_get_contents("../../report/daftarpenguji.php");
-
-
-  // $pdf->setTextShadow(array('enabled'=>true, 'depth_w'=>0.2, 'depth_h'=>0.2, 'color'=>array(196,196,196), 'opacity'=>1, 'blend_mode'=>'Normal'));
-  // $pdf->writeHTMLCell(0, 0, '', '', $html, 0, 1, 0, true, '', true);
-  //  $pdf->writeHTML($html, true, false, true, false, '');
-
-  // $pdf->Ln(1);
-  // $pdf->setJPEGQuality(75);
-  // $pdf->Image('../assets/images/palu.png', '', '', 40, 40, '', '', 'T', false, 300, '', false, false, 1, false, false, false);
-  // $pdf->SetFont('', 12);
-  // $pdf->SetCellPadding(2);
-  // $pdf->Cell(13, 8, "No", 1, 0, 'C');
-  // $pdf->Cell(60, 8, "No Sp2d", 1, 0, 'C');
-  // $pdf->Cell(60, 8, "Potongan", 1, 3, 'C');
-  // $pdf->Cell(60, 8, "PPN", 1, 0, 'C');
-  //  $pdf->Cell(60, 8, "PPH 21", 1, 0, 'C');
-  //   $pdf->Cell(60, 8, "Lainnya", 1, 0, 'C');
-  //      $pdf->Cell(60, 8, "Lainnya", 1, 1, 'C');
-  $pdf->Output('daftarpenguji.pdf', 'I');
-
-  // header("location:http:localhost/report/daftarpenguji.php");
-
-
-  // $sql = "UPDATE sp2d SET status='1',id_user='0' WHERE id='$id'";
-  // // $result = mysqli_query($koneksi, $sql);
-  // if (mysqli_query($koneksi, $sql)) {
-  //   // $data = mysqli_fetch_assoc($result);
-  //   // header("Content-Type: application/json");
-  //   echo json_encode([
-  //     "statusCode" => 200,
-  //     "message" => "Data updated successfully 😀"
-  //   ]);
-  // } else {
-  //   echo json_encode([
-  //     "statusCode" => 404,
-  //     "message" => "No user found with this id 😓"
-  //   ]);
-  // }
-  // mysqli_close($koneksi);
-
+    $pdf->Output('daftarpenguji.pdf', 'I');
+  } else {
+    echo "DATA TIDAK DITEMUKAN";
+  }
 }
