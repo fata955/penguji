@@ -34,7 +34,15 @@ include '../../lib/dbh.inc.php';
 
 
 if ($_GET["action"] === "fetchData") {
-  $sql = "SELECT a.id,a.nomor_sp2d,a.nama_skpd,a.keterangan_sp2d,a.nilai_sp2d,a.tanggal_sp2d,(select sum(b.nilai) as potongan from potongan b where a.idhalaman=b.id_sp2d) as potongan FROM sp2d a where a.status='1'";
+  $sql = "SELECT 
+a.id_spm,
+a.nomor_spm,
+(select c.nama_opd from skpd c where a.id_skpd=c.id_sipd) as nama_skpd,
+a.keterangan_spm,
+a.nilai_spm,
+a.tanggal_spm,
+(select (COALESCE(sum(b.nilai),0)) as potongan from potongan b where a.id_spm=b.id_spm) as potongan
+FROM tspm a,tspmsub d where a.id_spm=d.id_spm AND d.statuspenguji='1'";
   $result = mysqli_query($koneksi, $sql);
   $data = [];
   while ($row = mysqli_fetch_assoc($result)) {
@@ -49,9 +57,14 @@ if ($_GET["action"] === "fetchData") {
 }
 
 if ($_GET["action"] === "fetchCart") {
-  $sql = "SELECT id,nilai_sp2d,nama_skpd FROM sp2d where status='2' AND id_user='$user' ";
+  $sql = "SELECT 
+        a.id_spm,
+        a.nilai_spm,
+        (select b.nama_opd from skpd b where a.id_skpd=b.id_sipd) as nama_skpd
+        FROM tspm a, tspmsub c 
+          where c.statuspenguji='2' AND id_user='$user'; ";
   $result = mysqli_query($koneksi, $sql);
-  $sql1 = "SELECT sum(nilai_sp2d) as nilai FROM sp2d where status='2' AND id_user='$user' ";
+  $sql1 = "SELECT sum(a.nilai_spm) as nilai FROM tspm a, tspmsub b where b.statuspenguji='2' AND id_user='$user' ";
   $result1 = mysqli_fetch_assoc(mysqli_query($koneksi, $sql1));
   $sql2 = "SELECT * FROM sp2d where status='2' AND id_user='$user' ";
   $jumlah = mysqli_num_rows(mysqli_query($koneksi, $sql2));
@@ -86,8 +99,17 @@ if ($_GET["action"] === "fetchPenguji") {
 
 if ($_GET["action"] === "searchpenguji") {
   $data = $_POST["dsearch"];
-
-  $sql = "SELECT a.id,a.nomor_sp2d,a.nama_skpd,a.keterangan_sp2d,a.nilai_sp2d,a.tanggal_sp2d,(select sum(b.nilai) as potongan from potongan b where a.idhalaman=b.id_sp2d) as potongan FROM sp2d a where a.status='1' AND id_user='0' AND a.keterangan_sp2d like '%$data%' OR a.nilai_sp2d like '%$data%' OR a.nomor_sp2d like '%$data%' OR a.nama_skpd like '%$data%' AND status='1' ";
+  $sql = "SELECT 
+a.id_spm,
+a.nomor_spm,
+(select c.nama_opd from skpd c where a.id_skpd=c.id_sipd) as c.nama_skpd,
+a.keterangan_spm,
+a.nilai_spm,
+a.tanggal_spm,
+(select (COALESCE(sum(b.nilai),0)) as potongan from potongan b where a.id_spm=b.id_spm) as potongan
+FROM tspm a,tspmsub d where a.id_spm=d.id_spm
+AND d.id_user='0' 
+AND a.keterangan_spm like '%$data%' OR a.nilai_spm like '%$data%' OR  (SELECT c.nama_opd FROM tspm AS a INNER JOIN skpd AS c ON a.id_skpd = c.id_sipd WHERE c.nama_opd LIKE '%$data%') as nama_skpd AND d.statuspenguji='1'";
   $result = mysqli_query($koneksi, $sql);
   $data = [];
   while ($row = mysqli_fetch_assoc($result)) {

@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$database = "sipd";
+$database = "spm";
 // $servername = "localhost";
 // $username = "root";
 // $password = "nadirad3mi208";

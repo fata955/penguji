@@ -327,7 +327,7 @@ include 'component/pengaturantampilan.view.php';
             function fetchData(data) {
                 $("#tablespm").empty();
                 $.ajax({
-                    url: "proses/sp2d/page.php?action=fetchData",
+                    url: "proses/sp2d/proseskertaskerja.php?action=fetchData",
                     type: "POST",
                     dataType: "json",
                     success: function(response) {
@@ -346,21 +346,21 @@ include 'component/pengaturantampilan.view.php';
                                     <div class="p-4">
                                         <span class="fs-12 text-muted">Nomor SPM</span><span
                                             class="badge bg-primary-transparent text-primary ms-auto float-end">` + value.nama_skpd + `</span>
-                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.nomor_sp2d + `</h5>
+                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.nomor_spm + `</h5>
                                     </div>
                                     <div class="p-4 border-top">
                                         <span class="fs-12 text-muted">Keterangan SPM</span><span
-                                            class="badge bg-danger-transparent text-danger ms-auto float-end">` + value.tanggal_sp2d + `</span>
-                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.keterangan_sp2d + `</h5>
+                                            class="badge bg-danger-transparent text-danger ms-auto float-end">` + value.tanggal_spm + `</span>
+                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.keterangan_spm + `</h5>
                                   </div>
                                    <div class="card-footer ">
                               
                                     <a class="btn btn-primary" href="javascript:void(0);" data-bs-placement="top"
-                                        data-bs-toggle="tooltip" title="Assign Task"> Nilai SPM: ` + formatRupiah(value.nilai_sp2d) + `</a><br><br>
+                                        data-bs-toggle="tooltip" title="Assign Task"> Nilai SPM: ` + formatRupiah(value.nilai_spm) + `</a><br><br>
                                          <a class="btn btn-secondary" href="javascript:void(0);" data-bs-placement="top"
                                         data-bs-toggle="tooltip" title="Assign Task"> Nilai Potongan : ` + formatRupiah(value.potongan) + `</a>
                                     <button class="btn btn-outline-primary ms-auto float-end editBtn"
-                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id + `" title="View Task">Tambah</button>
+                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id_spm + `" title="View Task">Tambah</button>
                                 </div>
                                     <div class="p-4 border-top">
                                     <span class="fs-12 text-muted">Nomor Sp2d</span>
@@ -410,7 +410,7 @@ include 'component/pengaturantampilan.view.php';
                 $("#totalfix").empty();
                 $("#jumlahpenguji").empty();
                 $.ajax({
-                    url: "proses/sp2d/page.php?action=fetchCart",
+                    url: "proses/sp2d/proseskertaskerja.php?action=fetchCart",
                     type: "POST",
                     dataType: "json",
                     success: function(response) {
@@ -447,7 +447,7 @@ include 'component/pengaturantampilan.view.php';
                 // $("#totalfix").empty();
                 // $("#jumlah").empty();
                 $.ajax({
-                    url: "proses/sp2d/page.php?action=fetchPenguji",
+                    url: "proses/sp2d/proseskertaskerja.php?action=fetchPenguji",
                     type: "POST",
                     dataType: "json",
                     success: function(response) {
@@ -499,7 +499,7 @@ include 'component/pengaturantampilan.view.php';
                     var id = $(this).val();
                     //   var delete_image = $(this).closest("td").find(".delete_image").val();
                     $.ajax({
-                        url: "proses/sp2d/page.php?action=fetchSingle",
+                        url: "proses/sp2d/proseskertaskerja.php?action=fetchSingle",
                         type: "POST",
                         dataType: "json",
                         data: {
@@ -556,7 +556,7 @@ include 'component/pengaturantampilan.view.php';
 
                 e.preventDefault();
                 $.ajax({
-                    url: "proses/sp2d/page.php?action=simpanpenguji",
+                    url: "proses/sp2d/proseskertaskerja.php?action=simpanpenguji",
                     type: "POST",
                     data: {
                         qty: qty
@@ -619,7 +619,7 @@ include 'component/pengaturantampilan.view.php';
                 e.preventDefault();
                 if (dsearch) {
                     $.ajax({
-                        url: "proses/sp2d/page.php?action=searchpenguji",
+                        url: "proses/sp2d/proseskertaskerja.php?action=searchpenguji",
                         type: "POST",
                         dataType: "json",
                         data: {
@@ -641,21 +641,21 @@ include 'component/pengaturantampilan.view.php';
                                     <div class="p-4">
                                         <span class="fs-12 text-muted">Nomor SPM</span><span
                                             class="badge bg-primary-transparent text-primary ms-auto float-end">` + value.nama_skpd + `</span>
-                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.nomor_sp2d + `</h5>
+                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.nomor_spm + `</h5>
                                     </div>
                                     <div class="p-4 border-top">
                                         <span class="fs-12 text-muted">Keterangan SPM</span><span
-                                            class="badge bg-danger-transparent text-danger ms-auto float-end">` + value.tanggal_sp2d + `</span>
-                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.keterangan_sp2d + `</h5>
+                                            class="badge bg-danger-transparent text-danger ms-auto float-end">` + value.tanggal_spm + `</span>
+                                        <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.keterangan_spm + `</h5>
                                   </div>
                                    <div class="card-footer ">
                               
                                     <a class="btn btn-primary" href="javascript:void(0);" data-bs-placement="top"
-                                        data-bs-toggle="tooltip" title="Assign Task"> Nilai Sp2d : ` + formatRupiah(value.nilai_sp2d) + `</a><br><br>
+                                        data-bs-toggle="tooltip" title="Assign Task"> Nilai Sp2d : ` + formatRupiah(value.nilai_spm) + `</a><br><br>
                                          <a class="btn btn-secondary" href="javascript:void(0);" data-bs-placement="top"
                                         data-bs-toggle="tooltip" title="Assign Task"> Nilai Potongan : ` + formatRupiah(value.potongan) + `</a>
                                     <button class="btn btn-outline-primary ms-auto float-end editBtn"
-                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id + `" title="View Task">Tambah</button>
+                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id_spm + `" title="View Task">Tambah</button>
                                 </div>
                                     <div class="p-4 border-top">
                                     <span class="fs-12 text-muted">Nomor Sp2d</span>
