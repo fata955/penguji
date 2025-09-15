@@ -83,7 +83,7 @@ if ($_GET["action"] === "fetchCart") {
 }
 
 if ($_GET["action"] === "fetchPenguji") {
-  $sql = "SELECT a.id,a.nomor,(select sum(c.nilai_sp2d) from tb_control b, sp2d c where a.nomor=b.id_penguji AND b.id_sp2d=c.idhalaman AND c.status=3) as nilai,(select COUNT(c.nomor_sp2d) from tb_control b, sp2d c where a.nomor=b.id_penguji AND b.id_sp2d=c.idhalaman AND c.status=3 ) as count FROM tb_penguji a ORDER BY a.id DESC";
+  $sql = "SELECT a.id,a.nomor,(select sum(c.nilai_spm) from tb_control b, tspm c, tspmsub d where a.nomor=b.id_penguji AND b.id_sp2d=c.id_spm AND c.id_spm=d.id_spm AND d.statuspenguji=3) as nilai,(select COUNT(c.nomor_spm) from tb_control b, tspm c, tspmsub d where a.nomor=b.id_penguji AND b.id_sp2d=c.id_spm AND d.statuspenguji=3 ) as count FROM tb_penguji a ORDER BY a.id DESC";
   $result2 = mysqli_query($koneksi, $sql);
   $data = [];
   while ($row = mysqli_fetch_assoc($result2)) {
@@ -102,14 +102,15 @@ if ($_GET["action"] === "searchpenguji") {
   $sql = "SELECT 
 a.id_spm,
 a.nomor_spm,
-(select c.nama_opd from skpd c where a.id_skpd=c.id_sipd) as c.nama_skpd,
+-- (select c.nama_opd from skpd c where a.id_skpd=c.id_sipd) as c.nama_skpd,
 a.keterangan_spm,
 a.nilai_spm,
 a.tanggal_spm,
 (select (COALESCE(sum(b.nilai),0)) as potongan from potongan b where a.id_spm=b.id_spm) as potongan
 FROM tspm a,tspmsub d where a.id_spm=d.id_spm
 AND d.id_user='0' 
-AND a.keterangan_spm like '%$data%' OR a.nilai_spm like '%$data%' OR  (SELECT c.nama_opd FROM tspm AS a INNER JOIN skpd AS c ON a.id_skpd = c.id_sipd WHERE c.nama_opd LIKE '%$data%') as nama_skpd AND d.statuspenguji='1'";
+AND a.keterangan_spm like '%$data%' OR a.nilai_spm like '%$data%'
+AND d.statuspenguji='1'";
   $result = mysqli_query($koneksi, $sql);
   $data = [];
   while ($row = mysqli_fetch_assoc($result)) {
@@ -126,23 +127,22 @@ AND a.keterangan_spm like '%$data%' OR a.nilai_spm like '%$data%' OR  (SELECT c.
 if ($_GET["action"] === "simpanpenguji") {
   if (!empty($_POST["qty"]) != 0) {
 
-
     // cek dan buat nomor penguji
     $ceknomorpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT max(nomor) as nourut FROM tb_penguji"));
     $nomor = $ceknomorpenguji['nourut'];
     $nomordipake = $nomor + 1;
    
     // cek sp2d yg sudah dimasukkan ke list penguji
-    $cek = mysqli_query($koneksi, "SELECT id as nosp2d FROM sp2d where status=2 AND id_user='$user'");
+    $cek = mysqli_query($koneksi, "SELECT a.id_spm as nospm FROM tspm a, tspmsub b where a.id_spm=b.id_spm AND b.statuspenguji=2 AND b.id_user='$user'");
 
     // $value=[];
     $dataada = mysqli_num_rows($cek);
     if ($dataada > 0) {
       $datasp2d = mysqli_fetch_array($cek);
       // $id_sp2d = $datasp2d["nosp2d"];
-      $sql = mysqli_query($koneksi, "INSERT INTO tb_control (id_sp2d,id_penguji) SELECT idhalaman, $nomordipake FROM sp2d WHERE status=2 AND id_user='$user'");
+      $sql = mysqli_query($koneksi, "INSERT INTO tb_control (id_sp2d,id_penguji) SELECT a.id_spm, $nomordipake FROM tspm a, tspmsub b WHERE b.statuspenguji=2 AND id_user='$user'");
       $input = mysqli_query($koneksi, "INSERT INTO tb_penguji (nomor,pejabat,tanggal,status,user)value('$nomordipake','FADHILA YUNUS','$datew','aktif','$user')");
-      $sql = "UPDATE sp2d SET status='3' where status='2' AND id_user='$user'";
+      $sql = "UPDATE tspmsub SET statuspenguji='3' where statuspenguji='2' AND id_user='$user'";
       // header("Content-Type: application/json");
       if (mysqli_query($koneksi, $sql)) {
         echo json_encode([
@@ -174,7 +174,7 @@ if ($_GET["action"] === "simpanpenguji") {
 
 if ($_GET["action"] === "fetchSingle") {
   $id = $_POST["id"];
-  $sql = "UPDATE sp2d SET status='2',id_user='$user' WHERE id='$id'";
+  $sql = "UPDATE tspmsub SET statuspenguji='2',id_user='$user' WHERE id_spm='$id'";
   // $result = mysqli_query($koneksi, $sql);
   if (mysqli_query($koneksi, $sql)) {
     // $data = mysqli_fetch_assoc($result);

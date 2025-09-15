@@ -569,8 +569,6 @@ include 'component/pengaturantampilan.view.php';
                             fetchData();
                             fetchCart();
                             fetchPenguji();
-                            // kosong();
-                            // $("#offcanvasEditUser").modal("hide");
                         } else if (response.statusCode == 500) {
                             alert('Failed to update data');
                             kosong();
