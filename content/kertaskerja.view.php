@@ -727,6 +727,33 @@ include 'component/pengaturantampilan.view.php';
                     });
                 }
             });
+            $("#mytablePenguji").on("click", ".deleteBtnpenguji", function() {
+                if (confirm("Apakah yakin Menghapus Data Ini?")) {
+                    var id = $(this).val();
+                    //   var delete_image = $(this).closest("td").find(".delete_image").val();
+                    $.ajax({
+                        url: "proses/sp2d/proseskertaskerja.php?action=deletepenguji",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            id
+                            //   delete_image
+                        },
+                        success: function(response) {
+                            if (response.statusCode == 200) {
+                                // window.location.replace("/kertaskerja");
+                                fetchData();
+                                fetchCart();
+
+                                fetchPenguji();
+
+                            } else if (response.statusCode == 500) {
+                                alert('data error, Jaringan Anda');
+                            }
+                        }
+                    });
+                }
+            });
 
             $("#mytablePenguji").on("click", ".printBtnpenguji", function() {
                 var id = $(this).val();

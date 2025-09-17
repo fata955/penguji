@@ -126,7 +126,7 @@ if ($_GET["action"] === "simpanpenguji") {
     $ceknomorpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT max(nomor) as nourut FROM tb_penguji"));
     $nomor = $ceknomorpenguji['nourut'];
     $nomordipake = $nomor + 1;
-   
+
     // cek sp2d yg sudah dimasukkan ke list penguji
     $cek = mysqli_query($koneksi, "SELECT a.id_spm as nospm FROM tspm a, tspmsub b where a.id_spm=b.id_spm AND b.statuspenguji=2 AND b.id_user='$user'");
 
@@ -210,9 +210,15 @@ if ($_GET["action"] === "kembali") {
 
 if ($_GET["action"] === "deletepenguji") {
   $id = $_POST["id"];
-  $sql = "UPDATE sp2d SET status='1',id_user='0' WHERE id='$id'";
+  $deletepenguji = mysqli_query($koneksi,"DELETE from tb_penguji where nomor=$id");
+  $selectspm = mysqli_fetch_array(mysqli_query($koneksi,"SELECT id_sp2d FROM tb_control where id_penguji=$id"));
+  $rubahstatus = mysqli_query($koneksi,"UPDATE tspmsub a SET a.statuspenguji='1',a.id_user='0' where a.id_spm=$selectspm");
+  
+  $deletekontrol = mysqli_query($koneksi,"DELETE FROM tb_control where id_penguji=$id");
+
+  // $sql = "UPDATE sp2d SET status='1',id_user='0' WHERE id='$id'";
   // $result = mysqli_query($koneksi, $sql);
-  if (mysqli_query($koneksi, $sql)) {
+  if ($deletekontrol) {
     // $data = mysqli_fetch_assoc($result);
     // header("Content-Type: application/json");
     echo json_encode([
@@ -235,27 +241,29 @@ if ($_GET["action"] === "cetakpenguji") {
   $sql = mysqli_fetch_row(mysqli_query($koneksi, "SELECT * FROM tb_penguji where nomor=$id"));
   // $row = mysqli_fetch_row($sql);
   if ($sql != null) {
-    $sql = mysqli_query($koneksi, 
-    "SELECT 
-    a.nomor,
-    a.pejabat,
-    a.tanggal,
-    a.user,
-    b.id_sp2d,
-    c.keterangan_spm,
-    c.no_rek_pihak_ketiga as nomor_rekening,
-    c.nomor_spm,
-    c.tanggal_spm,
-    (select f.nama_opd from skpd f where c.id_skpd=f.id_sipd) as nama_skpd,
-    c.nilai_spm, 
-    (select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.uraian like '%belanja%') as belanja, 
-    (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm) as potongan,
-    (select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm) as netto, 
-    (select sum(a.nilai_spm) from tspm a, tb_control b where b.id_sp2d=a.id_spm AND b.id_penguji=$id) as totalsp2d 
-    from tb_penguji a, tb_control b, tspm c 
-    where a.nomor=$id AND 
-    id_penguji=$id AND 
-    b.id_sp2d=c.id_spm");
+    $sql = mysqli_query(
+      $koneksi,
+      "SELECT 
+        a.nomor,
+        a.pejabat,
+        a.tanggal,
+        a.user,
+        c.keterangan_spm,
+        c.no_rek_pihak_ketiga as nomor_rekening,
+        c.nomor_spm,
+        c.tanggal_spm,
+        (select f.nama_opd from skpd f where c.id_skpd=f.id_sipd) as nama_skpd,
+        c.nilai_spm, 
+        (select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%') as belanja, 
+        (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm) as potongan,
+        (select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%') - (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm) as netto, 
+        (select sum(a.nilai_spm) from tspm a, tb_control b where b.id_sp2d=a.id_spm AND b.id_penguji=$id) as totalsp2d 
+        from tb_penguji a, tb_control b, tspm c 
+        where a.nomor=$id AND 
+        id_penguji=$id AND 
+        b.id_sp2d=c.id_spm;"
+    );
+
     $tanggalpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM tb_penguji where nomor=$id"));
     $tanggalpenguji = $tanggalpenguji['tanggal'];
     $no = 1;
@@ -317,20 +325,22 @@ if ($_GET["action"] === "cetakpenguji") {
       // $pdf->Cell(120,8,$data->nomor_sp2d,1,0);
       // $pdf->Cell(37,8,$data->nilai_sp2d,1,1);
     }
-    $sql4 = mysqli_query($koneksi,
-    " SELECT 
-(select sum(a.nilai_spm) from tspm a, tb_control b where b.id_sp2d=a.id_spm AND b.id_penguji=$id) as totalspm, 
-(select sum(e.nilai) from potongan e, tb_control b where b.id_sp2d=e.id_spm AND b.id_penguji=$id) as totalpotongan, 
-sum((select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%') - (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm)) as totalnetto 
-from 
-tb_penguji a, 
-tb_control b, 
-tspm c 
-where 
-a.nomor=$id AND 
-b.id_penguji=$id AND 
-b.id_sp2d=c.id_spm;
-    ");
+    $sql4 = mysqli_query(
+      $koneksi,
+      " SELECT 
+          (select sum(a.nilai_spm) from tspm a, tb_control b where b.id_sp2d=a.id_spm AND b.id_penguji=$id) as totalspm, 
+          (select sum(e.nilai) from potongan e, tb_control b where b.id_sp2d=e.id_spm AND b.id_penguji=$id) as totalpotongan, 
+          sum((select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%') - (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm)) as totalnetto 
+          from 
+          tb_penguji a, 
+          tb_control b, 
+          tspm c 
+          where 
+          a.nomor=$id AND 
+          b.id_penguji=$id AND 
+          b.id_sp2d=c.id_spm;
+      "
+    );
 
     $data2 = mysqli_fetch_array($sql4);
     $pdf->SetFont('times', 'B', 10);
