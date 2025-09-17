@@ -57,16 +57,11 @@ FROM tspm a,tspmsub d where a.id_spm=d.id_spm AND d.statuspenguji='1'";
 }
 
 if ($_GET["action"] === "fetchCart") {
-  $sql = "SELECT 
-        a.id_spm,
-        a.nilai_spm,
-        (select b.nama_opd from skpd b where a.id_skpd=b.id_sipd) as nama_skpd
-        FROM tspm a, tspmsub c 
-          where c.statuspenguji='2' AND id_user='$user'; ";
+  $sql = "SELECT a.id_spm,a.nilai_spm,c.nama_opd FROM tspm a, tspmsub b, skpd c where a.id_spm=b.id_spm AND a.id_skpd=c.id_sipd AND b.statuspenguji=2 AND b.id_user='$user'";
   $result = mysqli_query($koneksi, $sql);
-  $sql1 = "SELECT sum(a.nilai_spm) as nilai FROM tspm a, tspmsub b where b.statuspenguji='2' AND id_user='$user' ";
+  $sql1 = "SELECT sum(a.nilai_spm) as nilai FROM tspm a, tspmsub b where a.id_spm=b.id_spm AND b.statuspenguji=2 AND id_user='$user' ";
   $result1 = mysqli_fetch_assoc(mysqli_query($koneksi, $sql1));
-  $sql2 = "SELECT * FROM sp2d where status='2' AND id_user='$user' ";
+  $sql2 = "SELECT * FROM tspmsub where statuspenguji='2' AND id_user='$user' ";
   $jumlah = mysqli_num_rows(mysqli_query($koneksi, $sql2));
 
   $data = [];
@@ -83,7 +78,7 @@ if ($_GET["action"] === "fetchCart") {
 }
 
 if ($_GET["action"] === "fetchPenguji") {
-  $sql = "SELECT a.id,a.nomor,(select sum(c.nilai_spm) from tb_control b, tspm c, tspmsub d where a.nomor=b.id_penguji AND b.id_sp2d=c.id_spm AND c.id_spm=d.id_spm AND d.statuspenguji=3) as nilai,(select COUNT(c.nomor_spm) from tb_control b, tspm c, tspmsub d where a.nomor=b.id_penguji AND b.id_sp2d=c.id_spm AND d.statuspenguji=3 ) as count FROM tb_penguji a ORDER BY a.id DESC";
+  $sql = "SELECT a.id,a.nomor,(select sum(c.nilai_spm) from tb_control b, tspm c, tspmsub d where a.nomor=b.id_penguji AND b.id_sp2d=c.id_spm AND c.id_spm=d.id_spm AND d.statuspenguji=3) as nilai,(select COUNT(c.nomor_spm) from tb_control b, tspm c, tspmsub d where c.id_spm=d.id_spm AND a.nomor=b.id_penguji AND b.id_sp2d=c.id_spm AND d.statuspenguji=3 ) as count FROM tb_penguji a ORDER BY a.id DESC";
   $result2 = mysqli_query($koneksi, $sql);
   $data = [];
   while ($row = mysqli_fetch_assoc($result2)) {
@@ -140,7 +135,7 @@ if ($_GET["action"] === "simpanpenguji") {
     if ($dataada > 0) {
       $datasp2d = mysqli_fetch_array($cek);
       // $id_sp2d = $datasp2d["nosp2d"];
-      $sql = mysqli_query($koneksi, "INSERT INTO tb_control (id_sp2d,id_penguji) SELECT a.id_spm, $nomordipake FROM tspm a, tspmsub b WHERE b.statuspenguji=2 AND id_user='$user'");
+      $sql = mysqli_query($koneksi, "INSERT INTO tb_control (id_sp2d,id_penguji) SELECT b.id_spm, $nomordipake FROM tspmsub b WHERE b.statuspenguji=2 AND b.id_user='$user'");
       $input = mysqli_query($koneksi, "INSERT INTO tb_penguji (nomor,pejabat,tanggal,status,user)value('$nomordipake','FADHILA YUNUS','$datew','aktif','$user')");
       $sql = "UPDATE tspmsub SET statuspenguji='3' where statuspenguji='2' AND id_user='$user'";
       // header("Content-Type: application/json");
@@ -194,7 +189,7 @@ if ($_GET["action"] === "fetchSingle") {
 
 if ($_GET["action"] === "kembali") {
   $id = $_POST["id"];
-  $sql = "UPDATE sp2d SET status='1',id_user='0' WHERE id='$id'";
+  $sql = "UPDATE tspmsub SET statuspenguji='1',id_user='0' WHERE id_spm='$id'";
   // $result = mysqli_query($koneksi, $sql);
   if (mysqli_query($koneksi, $sql)) {
     // $data = mysqli_fetch_assoc($result);
@@ -240,7 +235,27 @@ if ($_GET["action"] === "cetakpenguji") {
   $sql = mysqli_fetch_row(mysqli_query($koneksi, "SELECT * FROM tb_penguji where nomor=$id"));
   // $row = mysqli_fetch_row($sql);
   if ($sql != null) {
-    $sql = mysqli_query($koneksi, "SELECT a.nomor,a.pejabat,a.tanggal,a.user,b.id_sp2d,c.keterangan_sp2d,c.no_rek_pihak_ketiga as nomor_rekening,c.nomor_sp2d,c.tanggal_sp2d,c.nama_skpd,c.nilai_sp2d, (select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') as belanja, (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as potongan,(select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as netto, (select sum(a.nilai_sp2d) from sp2d a, tb_control b where b.id_sp2d=a.idhalaman AND b.id_penguji=$id) as totalsp2d from tb_penguji a, tb_control b, sp2d c where a.nomor=$id AND id_penguji=$id AND b.id_sp2d=c.idhalaman");
+    $sql = mysqli_query($koneksi, 
+    "SELECT 
+    a.nomor,
+    a.pejabat,
+    a.tanggal,
+    a.user,
+    b.id_sp2d,
+    c.keterangan_spm,
+    c.no_rek_pihak_ketiga as nomor_rekening,
+    c.nomor_spm,
+    c.tanggal_spm,
+    (select f.nama_opd from skpd f where c.id_skpd=f.id_sipd) as nama_skpd,
+    c.nilai_spm, 
+    (select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.uraian like '%belanja%') as belanja, 
+    (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm) as potongan,
+    (select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm) as netto, 
+    (select sum(a.nilai_spm) from tspm a, tb_control b where b.id_sp2d=a.id_spm AND b.id_penguji=$id) as totalsp2d 
+    from tb_penguji a, tb_control b, tspm c 
+    where a.nomor=$id AND 
+    id_penguji=$id AND 
+    b.id_sp2d=c.id_spm");
     $tanggalpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM tb_penguji where nomor=$id"));
     $tanggalpenguji = $tanggalpenguji['tanggal'];
     $no = 1;
@@ -278,7 +293,7 @@ if ($_GET["action"] === "cetakpenguji") {
     $pdf->SetFont('times', 'B', 8);
     $pdf->Cell(7, 8, "No", 1, 0, 'C');
     $pdf->Cell(16, 8, "Tanggal", 1, 0, 'C');
-    $pdf->Cell(68, 8, "No Sp2d", 1, 0, 'C');
+    $pdf->Cell(68, 8, "No SP2D", 1, 0, 'C');
     $pdf->Cell(25, 8, "Bruto", 1, 0, 'C');
     $pdf->Cell(25, 8, "Potongan", 1, 0, 'C');
     $pdf->Cell(25, 8, "Netto", 1, 0, 'C');
@@ -290,10 +305,10 @@ if ($_GET["action"] === "cetakpenguji") {
     $no = 0;
     while ($data = mysqli_fetch_array($sql)) {
       $no++;
-      $tanggalsp2d = substr($data['tanggal_sp2d'], 0, 10);
+      $tanggalspm = substr($data['tanggal_spm'], 0, 10);
       $pdf->Cell(7, 8, $no, 1, 0, 'C');
-      $pdf->Cell(16, 8, "2025-09-09", 1, 0);
-      $pdf->Cell(68, 8, $data['nomor_sp2d'], 1, 0);
+      $pdf->Cell(16, 8, $tanggalspm, 1, 0);
+      $pdf->Cell(68, 8, $data['nomor_spm'], 1, 0);
       $pdf->Cell(25, 8, rupiah($data['belanja']), 1, 0, 'C');
       $pdf->Cell(25, 8, rupiah($data['potongan']), 1, 0, 'C');
       $pdf->Cell(25, 8, rupiah($data['netto']), 1, 0, 'C');
@@ -302,29 +317,42 @@ if ($_GET["action"] === "cetakpenguji") {
       // $pdf->Cell(120,8,$data->nomor_sp2d,1,0);
       // $pdf->Cell(37,8,$data->nilai_sp2d,1,1);
     }
-    $sql4 = mysqli_query($koneksi, "SELECT (select sum(a.nilai_sp2d) from sp2d a, tb_control b where b.id_sp2d=a.idhalaman AND b.id_penguji=$id) as totalsp2d, (select sum(e.nilai) from potongan e, tb_control b where b.id_sp2d=e.id_sp2d AND b.id_penguji=$id) as totalpotongan, sum((select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman)) as totalnetto from tb_penguji a, tb_control b, sp2d c where a.nomor=$id AND id_penguji=$id AND b.id_sp2d=c.idhalaman");
+    $sql4 = mysqli_query($koneksi,
+    " SELECT 
+(select sum(a.nilai_spm) from tspm a, tb_control b where b.id_sp2d=a.id_spm AND b.id_penguji=$id) as totalspm, 
+(select sum(e.nilai) from potongan e, tb_control b where b.id_sp2d=e.id_spm AND b.id_penguji=$id) as totalpotongan, 
+sum((select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%') - (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm)) as totalnetto 
+from 
+tb_penguji a, 
+tb_control b, 
+tspm c 
+where 
+a.nomor=$id AND 
+b.id_penguji=$id AND 
+b.id_sp2d=c.id_spm;
+    ");
 
     $data2 = mysqli_fetch_array($sql4);
     $pdf->SetFont('times', 'B', 10);
     $pdf->Cell(7, 8, "", 1, 0, 'C');
     $pdf->Cell(16, 8, "", 1, 0, 'C');
     $pdf->Cell(68, 8, "TOTAL", 1, 0, 'C');
-    $pdf->Cell(25, 8, rupiah($data2['totalsp2d']), 1, 0, 'C');
+    $pdf->Cell(25, 8, rupiah($data2['totalspm']), 1, 0, 'C');
     $pdf->Cell(25, 8, rupiah($data2['totalpotongan']), 1, 0, 'C');
     $pdf->Cell(25, 8, rupiah($data2['totalnetto']), 1, 0, 'C');
     $pdf->Cell(90, 8, "", 1, 0, 'C');
     $pdf->Cell(25, 8, "", 1, 1, 'C');
-    $nilaisp2dsampaihariini = mysqli_fetch_array(mysqli_query($koneksi, "SELECT sum(a.nilai_sp2d) as nilai_total from sp2d a where status=$id"));
-    $nilaisp2dsampaipengujiini = mysqli_fetch_array(mysqli_query($koneksi, "SELECT sum(a.nilai_sp2d) as sampaipengujiini from sp2d a, tb_control b where b.id_sp2d=a.idhalaman AND b.id_penguji<$id "));
+    $nilaisp2dsampaihariini = mysqli_fetch_array(mysqli_query($koneksi, "SELECT sum(a.nilai_spm) as nilai_total from tspm a,tspmsub b where b.statuspenguji=$id"));
+    $nilaisp2dsampaipengujiini = mysqli_fetch_array(mysqli_query($koneksi, "SELECT sum(a.nilai_spm) as sampaipengujiini from tspm a, tb_control b, tspmsub c where a.id_spm=c.id_spm AND b.id_sp2d=a.id_spm AND b.id_penguji<$id "));
     $satu = $nilaisp2dsampaipengujiini['sampaipengujiini'];
-    $dua = $data2['totalsp2d'];
+    $dua = $data2['totalspm'];
     $tiga = $satu + $dua;
     $tiga = rupiah($tiga);
     $nilainyapengujisebelumnya = rupiah($nilaisp2dsampaipengujiini['sampaipengujiini']);
     // $nilaihinggasekarang = $nilainya+ $nilainyapengujisebelumnya;
     // $nilaihinggasekarang = $nilaisp2dsampaipengujiini['sampaipengujiini'] + $nilaisp2dsampaihariini['nilai_total'];
     // $nilaihinggasekarang = rupiah($nilaihinggasekarang);  
-    $totalsp2d = rupiah($data2['totalsp2d']);
+    $totalspm = rupiah($data2['totalspm']);
     // $nilaisp2dsampaihariini = mysqli_fetch_assoc(mysqli_query($koneksi,"SELECT sum(a.nilai_sp2d) as nilai_total from sp2d a where status=3 AND "));
 
 
@@ -335,7 +363,7 @@ if ($_GET["action"] === "cetakpenguji") {
     $pdf->Cell(20, 1, "$nilainyapengujisebelumnya", 0, 1, 'R');
     $pdf->Cell(50, 1, "Total SP2D Daftar Penguji Ini", 0, 0, 'L');
     $pdf->Cell(2, 1, ":", 0, 0, 'L');
-    $pdf->Cell(20, 1, "$totalsp2d", 0, 1, 'R');
+    $pdf->Cell(20, 1, "$totalspm", 0, 1, 'R');
     $pdf->Cell(50, 1, "Total SP2D S/D Daftar penguji Ini ", 0, 0, 'L');
     $pdf->Cell(2, 1, ":", 0, 0, 'L');
     $pdf->Cell(20, 1, "$tiga", 0, 1, 'R');

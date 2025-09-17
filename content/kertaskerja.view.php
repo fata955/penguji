@@ -424,13 +424,13 @@ include 'component/pengaturantampilan.view.php';
                             table.row
                                 .add([
                                     // counter,
-                                    value.nama_skpd,
-                                    formatRupiah(value.nilai_sp2d),
+                                    value.nama_opd,
+                                    formatRupiah(value.nilai_spm),
                                     '<button type="button" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8edit" class="btn btn-sm btn-info btn-b  editBtn" value="' +
-                                    value.id +
+                                    value.id_spm +
                                     '"><i class="ri-eye-line"></i></button>' +
                                     '<Button type="button" class="btn btn-sm btn-danger deleteBtn" value="' +
-                                    value.id +
+                                    value.id_spm +
                                     '"><i class="ri-delete-bin-line"></i></Button>'
                                 ])
 
@@ -467,10 +467,10 @@ include 'component/pengaturantampilan.view.php';
                                     value.nomor +
                                     '"><i class="mdi mdi-printer"></i></button>' +
                                     '<button type="button" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8edit" class="btn btn-sm btn-info btn-b  lihatBtn" value="' +
-                                    value.id +
+                                    value.nomor +
                                     '"><i class="ri-eye-line"></i></button>' +
                                     '<Button type="button" class="btn btn-sm btn-danger deleteBtnpenguji" value="' +
-                                    value.id +
+                                    value.nomor +
                                     '"><i class="ri-delete-bin-line"></i></Button>'
                                 ])
 
@@ -707,7 +707,7 @@ include 'component/pengaturantampilan.view.php';
                     var id = $(this).val();
                     //   var delete_image = $(this).closest("td").find(".delete_image").val();
                     $.ajax({
-                        url: "proses/sp2d/page.php?action=kembali",
+                        url: "proses/sp2d/proseskertaskerja.php?action=kembali",
                         type: "POST",
                         dataType: "json",
                         data: {
@@ -743,7 +743,7 @@ include 'component/pengaturantampilan.view.php';
                 //     }
                 // });
 
-                window.location.href = "proses/sp2d/page.php?action=cetakpenguji&id=" + id + "";
+                window.location.href = "proses/sp2d/proseskertaskerja.php?action=cetakpenguji&id=" + id + "";
 
 
             });
