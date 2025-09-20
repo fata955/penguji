@@ -210,11 +210,30 @@ if ($_GET["action"] === "kembali") {
 
 if ($_GET["action"] === "deletepenguji") {
   $id = $_POST["id"];
-  $deletepenguji = mysqli_query($koneksi,"DELETE from tb_penguji where nomor=$id");
-  $selectspm = mysqli_fetch_array(mysqli_query($koneksi,"SELECT id_sp2d FROM tb_control where id_penguji=$id"));
-  $rubahstatus = mysqli_query($koneksi,"UPDATE tspmsub a SET a.statuspenguji='1',a.id_user='0' where a.id_spm=$selectspm");
+  $selectspm = mysqli_query($koneksi, "SELECT * FROM tb_control where id_penguji=$id");
+  $dataselect = mysqli_fetch_array($selectspm);
+  $dataselect = $dataselect['id_sp2d'];
+  // $data=[];
+  // $data[] = $selectspm['id'];
+  var_dump($dataselect);
+  $sql = "UPDATE tspmsub SET statuspenguji = ?, id_user = ? WHERE id_spm = ?";
+  $stmt = $koneksi->prepare($sql);
+  if ($stmt === false) {
+    die("Persiapan statement gagal: " . $conn->error);
+  }
+  foreach ($dataselect as $data) {
+    // 'bind_param' mengikat variabel ke placeholder
+    $stmt->bind_param('ss', '0', '1', $data['id_sp2d']);
+
+}
+  $deletepenguji = mysqli_query($koneksi, "DELETE from tb_penguji where nomor=$id");
   
-  $deletekontrol = mysqli_query($koneksi,"DELETE FROM tb_control where id_penguji=$id");
+
+
+  // $selectspm = $data[$selectspm];
+  // $rubahstatus = mysqli_query($koneksi, "UPDATE tspmsub SET statuspenguji=1,id_user=0 where id_spm IN ($id_string)");
+
+  $deletekontrol = mysqli_query($koneksi, "DELETE FROM tb_control where id_penguji=$id");
 
   // $sql = "UPDATE sp2d SET status='1',id_user='0' WHERE id='$id'";
   // $result = mysqli_query($koneksi, $sql);
