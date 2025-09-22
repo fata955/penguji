@@ -209,31 +209,69 @@ if ($_GET["action"] === "kembali") {
 
 
 if ($_GET["action"] === "deletepenguji") {
-  $id = $_POST["id"];
-  $selectspm = mysqli_query($koneksi, "SELECT * FROM tb_control where id_penguji=$id");
-  $dataselect = mysqli_fetch_array($selectspm);
-  $dataselect = $dataselect['id_sp2d'];
-  // $data=[];
-  // $data[] = $selectspm['id'];
-  var_dump($dataselect);
-  $sql = "UPDATE tspmsub SET statuspenguji = ?, id_user = ? WHERE id_spm = ?";
-  $stmt = $koneksi->prepare($sql);
-  if ($stmt === false) {
-    die("Persiapan statement gagal: " . $conn->error);
-  }
-  foreach ($dataselect as $data) {
-    // 'bind_param' mengikat variabel ke placeholder
-    $stmt->bind_param('ss', '0', '1', $data['id_sp2d']);
+  $idspm = $_POST["id"];
 
+// Cek koneksi
+if (!$koneksi) {
+    die("Koneksi gagal: " . mysqli_connect_error());
 }
-  $deletepenguji = mysqli_query($koneksi, "DELETE from tb_penguji where nomor=$id");
-  
+
+// Query SELECT
+$sql = "SELECT id_sp2d FROM tb_control where id_penguji=$idspm";
+$result = mysqli_query($koneksi, $sql);
+
+// Ambil semua data sebagai array
+$data = [];
+if (mysqli_num_rows($result) > 0) {
+  $row = mysqli_fetch_array($result)  ;
+  foreach ($row as $data) {
+        $sql1 = "UPDATE tsmpsub SET statuspenguji=1, id_user=0 WHERE id_spm = '.$row.'";
+        $eksekusi = mysqli_query($koneksi, $sql1);
+  // var_dump($row[0]);
+    
+}
+        
+    
+}
+
+// var_dump($data);
+
+// $stmt = mysqli_prepare($koneksi, $sql);
+
+// Bind parameter
+// mysqli_stmt_bind_param($stmt, "sss", $name, $status, $id);
+
+// Loop data dan eksekusi
+// foreach ($data as $row) {
+//   // var_dump($row[0]);
+    
+// }
+
+// mysqli_stmt_close($stmt);
+// mysqli_close($koneksi);
+
+// print_r($data);
+
+
+
+  //   $sql = "UPDATE tspmsub SET statuspenguji = ?, id_user = ? WHERE id_spm = ?";
+  //   $stmt = $koneksi->prepare($sql);
+  //   if ($stmt === false) {
+  //     die("Persiapan statement gagal: " . $conn->error);
+  //   }
+  //   foreach ($dataselect as $data) {
+  //     // 'bind_param' mengikat variabel ke placeholder
+  //     $stmt->bind_param('ss', '0', '1', $data['id_sp2d']);
+
+  // }
+  $deletepenguji = mysqli_query($koneksi, "DELETE from tb_penguji where nomor=$idspm");
+
 
 
   // $selectspm = $data[$selectspm];
   // $rubahstatus = mysqli_query($koneksi, "UPDATE tspmsub SET statuspenguji=1,id_user=0 where id_spm IN ($id_string)");
 
-  $deletekontrol = mysqli_query($koneksi, "DELETE FROM tb_control where id_penguji=$id");
+  $deletekontrol = mysqli_query($koneksi, "DELETE FROM tb_control where id_penguji=$idspm");
 
   // $sql = "UPDATE sp2d SET status='1',id_user='0' WHERE id='$id'";
   // $result = mysqli_query($koneksi, $sql);
