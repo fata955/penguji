@@ -137,7 +137,7 @@ if ($_GET["action"] === "simpanpenguji") {
       // $id_sp2d = $datasp2d["nosp2d"];
       $id_sp2d = '0';
       $status = '1';
-      $sql = mysqli_query($koneksi, "INSERT INTO tb_control (id_sp2d,id_penguji,status_berkas,id_sp2d2) SELECT b.id_spm, $nomordipake,$status,$id_sp2d FROM tspmsub b WHERE b.statuspenguji=2 AND b.id_user='$user'");
+      $sql = mysqli_query($koneksi, "INSERT INTO tb_control (id_sp2d,id_penguji) SELECT b.id_spm, $nomordipake FROM tspmsub b WHERE b.statuspenguji=2 AND b.id_user='$user'");
       $input = mysqli_query($koneksi, "INSERT INTO tb_penguji (nomor,pejabat,tanggal,status,user)value('$nomordipake','FADHILA YUNUS','$datew','aktif','$user')");
       $sql = "UPDATE tspmsub SET statuspenguji='3' where statuspenguji='2' AND id_user='$user'";
       // header("Content-Type: application/json");
@@ -171,8 +171,10 @@ if ($_GET["action"] === "simpanpenguji") {
 
 if ($_GET["action"] === "fetchSingle") {
   $id = $_POST["id"];
+  $status = $_POST["radio_data"];
+  $sp2d = $_POST["sp2d"];
   
-  $sql = "UPDATE tspmsub SET statuspenguji='2',id_user='$user' WHERE id_spm='$id'";
+  $sql = "UPDATE tspmsub SET statuspenguji='2',id_user='$user',status_berkas='$status',id_sp2d=$sp2d WHERE id_spm='$id'";
   // $result = mysqli_query($koneksi, $sql);
   if (mysqli_query($koneksi, $sql)) {
     // $data = mysqli_fetch_assoc($result);
@@ -303,7 +305,7 @@ if ($_GET["action"] === "cetakpenguji") {
         a.user,
         c.keterangan_spm,
         c.no_rek_pihak_ketiga as nomor_rekening,
-        c.nomor_spm,
+        g.id_sp2d,
         c.tanggal_spm,
         (select f.nama_opd from skpd f where c.id_skpd=f.id_sipd) as nama_skpd,
         c.nilai_spm, 
@@ -311,10 +313,11 @@ if ($_GET["action"] === "cetakpenguji") {
         (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm) as potongan,
         (select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%') - (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm) as netto, 
         (select sum(a.nilai_spm) from tspm a, tb_control b where b.id_sp2d=a.id_spm AND b.id_penguji=$id) as totalsp2d 
-        from tb_penguji a, tb_control b, tspm c 
+        from tb_penguji a, tb_control b, tspm c, tspmsub g
         where a.nomor=$id AND 
         id_penguji=$id AND 
-        b.id_sp2d=c.id_spm;"
+        b.id_sp2d=c.id_spm AND
+        c.id_spm=g.id_spm;"
     );
 
     $tanggalpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM tb_penguji where nomor=$id"));
@@ -365,11 +368,12 @@ if ($_GET["action"] === "cetakpenguji") {
     // $pegawai = $this->db->get('pegawai')->result();
     $no = 0;
     while ($data = mysqli_fetch_array($sql)) {
+      $datasp2d = $data['id_sp2d'];
       $no++;
       $tanggalspm = substr($data['tanggal_spm'], 0, 10);
       $pdf->Cell(7, 8, $no, 1, 0, 'C');
       $pdf->Cell(16, 8, $tanggalspm, 1, 0);
-      $pdf->Cell(68, 8, $data['nomor_spm'], 1, 0);
+      $pdf->Cell(68, 8, "72.71/$datasp2d", 1, 0);
       $pdf->Cell(25, 8, rupiah($data['belanja']), 1, 0, 'C');
       $pdf->Cell(25, 8, rupiah($data['potongan']), 1, 0, 'C');
       $pdf->Cell(25, 8, rupiah($data['netto']), 1, 0, 'C');

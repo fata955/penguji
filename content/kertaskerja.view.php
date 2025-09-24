@@ -372,22 +372,20 @@ include 'component/pengaturantampilan.view.php';
                                         <div class="row">
                                             <div class="col-md-12">
                                                 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck2` + value.id_spm + `"
-                                                        name="radio-stacked" required="" value="1">
+                                                    <input type="radio" class="form-check-input" value="1" id="validationFormCheck2` + value.id_spm + `"
+                                                        name="radio-stacked" required="" >
                                                     <label class="form-check-label" for="validationFormCheck2">GAJI UMUM</label>
                                               
-                                                
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck3` + value.id_spm + `"
-                                                        name="radio-stacked" required="" value="2">
+                                                    <input type="radio" class="form-check-input" value="2" id="validationFormCheck3` + value.id_spm + `"
+                                                        name="radio-stacked" required="" >
                                                     <label class="form-check-label" for="validationFormCheck3">TPP PNS</label>
                                                 
-                                                
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck4` + value.id_spm + `"
-                                                        name="radio-stacked" required="" value="3">
+                                                    <input type="radio" class="form-check-input" value="3" id="validationFormCheck4` + value.id_spm + `"
+                                                        name="radio-stacked" required="" >
                                                     <label class="form-check-label" for="validationFormCheck4">TPP PPPK</label>
 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck5` + value.id_spm + `"
-                                                        name="radio-stacked" required="" value="4">
+                                                    <input type="radio" class="form-check-input" value="4" id="validationFormCheck5` + value.id_spm + `"
+                                                        name="radio-stacked" required="" >
                                                     <label class="form-check-label" for="validationFormCheck5">LAINNYA</label>
                                              
                                             </div>  
@@ -507,7 +505,9 @@ include 'component/pengaturantampilan.view.php';
                     var idDinamis4 = 'validationFormCheck4' + id;
                     var idDinamis5 = 'validationFormCheck5' + id;
                     var idDinamis6 = 'form-switch-checkbox3' + id;
-                    var selectedRadio = $('input[type="radio"]:checked').val();
+                    var selectedRadio = $('input[name="radio-stacked"]:checked').val();
+                    var sp2d = $('#' + idDinamis6).val();
+
 
                     // $('#' + idDinamis).val('nilai_baru');
                     if ($('#' + idDinamis2).is(':checked') || $('#' + idDinamis3).is(':checked') || $('#' + idDinamis4).is(':checked') || $('#' + idDinamis5).is(':checked')) {
@@ -518,7 +518,8 @@ include 'component/pengaturantampilan.view.php';
                                 dataType: "json",
                                 data: {
                                     id: id,
-                                    radio_data: selectedRadio
+                                    radio_data: selectedRadio,
+                                    sp2d:sp2d
                                     //   delete_image
                                 },
                                 success: function(response) {
@@ -656,22 +657,22 @@ include 'component/pengaturantampilan.view.php';
                                         <div class="row">
                                             <div class="col-md-12">
                                                 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck2` + value.id_spm + `"
-                                                        name="radio-stacked" required="" value="1">
+                                                    <input type="radio" class="form-check-input" value="1" id="validationFormCheck2` + value.id_spm + `"
+                                                        name="radio-stacked" required="" >
                                                     <label class="form-check-label" for="validationFormCheck2">GAJI UMUM</label>
                                               
                                                 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck3` + value.id_spm + `"
-                                                        name="radio-stacked" required="" value="2">
+                                                    <input type="radio" class="form-check-input" value="2" id="validationFormCheck3` + value.id_spm + `"
+                                                        name="radio-stacked" required="" >
                                                     <label class="form-check-label" for="validationFormCheck3">TPP PNS</label>
                                                 
                                                 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck4` + value.id_spm + `"
-                                                        name="radio-stacked" required="" value="3">
+                                                    <input type="radio" class="form-check-input" value="3" id="validationFormCheck4` + value.id_spm + `"
+                                                        name="radio-stacked" required="" >
                                                     <label class="form-check-label" for="validationFormCheck3">TPP PPPK</label>
 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck5` + value.id_spm + `"
-                                                        name="radio-stacked" required="" value="4">
+                                                    <input type="radio" class="form-check-input" value="4" id="validationFormCheck5` + value.id_spm + `"
+                                                        name="radio-stacked" required="" >
                                                     <label class="form-check-label" for="validationFormCheck3">LAINNYA</label>
                                              
                                             </div>  
