@@ -373,7 +373,7 @@ if ($_GET["action"] === "cetakpenguji") {
       $tanggalspm = substr($data['tanggal_spm'], 0, 10);
       $pdf->Cell(7, 8, $no, 1, 0, 'C');
       $pdf->Cell(16, 8, $tanggalspm, 1, 0);
-      $pdf->Cell(68, 8, "72.71/$datasp2d", 1, 0);
+      $pdf->Cell(68, 8, "72.71/04.0/$datasp2d/LS", 1, 0);
       $pdf->Cell(25, 8, rupiah($data['belanja']), 1, 0, 'C');
       $pdf->Cell(25, 8, rupiah($data['potongan']), 1, 0, 'C');
       $pdf->Cell(25, 8, rupiah($data['netto']), 1, 0, 'C');
