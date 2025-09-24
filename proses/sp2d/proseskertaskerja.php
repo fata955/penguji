@@ -95,17 +95,17 @@ if ($_GET["action"] === "fetchPenguji") {
 if ($_GET["action"] === "searchpenguji") {
   $data = $_POST["dsearch"];
   $sql = "SELECT 
-a.id_spm,
-a.nomor_spm,
--- (select c.nama_opd from skpd c where a.id_skpd=c.id_sipd) as c.nama_skpd,
-a.keterangan_spm,
-a.nilai_spm,
-a.tanggal_spm,
-(select (COALESCE(sum(b.nilai),0)) as potongan from potongan b where a.id_spm=b.id_spm) as potongan
-FROM tspm a,tspmsub d where a.id_spm=d.id_spm
-AND d.id_user='0' 
-AND a.keterangan_spm like '%$data%' OR a.nilai_spm like '%$data%'
-AND d.statuspenguji='1'";
+            a.id_spm,
+            a.nomor_spm,
+            c.nama_opd,
+            a.keterangan_spm,
+            a.nilai_spm,
+            a.tanggal_spm,
+            (select (COALESCE(sum(b.nilai),0)) as potongan from potongan b where a.id_spm=b.id_spm) as potongan
+            FROM tspm a,tspmsub d, skpd c where a.id_skpd=c.id_sipd AND a.id_spm=d.id_spm
+            AND a.nomor_spm like '%$data%' AND d.id_user='0' AND d.statuspenguji='1' 
+            
+          ";
   $result = mysqli_query($koneksi, $sql);
   $data = [];
   while ($row = mysqli_fetch_assoc($result)) {
@@ -135,7 +135,9 @@ if ($_GET["action"] === "simpanpenguji") {
     if ($dataada > 0) {
       $datasp2d = mysqli_fetch_array($cek);
       // $id_sp2d = $datasp2d["nosp2d"];
-      $sql = mysqli_query($koneksi, "INSERT INTO tb_control (id_sp2d,id_penguji) SELECT b.id_spm, $nomordipake FROM tspmsub b WHERE b.statuspenguji=2 AND b.id_user='$user'");
+      $id_sp2d = '0';
+      $status = '1';
+      $sql = mysqli_query($koneksi, "INSERT INTO tb_control (id_sp2d,id_penguji,status_berkas,id_sp2d2) SELECT b.id_spm, $nomordipake,$status,$id_sp2d FROM tspmsub b WHERE b.statuspenguji=2 AND b.id_user='$user'");
       $input = mysqli_query($koneksi, "INSERT INTO tb_penguji (nomor,pejabat,tanggal,status,user)value('$nomordipake','FADHILA YUNUS','$datew','aktif','$user')");
       $sql = "UPDATE tspmsub SET statuspenguji='3' where statuspenguji='2' AND id_user='$user'";
       // header("Content-Type: application/json");
@@ -169,6 +171,7 @@ if ($_GET["action"] === "simpanpenguji") {
 
 if ($_GET["action"] === "fetchSingle") {
   $id = $_POST["id"];
+  
   $sql = "UPDATE tspmsub SET statuspenguji='2',id_user='$user' WHERE id_spm='$id'";
   // $result = mysqli_query($koneksi, $sql);
   if (mysqli_query($koneksi, $sql)) {
@@ -211,76 +214,67 @@ if ($_GET["action"] === "kembali") {
 if ($_GET["action"] === "deletepenguji") {
   $idspm = $_POST["id"];
 
-// Cek koneksi
-if (!$koneksi) {
+  // Cek koneksi
+  if (!$koneksi) {
     die("Koneksi gagal: " . mysqli_connect_error());
-}
-
-// Query SELECT
-$sql = "SELECT id_sp2d FROM tb_control where id_penguji=$idspm";
-$result = mysqli_query($koneksi, $sql);
-
-// Ambil semua data sebagai array
-$data = [];
-if (mysqli_num_rows($result) > 0) {
-  $row = mysqli_fetch_array($result)  ;
-  foreach ($row as $data) {
-        $sql1 = "UPDATE tsmpsub SET statuspenguji=1, id_user=0 WHERE id_spm = '.$row.'";
-        $eksekusi = mysqli_query($koneksi, $sql1);
-  // var_dump($row[0]);
-    
-}
-        
-    
-}
-
-// var_dump($data);
-
-// $stmt = mysqli_prepare($koneksi, $sql);
-
-// Bind parameter
-// mysqli_stmt_bind_param($stmt, "sss", $name, $status, $id);
-
-// Loop data dan eksekusi
-// foreach ($data as $row) {
-//   // var_dump($row[0]);
-    
-// }
-
-// mysqli_stmt_close($stmt);
-// mysqli_close($koneksi);
-
-// print_r($data);
+  }
 
 
+  //?ery dengan 2 kondisi
+  $sql = "SELECT id_sp2d as nomor_sp2d FROM tb_control where id_penguji= ? ";
 
-  //   $sql = "UPDATE tspmsub SET statuspenguji = ?, id_user = ? WHERE id_spm = ?";
-  //   $stmt = $koneksi->prepare($sql);
-  //   if ($stmt === false) {
-  //     die("Persiapan statement gagal: " . $conn->error);
+  // Siapkan statement
+  $stmt = mysqli_prepare($koneksi, $sql);
+
+  // Bind parameter (dua kali input yang sama)
+  mysqli_stmt_bind_param($stmt, "s", $idspm);
+
+  // Eksekusi
+  mysqli_stmt_execute($stmt);
+
+  // Ambil hasil
+  $result = mysqli_stmt_get_result($stmt);
+
+  // Tampilkan data
+  while ($data = mysqli_fetch_assoc($result)) {
+    $id_spm = $data['nomor_sp2d'];
+    $pindah = mysqli_query($koneksi, "UPDATE tspmsub SET statuspenguji='1', id_user='0' where id_spm='$id_spm' ");
+  }
+
+  // Tutup koneksi
+
+
+  // // Query SELECT
+  // $sql = "SELECT id_sp2d as nomor_sp2d FROM tb_control where id_penguji=$idspm";
+  // $result = mysqli_query($koneksi, $sql);
+  // $row = mysqli_fetch_array($result);
+  // foreach ($row as $data){
+  //   echo $data;
+  // }
+  // $data =$row['nomor_sp2d'];
+  // Ambil semua data sebagai array
+  // $data = [];
+  // if (mysqli_num_rows($result) > 0) {
+  //   $row = mysqli_fetch_array($result);
+  //   foreach ($row as $data) {
+  //     $sql1 = "UPDATE tsmpsub SET statuspenguji=1, id_user=0 WHERE id_spm = '.$row.'";
+  //     $eksekusi = mysqli_query($koneksi, $sql1);
+  //     // var_dump($row[0]);
+
   //   }
-  //   foreach ($dataselect as $data) {
-  //     // 'bind_param' mengikat variabel ke placeholder
-  //     $stmt->bind_param('ss', '0', '1', $data['id_sp2d']);
-
   // }
   $deletepenguji = mysqli_query($koneksi, "DELETE from tb_penguji where nomor=$idspm");
-
-
-
-  // $selectspm = $data[$selectspm];
-  // $rubahstatus = mysqli_query($koneksi, "UPDATE tspmsub SET statuspenguji=1,id_user=0 where id_spm IN ($id_string)");
-
   $deletekontrol = mysqli_query($koneksi, "DELETE FROM tb_control where id_penguji=$idspm");
 
   // $sql = "UPDATE sp2d SET status='1',id_user='0' WHERE id='$id'";
   // $result = mysqli_query($koneksi, $sql);
-  if ($deletekontrol) {
+  if ($result) {
     // $data = mysqli_fetch_assoc($result);
     // header("Content-Type: application/json");
     echo json_encode([
       "statusCode" => 200,
-      "message" => "Data updated successfully 😀"
+      "message" => "Data updated successfully 😀",
+      "data" => $id_spm
     ]);
   } else {
     echo json_encode([
@@ -288,7 +282,9 @@ if (mysqli_num_rows($result) > 0) {
       "message" => "No user found with this id 😓"
     ]);
   }
+  mysqli_stmt_close($stmt);
   mysqli_close($koneksi);
+  // mysqli_close($koneksi);
 }
 
 if ($_GET["action"] === "cetakpenguji") {

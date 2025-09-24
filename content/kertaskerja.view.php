@@ -365,26 +365,30 @@ include 'component/pengaturantampilan.view.php';
                                     <div class="p-4 border-top">
                                     <span class="fs-12 text-muted">Nomor Sp2d</span>
                                         
-                                            <input type="text" class="form-control" name="form-switch-checkbox3" >
+                                            <input type="text" class="form-control" id="form-switch-checkbox3` + value.id_spm + `" name="form-switch-checkbox3` + value.id_spm + `" >
                                            <br>
                                            <span class="fs-12 text-muted">Status Berkas</span><br>
                                       <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck2"
-                                                        name="radio-stacked" required="">
+                                                    <input type="radio" class="form-check-input" id="validationFormCheck2` + value.id_spm + `"
+                                                        name="radio-stacked" required="" value="1">
                                                     <label class="form-check-label" for="validationFormCheck2">GAJI UMUM</label>
                                               
                                                 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck3"
-                                                        name="radio-stacked" required="">
+                                                    <input type="radio" class="form-check-input" id="validationFormCheck3` + value.id_spm + `"
+                                                        name="radio-stacked" required="" value="2">
                                                     <label class="form-check-label" for="validationFormCheck3">TPP PNS</label>
                                                 
                                                 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck4"
-                                                        name="radio-stacked" required="">
-                                                    <label class="form-check-label" for="validationFormCheck3">TPP PPPK</label>
+                                                    <input type="radio" class="form-check-input" id="validationFormCheck4` + value.id_spm + `"
+                                                        name="radio-stacked" required="" value="3">
+                                                    <label class="form-check-label" for="validationFormCheck4">TPP PPPK</label>
+
+                                                    <input type="radio" class="form-check-input" id="validationFormCheck5` + value.id_spm + `"
+                                                        name="radio-stacked" required="" value="4">
+                                                    <label class="form-check-label" for="validationFormCheck5">LAINNYA</label>
                                              
                                             </div>  
                                         </div>
@@ -497,58 +501,45 @@ include 'component/pengaturantampilan.view.php';
             $("#tablespm").on("click", ".editBtn", function() {
                 if (confirm("Apakah yakin memasukkan dalam Keranjang?")) {
                     var id = $(this).val();
-                    //   var delete_image = $(this).closest("td").find(".delete_image").val();
-                    $.ajax({
-                        url: "proses/sp2d/proseskertaskerja.php?action=fetchSingle",
-                        type: "POST",
-                        dataType: "json",
-                        data: {
-                            id: id
-                            //   delete_image
-                        },
-                        success: function(response) {
-                            if (response.statusCode == 200) {
-                                // window.location.replace("/kertaskerja");
+                    
+                    var idDinamis2 = 'validationFormCheck2' + id;
+                    var idDinamis3 = 'validationFormCheck3' + id;
+                    var idDinamis4 = 'validationFormCheck4' + id;
+                    var idDinamis5 = 'validationFormCheck5' + id;
+                    var idDinamis6 = 'form-switch-checkbox3' + id;
+                    var selectedRadio = $('input[type="radio"]:checked').val();
 
-                                fetchCart();
-                                fetchData();
-                                fetchPenguji();
+                    // $('#' + idDinamis).val('nilai_baru');
+                    if ($('#' + idDinamis2).is(':checked') || $('#' + idDinamis3).is(':checked') || $('#' + idDinamis4).is(':checked') || $('#' + idDinamis5).is(':checked')) {
+                        if ($('#' + idDinamis6).val().trim() !== '') {
+                            $.ajax({
+                                url: "proses/sp2d/proseskertaskerja.php?action=fetchSingle",
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                    id: id,
+                                    radio_data: selectedRadio
+                                    //   delete_image
+                                },
+                                success: function(response) {
+                                    if (response.statusCode == 200) {
+                                        // window.location.replace("/kertaskerja");
+                                        fetchCart();
+                                        fetchData();
+                                        fetchPenguji();
 
-                            } else if (response.statusCode == 500) {
-                                alert(' data error, Jaringan Anda');
-                            }
+                                    } else if (response.statusCode == 500) {
+                                        alert(' Pilih Status Berkas');
+                                    }
+                                }
+                            });
+                        } else {
+                                 alert('Inputan Sp2d Belum Terisi');
                         }
-                    });
+                    } else {
+                        alert('Status Berkas Belum Dipilih');
+                    }
                 }
-                // console.log(id);
-                // e.preventDefault();
-                // $.ajax({
-                //     url: "proses/sp2d/page.php?action=fetchSingle",
-                //     type: "POST",
-                //     dataType: "json",
-                //     data: {
-                //         id: id
-                //     },
-                //     success: function(response) {
-                //         var response = JSON.parse(response);
-                //         if (response.statusCode == 200) {
-                //             alert('Data Sukses terupdate');
-                //             window.location.replace("/kertaskerja");
-                //             // Swal.fire("!", "Data Sukses Terupdate", "success");
-                //             fetchData();
-                //             fetchCart();
-
-                //             kosong();
-                //             // $("#offcanvasEditUser").modal("hide");
-                //         } else if (response.statusCode == 500) {
-                //             alert('Failed to update data');
-                //             kosong();
-                //         } else if (response.statusCode == 400) {
-                //             alert('isi Yang Kosong');
-                //         }
-
-                //     }
-                // });
             });
             // function to update data in database
             $("#simpanpenguji").on("click", "#savepenguji", function(e) {
@@ -638,7 +629,7 @@ include 'component/pengaturantampilan.view.php';
                                     </div>
                                     <div class="p-4">
                                         <span class="fs-12 text-muted">Nomor SPM</span><span
-                                            class="badge bg-primary-transparent text-primary ms-auto float-end">` + value.nama_skpd + `</span>
+                                            class="badge bg-primary-transparent text-primary ms-auto float-end">` + value.nama_opd + `</span>
                                         <h5 class="fs-14 mb-0 mt-2 text-capitalize">` + value.nomor_spm + `</h5>
                                     </div>
                                     <div class="p-4 border-top">
@@ -658,26 +649,30 @@ include 'component/pengaturantampilan.view.php';
                                     <div class="p-4 border-top">
                                     <span class="fs-12 text-muted">Nomor Sp2d</span>
                                         
-                                            <input type="text" class="form-control" name="form-switch-checkbox3" >
+                                            <input type="text" class="form-control" id="form-switch-checkbox3` + value.id_spm + `"  name="form-switch-checkbox3` + value.id_spm + `" >
                                            <br>
                                            <span class="fs-12 text-muted">Status Berkas</span><br>
                                       <div class="container-fluid">
                                         <div class="row">
                                             <div class="col-md-12">
                                                 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck2"
-                                                        name="radio-stacked" required="">
+                                                    <input type="radio" class="form-check-input" id="validationFormCheck2` + value.id_spm + `"
+                                                        name="radio-stacked" required="" value="1">
                                                     <label class="form-check-label" for="validationFormCheck2">GAJI UMUM</label>
                                               
                                                 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck3"
-                                                        name="radio-stacked" required="">
+                                                    <input type="radio" class="form-check-input" id="validationFormCheck3` + value.id_spm + `"
+                                                        name="radio-stacked" required="" value="2">
                                                     <label class="form-check-label" for="validationFormCheck3">TPP PNS</label>
                                                 
                                                 
-                                                    <input type="radio" class="form-check-input" id="validationFormCheck4"
-                                                        name="radio-stacked" required="">
+                                                    <input type="radio" class="form-check-input" id="validationFormCheck4` + value.id_spm + `"
+                                                        name="radio-stacked" required="" value="3">
                                                     <label class="form-check-label" for="validationFormCheck3">TPP PPPK</label>
+
+                                                    <input type="radio" class="form-check-input" id="validationFormCheck5` + value.id_spm + `"
+                                                        name="radio-stacked" required="" value="4">
+                                                    <label class="form-check-label" for="validationFormCheck3">LAINNYA</label>
                                              
                                             </div>  
                                         </div>
@@ -703,7 +698,7 @@ include 'component/pengaturantampilan.view.php';
             });
             // function to delete data
             $("#mytablelist").on("click", ".deleteBtn", function() {
-                if (confirm("Apakah yakin Menghapus Data Ini?")) {
+                if (confirm("Apakah Anda Yakin Menghapus pilihan SPM ini ?")) {
                     var id = $(this).val();
                     //   var delete_image = $(this).closest("td").find(".delete_image").val();
                     $.ajax({
@@ -728,7 +723,7 @@ include 'component/pengaturantampilan.view.php';
                 }
             });
             $("#mytablePenguji").on("click", ".deleteBtnpenguji", function() {
-                if (confirm("Apakah yakin Menghapus Data Ini?")) {
+                if (confirm("Apakah yakin Menghapus Data Penguji Ini dan Otomatis data SPM kembali ke Beranda Kembali?")) {
                     var id = $(this).val();
                     //   var delete_image = $(this).closest("td").find(".delete_image").val();
                     $.ajax({
@@ -744,7 +739,6 @@ include 'component/pengaturantampilan.view.php';
                                 // window.location.replace("/kertaskerja");
                                 fetchData();
                                 fetchCart();
-
                                 fetchPenguji();
 
                             } else if (response.statusCode == 500) {
