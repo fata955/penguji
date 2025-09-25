@@ -367,6 +367,10 @@ include 'component/pengaturantampilan.view.php';
                                         
                                             <input type="text" class="form-control" id="form-switch-checkbox3` + value.id_spm + `" name="form-switch-checkbox3` + value.id_spm + `" >
                                            <br>
+                                            <span class="fs-12 text-muted">Tanggal Sp2d</span>
+                                        
+                                            <input type="date" class="form-control" id="datesp2d" name="datesp2d" >
+                                           <br>
                                            <span class="fs-12 text-muted">Status Berkas</span><br>
                                       <div class="container-fluid">
                                         <div class="row">
@@ -499,7 +503,7 @@ include 'component/pengaturantampilan.view.php';
             $("#tablespm").on("click", ".editBtn", function() {
                 if (confirm("Apakah yakin memasukkan dalam Keranjang?")) {
                     var id = $(this).val();
-                    
+
                     var idDinamis2 = 'validationFormCheck2' + id;
                     var idDinamis3 = 'validationFormCheck3' + id;
                     var idDinamis4 = 'validationFormCheck4' + id;
@@ -507,6 +511,7 @@ include 'component/pengaturantampilan.view.php';
                     var idDinamis6 = 'form-switch-checkbox3' + id;
                     var selectedRadio = $('input[name="radio-stacked"]:checked').val();
                     var sp2d = $('#' + idDinamis6).val();
+                    var tanggalsp2d = $('#datesp2d').val();
 
 
                     // $('#' + idDinamis).val('nilai_baru');
@@ -519,7 +524,8 @@ include 'component/pengaturantampilan.view.php';
                                 data: {
                                     id: id,
                                     radio_data: selectedRadio,
-                                    sp2d:sp2d
+                                    sp2d: sp2d,
+                                    tanggal:tanggalsp2d
                                     //   delete_image
                                 },
                                 success: function(response) {
@@ -535,7 +541,7 @@ include 'component/pengaturantampilan.view.php';
                                 }
                             });
                         } else {
-                                 alert('Inputan Sp2d Belum Terisi');
+                            alert('Inputan Sp2d Belum Terisi');
                         }
                     } else {
                         alert('Status Berkas Belum Dipilih');
@@ -651,6 +657,9 @@ include 'component/pengaturantampilan.view.php';
                                     <span class="fs-12 text-muted">Nomor Sp2d</span>
                                         
                                             <input type="text" class="form-control" id="form-switch-checkbox3` + value.id_spm + `"  name="form-switch-checkbox3` + value.id_spm + `" >
+                                            <span class="fs-12 text-muted">Tanggal Sp2d</span>
+                                        
+                                            <input type="date" class="form-control" id="datesp2d" name="datesp2d" >
                                            <br>
                                            <span class="fs-12 text-muted">Status Berkas</span><br>
                                       <div class="container-fluid">

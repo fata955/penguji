@@ -142,9 +142,12 @@ if ($_GET["action"] === "simpanpenguji") {
       $sql = "UPDATE tspmsub SET statuspenguji='3' where statuspenguji='2' AND id_user='$user'";
       // header("Content-Type: application/json");
       if (mysqli_query($koneksi, $sql)) {
+        $ambilid = mysqli_fetch_array(mysqli_query($koneksi,"SELECT nomor from tb_penguji where user='$user' order by id desc limit 1"));
+        $idpenguji = $ambilid['nomor'];
         echo json_encode([
           "statusCode" => 200,
           "message" => "Data inserted successfully 😀",
+          "data" => $idpenguji
 
         ]);
       } else {
@@ -173,8 +176,9 @@ if ($_GET["action"] === "fetchSingle") {
   $id = $_POST["id"];
   $status = $_POST["radio_data"];
   $sp2d = $_POST["sp2d"];
+  $tanggalsp2d = $_POST["tanggal"];
   
-  $sql = "UPDATE tspmsub SET statuspenguji='2',id_user='$user',status_berkas='$status',id_sp2d=$sp2d WHERE id_spm='$id'";
+  $sql = "UPDATE tspmsub SET statuspenguji='2',id_user='$user',status_berkas='$status',id_sp2d=$sp2d,tanggal_sp2d='$tanggalsp2d' WHERE id_spm='$id'";
   // $result = mysqli_query($koneksi, $sql);
   if (mysqli_query($koneksi, $sql)) {
     // $data = mysqli_fetch_assoc($result);
@@ -305,8 +309,11 @@ if ($_GET["action"] === "cetakpenguji") {
         a.user,
         c.keterangan_spm,
         c.no_rek_pihak_ketiga as nomor_rekening,
+        c.nomor_spm,
         g.id_sp2d,
+        g.tanggal_sp2d,
         c.tanggal_spm,
+        c.nama_rek_pihak_ketiga,
         (select f.nama_opd from skpd f where c.id_skpd=f.id_sipd) as nama_skpd,
         c.nilai_spm, 
         (select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%') as belanja, 
@@ -369,15 +376,28 @@ if ($_GET["action"] === "cetakpenguji") {
     $no = 0;
     while ($data = mysqli_fetch_array($sql)) {
       $datasp2d = $data['id_sp2d'];
+      $dataspm = $data['nomor_spm'];
+      $parts = explode("/", $dataspm);
+      
+
+
       $no++;
-      $tanggalspm = substr($data['tanggal_spm'], 0, 10);
+      // $tanggalspm = substr($data['tanggal_spm'], 0, 10);
+      // setting tanggal sp2d
+      $tanggalsp2d = substr($data['tanggal_sp2d'], 0, 10);
+      $timestamp = strtotime($tanggalsp2d);
+      $datenya = date('d-m-Y',$timestamp);
+      $bulan = date('m',$timestamp);
+      $tahun = date('Y',$timestamp);
+
+
       $pdf->Cell(7, 8, $no, 1, 0, 'C');
-      $pdf->Cell(16, 8, $tanggalspm, 1, 0);
-      $pdf->Cell(68, 8, "72.71/04.0/$datasp2d/LS", 1, 0);
+      $pdf->Cell(16, 8, $datenya, 1, 0);
+      $pdf->Cell(68, 8, "72.71/04.0/$datasp2d/$parts[3]/$parts[4]/$parts[5]/$bulan/$tahun", 1, 0);
       $pdf->Cell(25, 8, rupiah($data['belanja']), 1, 0, 'C');
       $pdf->Cell(25, 8, rupiah($data['potongan']), 1, 0, 'C');
       $pdf->Cell(25, 8, rupiah($data['netto']), 1, 0, 'C');
-      $pdf->Cell(90, 8, $data['nama_skpd'], 1, 0);
+      $pdf->Cell(90, 8, $data['nama_rek_pihak_ketiga'], 1, 0);
       $pdf->Cell(25, 8, $data['nomor_rekening'], 1, 1);
       // $pdf->Cell(120,8,$data->nomor_sp2d,1,0);
       // $pdf->Cell(37,8,$data->nilai_sp2d,1,1);
