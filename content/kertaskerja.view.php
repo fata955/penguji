@@ -369,7 +369,7 @@ include 'component/pengaturantampilan.view.php';
                                            <br>
                                             <span class="fs-12 text-muted">Tanggal Sp2d</span>
                                         
-                                            <input type="date" class="form-control" id="datesp2d" name="datesp2d" >
+                                            <input type="date" class="form-control" id="datesp2d` + value.id_spm + `" name="datesp2d` + value.id_spm + `" >
                                            <br>
                                            <span class="fs-12 text-muted">Status Berkas</span><br>
                                       <div class="container-fluid">
@@ -509,9 +509,10 @@ include 'component/pengaturantampilan.view.php';
                     var idDinamis4 = 'validationFormCheck4' + id;
                     var idDinamis5 = 'validationFormCheck5' + id;
                     var idDinamis6 = 'form-switch-checkbox3' + id;
+                    var idDinamis7 = 'datesp2d' + id;
                     var selectedRadio = $('input[name="radio-stacked"]:checked').val();
                     var sp2d = $('#' + idDinamis6).val();
-                    var tanggalsp2d = $('#datesp2d').val();
+                    var tanggalsp2d = $('#' + idDinamis7).val();
 
 
                     // $('#' + idDinamis).val('nilai_baru');
@@ -659,7 +660,7 @@ include 'component/pengaturantampilan.view.php';
                                             <input type="text" class="form-control" id="form-switch-checkbox3` + value.id_spm + `"  name="form-switch-checkbox3` + value.id_spm + `" >
                                             <span class="fs-12 text-muted">Tanggal Sp2d</span>
                                         
-                                            <input type="date" class="form-control" id="datesp2d" name="datesp2d" >
+                                            <input type="date" class="form-control" id="datesp2d` + value.id_spm + `" name="datesp2d` + value.id_spm + `" >
                                            <br>
                                            <span class="fs-12 text-muted">Status Berkas</span><br>
                                       <div class="container-fluid">
