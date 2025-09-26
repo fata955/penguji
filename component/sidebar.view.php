@@ -21,7 +21,7 @@
 
                  <!-- Start::slide -->
                  <li class="slide ">
-                     <a href="/admin" class='
+                     <a href="/" class='
                         <?php
                         if ($get === $tes) {
                             echo 'side-menu__item active';
@@ -40,12 +40,32 @@
                      </a>
                  </li>
 
-                 <!-- End::slide -->
+                 
+                 <!-- Start::slide -->
+                 <li class="slide has-sub">
+                     <a href="javascript:void(0);" class="side-menu__item">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
+                             <path d="M0 0h24v24H0V0z" fill="none" />
+                             <path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3" />
+                             <path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z" />
+                         </svg>
+                         <span class="side-menu__label">Input</span>
+                         <i class="fe fe-chevron-right side-menu__angle"></i>
+                     </a>
+                     <ul class="slide-menu child1 mega-menu">
+                         <li class="slide side-menu__label1">
+                             <a href="javascript:void(0);">Input</a>
+                         </li>
+                         <li class="slide">
+                             <a href="/kertaskerja" class="side-menu__item">Input Kertas Kerja</a>
+                         </li>
 
+                     </ul>
+                 </li>
                  <!-- End::slide -->
 
                  <!-- Start::slide__category -->
-                 <li class="slide__category"><span class="category-name">Setting</span></li>
+                 <li class="slide__category"><span class="category-name">Laporan</span></li>
                  <!-- End::slide__category -->
 
                  <!-- Start::slide -->
@@ -93,60 +113,11 @@
                  </li>
                  <!-- End::slide -->
 
-                 <!-- Start::slide -->
-                 <li class="slide has-sub">
-                     <a href="javascript:void(0);" class="side-menu__item">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
-                             <path d="M0 0h24v24H0V0z" fill="none" />
-                             <path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3" />
-                             <path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z" />
-                         </svg>
-                         <span class="side-menu__label">Input</span>
-                         <i class="fe fe-chevron-right side-menu__angle"></i>
-                     </a>
-                     <ul class="slide-menu child1 mega-menu">
-                         <li class="slide side-menu__label1">
-                             <a href="javascript:void(0);">Input</a>
-                         </li>
-                         <li class="slide">
-                             <a href="/kertaskerja" class="side-menu__item">Input Kertas Kerja</a>
-                         </li>
 
-                     </ul>
-                 </li>
-                 <!-- End::slide -->
+             
 
                  <!-- Start::slide -->
-                 <li class="slide has-sub">
-                     <a href="javascript:void(0);" class="side-menu__item">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
-                             <path d="M0 0h24v24H0V0z" fill="none" />
-                             <path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3" />
-                             <path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z" />
-                         </svg>
-                         <span class="side-menu__label">Management Page</span>
-                         <i class="fe fe-chevron-right side-menu__angle"></i>
-                     </a>
-                     <ul class="slide-menu child1 mega-menu">
-                         <li class="slide side-menu__label1">
-                             <a href="javascript:void(0);">Berita</a>
-                         </li>
-                         <li class="slide">
-                             <a href="/admin/halaman" class="side-menu__item">Halaman</a>
-                         </li>
-                         <li class="slide">
-                             <a href="/admin/berita" class="side-menu__item">Berita Terkini</a>
-                         </li>
-                         <li class="slide">
-                             <a href="/admin/pegawai" class="side-menu__item">Data Pegawai</a>
-                         </li>
-
-                     </ul>
-                 </li>
-                 <!-- End::slide -->
-
-                 <!-- Start::slide -->
-                 <li class="slide has-sub">
+                 <!-- <li class="slide has-sub">
                      <a href="javascript:void(0);" class="side-menu__item">
                          <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                              <path d="M0 0h24v24H0z" fill="none" />
@@ -213,7 +184,7 @@
                              <a href="swiperjs.html" class="side-menu__item">Swiper JS</a>
                          </li>
                      </ul>
-                 </li>
+                 </li> -->
                  <!-- End::slide -->
 
              </ul>

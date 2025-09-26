@@ -8,9 +8,9 @@ if ($_GET["action"] === "registerData") {
     // if (!empty($_POST["judul_berita"]) && !empty($_POST["isi"]) && !empty($_POST["status"] && !empty($_POST["tanggal"])) != 0) {
     // $username = mysqli_real_escape_string($koneksi, $_POST["username"]);
     // $password = mysqli_real_escape_string($koneksi, $_POST["password"]);
-$username = $_POST['username'] ?? '';
-$namalengkap   = $_POST['namalengkap'] ?? '';
-$password = $_POST['password'] ?? '';
+$username = $_POST['username'];
+$namalengkap   = $_POST['namalengkap'];
+$password = $_POST['password'];
 
 // Validasi sederhana
 if (strlen($username) < 3 || strlen($password) < 6) {
@@ -18,8 +18,14 @@ if (strlen($username) < 3 || strlen($password) < 6) {
   exit;
 }
 
+// Validasi input
+if (!preg_match('/^[a-zA-Z0-9_]{3,20}$/', $username)) {
+    die("Username tidak valid.");
+}
+
+
 // Cek apakah username sudah ada
-$stmt = $koneksi->prepare("SELECT id FROM user WHERE username = ?");
+$stmt = $koneksi->prepare("SELECT iduser FROM user WHERE username = ?");
 $stmt->bind_param("s", $username);
 $stmt->execute();
 $stmt->store_result();
@@ -31,8 +37,8 @@ if ($stmt->num_rows > 0) {
 
 // Simpan ke database
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-$stmt = $koneksi->prepare("INSERT INTO user (username, nama, password) VALUES (?, ?, ?)");
-$stmt->bind_param("sss", $username, $namalengkap, $hashedPassword);
+$stmt = $koneksi->prepare("INSERT INTO user (username, namalengkap, password,status,level) VALUES (?, ?, ?,?,?)");
+$stmt->bind_param("sssss", $username, $namalengkap, $hashedPassword,'1','1');
 
 if ($stmt->execute()) {
   echo "✅ Registrasi berhasil. Silakan login.";
