@@ -34,8 +34,8 @@ if ($stmt->num_rows > 0) {
 
 // Simpan ke database
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-$stmt = $koneksi->prepare("INSERT INTO user (username, namalengkap, password,status,level) VALUES (?, ?, ?,?,?)");
-$stmt->bind_param("sssii", $username, $namalengkap, $hashedPassword,1,1);
+$stmt = $koneksi->prepare("INSERT INTO user (username, namalengkap, password) VALUES (?, ?, ?)");
+$stmt->bind_param("sssii", $username, $namalengkap, $hashedPassword);
 
 if ($stmt->execute()) {
   echo "✅ Registrasi berhasil. Silakan login.";
