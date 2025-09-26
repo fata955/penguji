@@ -60,7 +60,7 @@ include 'component/pengaturantampilan.view.php';
                             <div class="drop-down-profile" data-bs-toggle="dropdown">
 
                                 <span class="assigned-task bg-purple" id="jumlahpenguji"></span>
-                                <button type="submit" class="btn" id="savepenguji"><img alt="" class="rounded-circle avatar avatar-lg" src="../assets/images/faces/1.png"></button>
+                                <button type="submit" class="btn" id="savepenguji"><img alt="" class="rounded-circle avatar avatar-lg" src="../assets/images/faces/513.png"></button>
                                 <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i> -->
                                 <!-- </a> -->
                             </div>
@@ -365,7 +365,7 @@ include 'component/pengaturantampilan.view.php';
                                     <div class="p-4 border-top">
                                     <span class="fs-12 text-muted">Nomor Sp2d</span>
                                         
-                                            <input type="text" class="form-control" id="form-switch-checkbox3` + value.id_spm + `" name="form-switch-checkbox3` + value.id_spm + `" >
+                                            <input type="number" min="0" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" id="form-switch-checkbox3` + value.id_spm + `" name="form-switch-checkbox3` + value.id_spm + `" >
                                            <br>
                                             <span class="fs-12 text-muted">Tanggal Sp2d</span>
                                         
@@ -518,29 +518,33 @@ include 'component/pengaturantampilan.view.php';
                     // $('#' + idDinamis).val('nilai_baru');
                     if ($('#' + idDinamis2).is(':checked') || $('#' + idDinamis3).is(':checked') || $('#' + idDinamis4).is(':checked') || $('#' + idDinamis5).is(':checked')) {
                         if ($('#' + idDinamis6).val().trim() !== '') {
-                            $.ajax({
-                                url: "proses/sp2d/proseskertaskerja.php?action=fetchSingle",
-                                type: "POST",
-                                dataType: "json",
-                                data: {
-                                    id: id,
-                                    radio_data: selectedRadio,
-                                    sp2d: sp2d,
-                                    tanggal:tanggalsp2d
-                                    //   delete_image
-                                },
-                                success: function(response) {
-                                    if (response.statusCode == 200) {
-                                        // window.location.replace("/kertaskerja");
-                                        fetchCart();
-                                        fetchData();
-                                        fetchPenguji();
+                            if ($('#' + idDinamis7).val().trim() !== '') {
+                                $.ajax({
+                                    url: "proses/sp2d/proseskertaskerja.php?action=fetchSingle",
+                                    type: "POST",
+                                    dataType: "json",
+                                    data: {
+                                        id: id,
+                                        radio_data: selectedRadio,
+                                        sp2d: sp2d,
+                                        tanggal: tanggalsp2d
+                                        //   delete_image
+                                    },
+                                    success: function(response) {
+                                        if (response.statusCode == 200) {
+                                            // window.location.replace("/kertaskerja");
+                                            fetchCart();
+                                            fetchData();
+                                            fetchPenguji();
 
-                                    } else if (response.statusCode == 500) {
-                                        alert(' Pilih Status Berkas');
+                                        } else if (response.statusCode == 500) {
+                                            alert(' Pilih Status Berkas');
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            } else {
+                                alert('Tanggal Belum Terinput');
+                            }
                         } else {
                             alert('Inputan Sp2d Belum Terisi');
                         }
@@ -562,12 +566,17 @@ include 'component/pengaturantampilan.view.php';
                     },
                     success: function(response) {
                         var response = JSON.parse(response);
+                        var data = response.data;
                         if (response.statusCode == 200) {
-                            alert('Data Sukses tersimpan')
-                            // Swal.fire("!", "Data Sukses Terupdate", "success");
+                            alert('Data Sukses tersimpan');
+                            window.open ( 'http://localhost/proses/sp2d/proseskertaskerja.php?action=cetakpenguji&id='+data, '_blank');
                             fetchData();
                             fetchCart();
                             fetchPenguji();
+                            // Swal.fire("!", "Data Sukses Terupdate", "success");
+                            
+
+                            
                         } else if (response.statusCode == 500) {
                             alert('Failed to update data');
                             kosong();
@@ -657,7 +666,7 @@ include 'component/pengaturantampilan.view.php';
                                     <div class="p-4 border-top">
                                     <span class="fs-12 text-muted">Nomor Sp2d</span>
                                         
-                                            <input type="text" class="form-control" id="form-switch-checkbox3` + value.id_spm + `"  name="form-switch-checkbox3` + value.id_spm + `" >
+                                            <input type="number" min="0" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')" class="form-control" id="form-switch-checkbox3` + value.id_spm + `" name="form-switch-checkbox3` + value.id_spm + `" >
                                             <span class="fs-12 text-muted">Tanggal Sp2d</span>
                                         
                                             <input type="date" class="form-control" id="datesp2d` + value.id_spm + `" name="datesp2d` + value.id_spm + `" >
