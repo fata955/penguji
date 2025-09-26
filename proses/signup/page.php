@@ -18,10 +18,7 @@ if (strlen($username) < 3 || strlen($password) < 6) {
   exit;
 }
 
-// Validasi input
-if (!preg_match('/^[a-zA-Z0-9_]{3,20}$/', $username)) {
-    die("Username tidak valid.");
-}
+
 
 
 // Cek apakah username sudah ada
@@ -38,7 +35,7 @@ if ($stmt->num_rows > 0) {
 // Simpan ke database
 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 $stmt = $koneksi->prepare("INSERT INTO user (username, namalengkap, password,status,level) VALUES (?, ?, ?,?,?)");
-$stmt->bind_param("sssss", $username, $namalengkap, $hashedPassword,'1','1');
+$stmt->bind_param("sssii", $username, $namalengkap, $hashedPassword,1,1);
 
 if ($stmt->execute()) {
   echo "✅ Registrasi berhasil. Silakan login.";
