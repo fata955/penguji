@@ -123,9 +123,19 @@ if ($_GET["action"] === "simpanpenguji") {
   if (!empty($_POST["qty"]) != 0) {
 
     // cek dan buat nomor penguji
+    $ceknomorpenguji = mysqli_num_rows(mysqli_query($koneksi, "SELECT nomor FROM tb_penguji"));
+    
+    if ($ceknomorpenguji == 0) {
+      $nomordipake = 455;
+
+    } else{
+
     $ceknomorpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT max(nomor) as nourut FROM tb_penguji"));
     $nomor = $ceknomorpenguji['nourut'];
     $nomordipake = $nomor + 1;
+    
+    }
+   
 
     // cek sp2d yg sudah dimasukkan ke list penguji
     $cek = mysqli_query($koneksi, "SELECT a.id_spm as nospm FROM tspm a, tspmsub b where a.id_spm=b.id_spm AND b.statuspenguji=2 AND b.id_user='$user'");
@@ -357,7 +367,7 @@ if ($_GET["action"] === "cetakpenguji") {
     $pdf->Image('../../palu1.jpg', 30, 30, 27, 30, 'JPG', '', '', true, 80, '', false, false, '', false, false, false);
     $pdf->Cell(800, 1, "PEMERINTAH KOTA PALU", 0, 1, 'C');
     $pdf->Cell(800, 1, "DAFTAR PENGUJI", 0, 1, 'C');
-    $pdf->Cell(800, 1, "Nomor : 00$id/MANDIRI/BPKAD/$tahun : Tanggal : $tanggalpenguji  ", 0, 1, 'C');
+    $pdf->Cell(800, 1, "Nomor : $id/MANDIRI/BPKAD/$tahun : Tanggal : $tanggalpenguji  ", 0, 1, 'C');
     $pdf->Ln(2);
     $html = '<div style="text-align:left;line-height:7px"><h3>Bank : Bank Mandiri</h3>
           <h3>No Rekening : 151-000-000-009-8</h3>
