@@ -124,18 +124,16 @@ if ($_GET["action"] === "simpanpenguji") {
 
     // cek dan buat nomor penguji
     $ceknomorpenguji = mysqli_num_rows(mysqli_query($koneksi, "SELECT nomor FROM tb_penguji"));
-    
+
     if ($ceknomorpenguji == 0) {
       $nomordipake = 455;
+    } else {
 
-    } else{
-
-    $ceknomorpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT max(nomor) as nourut FROM tb_penguji"));
-    $nomor = $ceknomorpenguji['nourut'];
-    $nomordipake = $nomor + 1;
-    
+      $ceknomorpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT max(nomor) as nourut FROM tb_penguji"));
+      $nomor = $ceknomorpenguji['nourut'];
+      $nomordipake = $nomor + 1;
     }
-   
+
 
     // cek sp2d yg sudah dimasukkan ke list penguji
     $cek = mysqli_query($koneksi, "SELECT a.id_spm as nospm FROM tspm a, tspmsub b where a.id_spm=b.id_spm AND b.statuspenguji=2 AND b.id_user='$user'");
@@ -320,21 +318,20 @@ if ($_GET["action"] === "cetakpenguji") {
         c.keterangan_spm,
         c.no_rek_pihak_ketiga as nomor_rekening,
         c.nomor_spm,
-        c.nilai_spm,
         g.id_sp2d,
         g.tanggal_sp2d,
         g.status_berkas,
         c.tanggal_spm,
         c.nama_rek_pihak_ketiga,
-        c.jenis,
         (select f.nama_rekening from skpd f where c.id_skpd=f.id_sipd) as namarek,
         (select f.no_rekening from skpd f where c.id_skpd=f.id_sipd) as nomorrek,
-        c.nilai_spm, 
-        (select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%') as belanja, 
+        c.nilai_spm,
+        c.id_spm, 
+        (select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.%') as belanja, 
         (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm AND e.uraian like '%Pajak Pertambahan%') as ppn,
         (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm AND e.uraian like '%PPH 21%') as pph,
         (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm AND e.uraian != 'PPH 21' AND e.uraian != 'Pajak Pertambahan Nilai') as lainnya,
-        (select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%') - (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm) as netto, 
+        c.nilai_spm - (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm) as netto, 
         (select sum(a.nilai_spm) from tspm a, tb_control b where b.id_sp2d=a.id_spm AND b.id_penguji=$id) as totalsp2d 
         from tb_penguji a, tb_control b, tspm c, tspmsub g
         where a.nomor=$id AND 
@@ -396,10 +393,17 @@ if ($_GET["action"] === "cetakpenguji") {
     $pdf->SetFont('times', '', 8);
     // $pegawai = $this->db->get('pegawai')->result();
     $no = 0;
+
+
     while ($data = mysqli_fetch_array($sql)) {
       $datasp2d = $data['id_sp2d'];
       $dataspm = $data['nomor_spm'];
+      $spm = $data['id_spm'];
+      $hitung = mysqli_num_rows(mysqli_query($koneksi, "SELECT idpotongan FROM potongan where id_spm=$spm"));
       $parts = explode("/", $dataspm);
+
+      //hitung total netto 
+      
 
 
 
@@ -416,41 +420,38 @@ if ($_GET["action"] === "cetakpenguji") {
       $pdf->Cell(20, 8, $no, 1, 0, 'C');
       $pdf->Cell(42, 8, $datenya, 1, 0);
       $pdf->Cell(187, 8, "72.71/04.0/$datasp2d/$parts[3]/$parts[4]/$parts[5]/$bulan/$tahun", 1, 0);
-      $pdf->Cell(70, 8, rupiah($data['belanja']), 1, 0, 'R');
+      $pdf->Cell(70, 8, rupiah($data['nilai_spm']), 1, 0, 'R');
       $pdf->Cell(60, 8, rupiah($data['ppn']), 1, 0, 'R');
       $pdf->Cell(60, 8, rupiah($data['pph']), 1, 0, 'R');
       $pdf->Cell(60, 8, rupiah($data['lainnya']), 1, 0, 'R');
-      $jenis = $data['jenis'];
-    if ($jenis == 'GU' ){
-      $pdf->Cell(70, 8, rupiah($data['nilai_spm']), 1, 0, 'R');
-    }else if ($jenis == 'LS'){
-      $pdf->Cell(70, 8, rupiah($data['netto']), 1, 0, 'R');
-    }else{
-      $pdf->Cell(70, 8, rupiah($data['nilai_spm']), 1, 0, 'R');
-    }
-      
+      if ($hitung > 0) {
+        $pdf->Cell(70, 8, rupiah($data['netto']), 1, 0, 'R');
+      } else {
+        $pdf->Cell(70, 8, rupiah($data['nilai_spm']), 1, 0, 'R');
+      }
+
       $status = $data['status_berkas'];
       if ($status == 4) {
         $pdf->Cell(210, 8, $data['nama_rek_pihak_ketiga'], 1, 0);
-        $pdf->Cell(90, 8, $data['nomor_rekening'], 1, 1,'C');
+        $pdf->Cell(90, 8, $data['nomor_rekening'], 1, 1, 'C');
       } else {
         $pdf->Cell(210, 8, $data['namarek'], 1, 0);
-        $pdf->Cell(90, 8, $data['nomorrek'], 1, 1,'C');
+        $pdf->Cell(90, 8, $data['nomorrek'], 1, 1, 'C');
       }
 
       // $pdf->Cell(120,8,$data->nomor_sp2d,1,0);
       // $pdf->Cell(37,8,$data->nilai_sp2d,1,1);
     }
+
     $sql4 = mysqli_query(
       $koneksi,
       " SELECT 
           (select sum(a.nilai_spm) from tspm a, tb_control b where b.id_sp2d=a.id_spm AND b.id_penguji=$id) as totalspm, 
           (select sum(e.nilai) from potongan e, tb_control b where b.id_sp2d=e.id_spm AND b.id_penguji=$id  AND e.uraian  like  '%Pajak Pertambahan Nilai%') as totalppn, 
           (select sum(e.nilai) from potongan e, tb_control b where b.id_sp2d=e.id_spm AND b.id_penguji=$id  AND e.uraian like  '%PPH%') as totalpph, 
+          (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm) as totalpotongan,
           (select sum(e.nilai) from potongan e, tb_control b where b.id_sp2d=e.id_spm AND b.id_penguji=$id AND e.uraian != 'PPH 21' AND e.uraian != 'Pajak Pertambahan Nilai') as totallainnya,
-          sum((select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%') - (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm)) as totalnettols,
-          sum((select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%')) as totalnettogu,
-          c.jenis 
+          sum((select sum(d.nilai) from belanja d where d.id_spm=c.id_spm AND d.norekening like '%5.1.%') - (select sum(e.nilai) from potongan e where e.id_spm=c.id_spm)) as totalnetto 
           from 
           tb_penguji a, 
           tb_control b, 
@@ -461,8 +462,13 @@ if ($_GET["action"] === "cetakpenguji") {
           b.id_sp2d=c.id_spm;
       "
     );
-
+    
     $data2 = mysqli_fetch_array($sql4);
+    // $totalnetto = $data['belanja'] - $data2['totalpotongan'];
+     $totalspm = $data2['totalspm'];
+    $totalpotongan = $data2['totalpotongan'];
+    $totalnetto = $totalspm - ($data2['totalppn']+$data2['totalpph']+$data2['totallainnya']);
+
     $pdf->SetFont('times', 'B', 10);
     $pdf->Cell(20, 8, "", 1, 0, 'C');
     $pdf->Cell(42, 8, "", 1, 0, 'C');
@@ -471,18 +477,13 @@ if ($_GET["action"] === "cetakpenguji") {
     $pdf->Cell(60, 8, rupiah($data2['totalppn']), 1, 0, 'R');
     $pdf->Cell(60, 8, rupiah($data2['totalpph']), 1, 0, 'R');
     $pdf->Cell(60, 8, rupiah($data2['totallainnya']), 1, 0, 'R');
+   
+
     // $pdf->Cell(21, 8, "", 1, 0, 'C');
     //  $pdf->Cell(21, 8, "", 1, 0, 'C');
     //    $pdf->Cell(21, 8, "", 1, 0, 'C');
-    $jenis = $data2['jenis'];
-    if ($jenis == 'GU' ){
-      $pdf->Cell(70, 8, rupiah($data2['totalspm']), 1, 0, 'R');
-    }else if ($jenis == 'LS'){
-      $pdf->Cell(70, 8, rupiah($data2['totalnettols']), 1, 0, 'R');
-    }else{
-      $pdf->Cell(70, 8, rupiah($data2['totalspm']), 1, 0, 'R');
-    }
-
+     $pdf->Cell(70, 8, rupiah($totalnetto), 1, 0, 'R');
+    // $pdf->Cell(70, 8, rupiah($data2['totalnetto']), 1, 0, 'R');
     $pdf->Cell(210, 8, "", 1, 0, 'C');
     $pdf->Cell(90, 8, "", 1, 1, 'C');
     $nilaisp2dsampaihariini = mysqli_fetch_array(mysqli_query($koneksi, "SELECT sum(a.nilai_spm) as nilai_total from tspm a,tspmsub b where b.statuspenguji=$id"));
@@ -512,7 +513,7 @@ if ($_GET["action"] === "cetakpenguji") {
     $pdf->Cell(200, 1, "$tiga", 0, 1, 'R');
 
 
-   $pdf->Ln(10);
+    $pdf->Ln(10);
 
     $pdf->Cell(250, 8, "Mengetahui", 0, 0, 'C');
     $pdf->Cell(20, 8, "", 0, 0, 'C');
@@ -539,7 +540,7 @@ if ($_GET["action"] === "cetakpenguji") {
     $pdf->Cell(20, 8, "", 0, 0, 'C');
     $pdf->Cell(700, 8, "FADHILA,SE,", 0, 0, 'C');
     $pdf->Cell(30, 8, "", 0, 1, 'C');
-    $pdf->Cell(1270, 8, "Nip.19791113 200804 2 001", 0, 0, 'C');
+    $pdf->Cell(1280, 8, "Nip.19791113 200804 2 001", 0, 0, 'C');
 
     $pdf->Output('daftarpenguji.pdf', 'I');
   } else {
