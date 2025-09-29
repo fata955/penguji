@@ -378,7 +378,7 @@ include 'component/pengaturantampilan.view.php';
                                                 
                                                     <input type="radio" class="form-check-input" value="1" id="validationFormCheck2` + value.id_spm + `"
                                                         name="radio-stacked" required="" >
-                                                    <label class="form-check-label" for="validationFormCheck2">GAJI UMUM</label>
+                                                    <label class="form-check-label" for="validationFormCheck2">GAJI</label>
                                               
                                                     <input type="radio" class="form-check-input" value="2" id="validationFormCheck3` + value.id_spm + `"
                                                         name="radio-stacked" required="" >
@@ -678,7 +678,7 @@ include 'component/pengaturantampilan.view.php';
                                                 
                                                     <input type="radio" class="form-check-input" value="1" id="validationFormCheck2` + value.id_spm + `"
                                                         name="radio-stacked" required="" >
-                                                    <label class="form-check-label" for="validationFormCheck2">GAJI UMUM</label>
+                                                    <label class="form-check-label" for="validationFormCheck2">GAJI</label>
                                               
                                                 
                                                     <input type="radio" class="form-check-input" value="2" id="validationFormCheck3` + value.id_spm + `"
