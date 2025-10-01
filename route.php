@@ -16,31 +16,15 @@ switch ($request) {
     case $me . 'home':
         include 'content/home.view.php';
         break;
-    case $me . 'inputmenu':
-        // require "content/daftarlist.view.php";
+    case $me . 'daftarpenguji':
+        require "content/daftar.view.php";
         break;
-    case $me . 'inputsubmenu':
-        require "content/submenu.view.php";
-        break;
+
 
     case $me . 'kertaskerja':
         require "content/kertaskerja.view.php";
         break;
-    case $me . 'berita':
-        require "content/berita.view.php";
-        break;
-    case $me . 'halaman':
-        require "content/halaman.view.php";
-        break;
-   case $me . 'login':
-        require "content/login.view.php";
-        break;
-      case $me . 'signup':
-        require "content/signup.view.php";
-        break;
-    case $me . 'logout':
-        require "proses/logout/page.php";
-        break;
+   
    
     default:
         http_response_code(404);

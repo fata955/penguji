@@ -93,7 +93,7 @@
                              <a href="javascript:void(0);"></a>
                          </li>
                          <li class="slide">
-                             <a href="/inputmenu" class="
+                             <a href="/daftarpenguji" class="
                                <?php
                                 if ($get1 === $tes) {
                                     echo 'side-menu__item active';

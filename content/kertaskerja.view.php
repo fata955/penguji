@@ -569,14 +569,14 @@ include 'component/pengaturantampilan.view.php';
                         var data = response.data;
                         if (response.statusCode == 200) {
                             alert('Data Sukses tersimpan');
-                            window.open ( 'http://localhost/proses/sp2d/proseskertaskerja.php?action=cetakpenguji&id='+data, '_blank');
+                            window.open('http://localhost/proses/sp2d/proseskertaskerja.php?action=cetakpenguji&id=' + data, '_blank');
                             fetchData();
                             fetchCart();
                             fetchPenguji();
                             // Swal.fire("!", "Data Sukses Terupdate", "success");
-                            
 
-                            
+
+
                         } else if (response.statusCode == 500) {
                             alert('Failed to update data');
                             kosong();
