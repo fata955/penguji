@@ -40,7 +40,7 @@ include 'component/pengaturantampilan.view.php';
             <!-- Page Header -->
             <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
                 <div class="my-auto">
-                    <h5 class="page-title fs-21 mb-1">Penguji List</h5>
+                    <h5 class="page-title fs-21 mb-1">Halaman Kertas Kerja</h5>
                     <nav>
                         <ol class="breadcrumb mb-0">
                             <li class="breadcrumb-item"><a href="javascript:void(0);">Menu Utama</a></li>
@@ -77,6 +77,16 @@ include 'component/pengaturantampilan.view.php';
             <!-- Page Header Close -->
 
             <!-- Start::row-1 -->
+             <div class="row">
+                <div class="col-md-6">
+                   <div class="btn-list">
+                    <a type="button" href ="/daftarpenguji" class="btn btn-primary btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
+                        Report SP2D
+                    </a>
+            
+                   </div>
+                </div>
+             </div><br>
             <div class="row">
                 <div class="col-xl-8 col-md-12">
                     <!-- <form action="proses/sp2d/page.php?action=fetchSingle" method="post"> -->

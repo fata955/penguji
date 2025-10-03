@@ -36,139 +36,189 @@ include 'component/pengaturantampilan.view.php';
     <!-- Start::app-content -->
     <div class="main-content app-content">
         <div class="container-fluid">
+            <h2 class="mb-4">LIST SP2D</h2>
+            <h5 class="mb-4">Filter</h5>
 
-            <!-- Page Header -->
-            <div class="d-md-flex d-block align-items-center justify-content-between my-4 page-header-breadcrumb">
-                <div class="my-auto">
-                    <h5 class="page-title fs-21 mb-1">DAFTAR PENGUJI</h5>
-                    <nav>
-                        <ol class="breadcrumb mb-0">
-                            <li class="breadcrumb-item"><a href="javascript:void(0);">Menu Utama</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">List Penguji</li>
-                        </ol>
-                    </nav>
+            <!-- Filter Section -->
+            <form class="row g-3 mb-4" method="POST" >
+                <!-- Text Input 1 -->
+                <div class="col-md-4">
+                    <label for="keyword" class="form-label">Nomor SP2D</label>
+                    <input type="text" class="form-control" id="sp2d" placeholder="Masukkan Nomor SP2D">
                 </div>
+                <div class="col-md-4">
+                    <label for="category" class="form-label">Jenis Dokumen</label>
+                    <select class="form-select" id="jenis">
+                        <option selected disabled>Pilih kategori</option>
+                        <option value="LS">LS</option>
+                        <option value="GU">GU</option>
+                        <option value="UP">UP</option>
+                    </select>
+                </div>
+
+                <!-- Text Input 2 -->
+
+
+                <!-- ComboBox 1 -->
+                <div class="col-md-4">
+                    <label for="category" class="form-label">status Berkas</label>
+                    <select class="form-select" id="status_berkas">
+                        <option selected disabled>Pilih kategori</option>
+                        <option value="1">GAJI</option>
+                        <option value="2">TPP PNS</option>
+                        <option value="3">TPP PPPK</option>
+                        <option value="4">LAINNYA</option>
+                    </select>
+                </div>
+
+                <!-- ComboBox 2 -->
+                <div class="col-md-4">
+                    <label for="status" class="form-label">Status Verifikasi</label>
+                    <select class="form-select" id="statuspenguji">
+                        <option selected disabled>Pilih status</option>
+                        <option value="1">BELUM VERIFIKASI</option>
+                        <option value="3">SUDAH VERIFIKASI</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label for="status" class="form-label">Sumber Dana</label>
+                    <select class="form-select" id="sumberdana">
+                        <option selected disabled>Pilih status</option>
+                        <?php
+                        // include '../../lib/conn.php';
+                        $menu = mysqli_query($koneksi, "SELECT * from t_sumberdana");
+                        while ($fetch = mysqli_fetch_array($menu)) {
+                            echo '<option value="' . $fetch['id'] . '">' . $fetch['namasumberdana'] . '</option>';
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <!-- ComboBox 3 -->
+                <div class="col-md-4">
+                    <label for="bulan" class="form-label">Bulan</label>
+                    <select class="form-select" id="bulan" name="bulan">
+                        <option selected disabled>Pilih bulan</option>
+                        <option value="01">Januari</option>
+                        <option value="02">Februari</option>
+                        <option value="03">Maret</option>
+                        <option value="04">April</option>
+                        <option value="05">Mei</option>
+                        <option value="06">Juni</option>
+                        <option value="07">Juli</option>
+                        <option value="08">Agustus</option>
+                        <option value="09">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">Desember</option>
+                    </select>
+
+                </div>
+
+                <!-- Submit Button -->
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary w-100">Cari</button>
+                </div>
+            </form>
+
+            <!-- Table Section -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped" id="mytable">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>#</th>
+                            <th>Nomor Sp2d</th>
+                            <th>Keterangan Sp2d</th>
+                            <th>Nilai Sp2d</th>
+                            <th>Jenis</th>
+                            <th>Status Berkas</th>
+                            <th>Nomor Penguji</th>
+                            <th>Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody >
+
+                        <!-- Tambahkan baris data lainnya di sini -->
+                    </tbody>
+                </table>
             </div>
         </div>
+
         <!-- Page Header Close -->
 
-        <!-- Start::row-1 -->
-        <div class="row">
-            <div class="col-xl-3 col-md-12">
-                <!-- <form action="proses/sp2d/page.php?action=fetchSingle" method="post"> -->
-                <div class="card mb-4">
-                    <form action="" method="post" id="cari">
-                        <div class="card-body d-flex p-3 align-items-center">
-                            <input class="form-control" placeholder="Nama Opd"
-                                type="search" id="datasearch">
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-12">
-                <!-- <form action="proses/sp2d/page.php?action=fetchSingle" method="post"> -->
-                <div class="card mb-4">
-                    <form action="" method="post" id="cari">
-                        <div class="card-body d-flex p-3 align-items-center">
-                            <input class="form-control" placeholder="Nama Opd"
-                                type="search" id="datasearch">
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-12">
-                <!-- <form action="proses/sp2d/page.php?action=fetchSingle" method="post"> -->
-                <div class="card mb-4">
-                    <form action="" method="post" id="cari">
-                        <div class="card-body d-flex p-3 align-items-center">
-                            <input class="form-control" placeholder="Nama Opd"
-                                type="search" id="datasearch">
-                        </div>
-                    </form>
-                </div>
-            </div>
-            <div class="col-xl-3 col-md-12">
-                <!-- <form action="proses/sp2d/page.php?action=fetchSingle" method="post"> -->
-                <div class="card mb-4">
-                    <form action="" method="post" id="cari">
-                        <div class="card-body d-flex p-3 align-items-center">
-                            <input class="form-control" placeholder="Nama Opd"
-                                type="search" id="datasearch">
-                        </div>
-                    </form>
-                </div>
-            </div>
 
-            <div class="col-md-12 col-xl-4">
-                <!-- <div class="card card--events mb-4 overflow-hidden">
-                        <div class="card-body">
-                            <div class="p-4">
-                                <div class="main-content-label">List Pengambilan Data</div>
-                                <h5>Total</h5>
-                                <p class="mb-0" style="font-size:x-large;" id="totalfix">
-
-                                </p>
-                            </div>
-                            <div class="list-group to-do-tasks rounded-0">
-                                <div class="table-responsive border border-bottom-0 userlist-table">
-                                    <div class="row mt-2">
-                                        <div class="col-md-12">
-                                            <table class="table card-table table-vcenter text-nowrap mb-0" id="mytablelist">
-                                                <thead>
-                                                    <tr>
-                                                        <th><span>OPD</span></th>
-                                                        <th><span>NILAI</span></th>
-                                                        <th><span>action</span></th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-body p-0">
-                            <div class="pt-4 px-4">
-                                <div class="main-content-label">Daftar Penguji</div>
-                            </div>
-                            <div class="list-group to-do-tasks rounded-0">
-                                <div class="table-responsive border border-bottom-0 userlist-table">
-                                    <div class="row mt-2">
-                                        <div class="col-lg-12">
-                                            <table class="table card-table table-vcenter text-nowrap mb-0" id="mytablePenguji">
-                                                <thead>
-                                                    <tr>
-                                                        <th><span>Nomor</span></th>
-                                                        <th><span>Qty</span></th>
-                                                        <th><span>Total</span></th>
-                                                        <th><span>action</span></th>
-
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-            </div>
-        </div>
-        <!--End::row-1 -->
 
 
     </div>
 </div>
+<?php
+include 'component/footer.view.php';
+?>
 
+<script>
+    $(document).ready(function() {
+        fetchData()
+
+    let table = new DataTable("#mytable");
+
+     function fetchData() {
+                $.ajax({
+                    url: "proses/sp2d/listsp2d.php?action=fetchData",
+                    type: "POST",
+                    dataType: "json",
+                    success: function(response) {
+                        var data = response.data;
+                        table.clear().draw();
+                        var counter = 1;
+                        $.each(data, function(index, value) {
+                            table.row
+                                .add([
+                                    counter,
+                                    value.nomor_spm,
+                                    value.keterangan_spm,
+                                    value.nilai_spm,
+                                    value.jenis,
+                                    value.status_berkas,
+                                    value.id_sp2d,
+                                    value.nomorpenguji
+                                ])
+
+                                .draw(false);
+                            counter++;
+                        });
+                    }
+                });
+            }
+
+        // $('form').on('submit', function(e) {
+        //     e.preventDefault();
+        //     $.ajax({
+        //         url: 'proses/sp2d/listsp2d.php?action=cariData',
+        //         method: 'POST',
+        //         data: $(this).serialize(),
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             let rows = '';
+        //             if (response.length > 0) {
+        //                 $.each(response, function(i, item) {
+        //                     rows += `<tr>
+        //       <td>${i+1}</td>
+        //       <td>${item.nama}</td>
+        //       <td>${item.lokasi}</td>
+        //       <td>${item.kategori}</td>
+        //       <td>${item.status}</td>
+        //       <td>${item.tahun}</td>
+        //     </tr>`;
+        //                 });
+        //             } else {
+        //                 rows = '<tr><td colspan="6" class="text-center">Data tidak ditemukan</td></tr>';
+        //             }
+        //             $('table tbody').html(rows);
+        //         }
+        //     });
+        // });
+    });
+</script>
 
 <!-- End::app-content -->
 
@@ -264,12 +314,4 @@ include 'component/pengaturantampilan.view.php';
     </form>
 </div>
 
-<?php
-include 'component/footer.view.php';
-?>
 
-
-
-<script>
-
-</script>
