@@ -314,7 +314,7 @@ include 'component/pengaturantampilan.view.php';
             fetchCart();
             fetchPenguji();
             kosong();
-            $("#tab").hide();
+            $("#tab").hide(); 
 
             function formatRupiah(angka, prefix) {
                 var number_string = angka.replace(/[^,\d]/g, '').toString(),
