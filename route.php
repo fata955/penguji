@@ -22,6 +22,9 @@ switch ($request) {
     case $me . 'listpenguji':
         require "content/daftarpenguji.view.php";
         break;
+    case $me . 'berkas':
+        require "content/berkas.view.php";
+        break;
 
 
     case $me . 'kertaskerja':
