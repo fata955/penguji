@@ -83,6 +83,9 @@ include 'component/pengaturantampilan.view.php';
                     <a type="button" href ="/daftarpenguji" class="btn btn-primary btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
                         Report SP2D
                     </a>
+                     <a type="button" href ="/listpenguji" class="btn btn-warning btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
+                        Report Penguji
+                    </a>
             
                    </div>
                 </div>
