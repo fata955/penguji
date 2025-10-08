@@ -43,56 +43,20 @@ include 'component/pengaturantampilan.view.php';
             <form class="row g-3 mb-4" method="POST" >
                 <!-- Text Input 1 -->
                 <div class="col-md-4">
-                    <label for="keyword" class="form-label">Nomor SP2D</label>
-                    <input type="text" class="form-control" id="sp2d" placeholder="Masukkan Nomor SP2D">
+                    <label for="keyword" class="form-label">Nomor Penguji</label>
+                    <input type="text" class="form-control" id="sp2d" placeholder="Masukkan Nomor Penguji">
                 </div>
-                <div class="col-md-4">
-                    <label for="category" class="form-label">Jenis Dokumen</label>
-                    <select class="form-select" id="jenis">
-                        <option selected disabled>Pilih kategori</option>
-                        <option value="LS">LS</option>
-                        <option value="GU">GU</option>
-                        <option value="UP">UP</option>
-                    </select>
-                </div>
+                
 
                 <!-- Text Input 2 -->
 
 
                 <!-- ComboBox 1 -->
-                <div class="col-md-4">
-                    <label for="category" class="form-label">status Berkas</label>
-                    <select class="form-select" id="status_berkas">
-                        <option selected disabled>Pilih kategori</option>
-                        <option value="1">GAJI</option>
-                        <option value="2">TPP PNS</option>
-                        <option value="3">TPP PPPK</option>
-                        <option value="4">LAINNYA</option>
-                    </select>
-                </div>
+
 
                 <!-- ComboBox 2 -->
-                <div class="col-md-4">
-                    <label for="status" class="form-label">Status Verifikasi</label>
-                    <select class="form-select" id="statuspenguji">
-                        <option selected disabled>Pilih status</option>
-                        <option value="1">BELUM VERIFIKASI</option>
-                        <option value="3">SUDAH VERIFIKASI</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="status" class="form-label">Sumber Dana</label>
-                    <select class="form-select" id="sumberdana">
-                        <option selected disabled>Pilih status</option>
-                        <?php
-                        // include '../../lib/conn.php';
-                        $menu = mysqli_query($koneksi, "SELECT * from t_sumberdana");
-                        while ($fetch = mysqli_fetch_array($menu)) {
-                            echo '<option value="' . $fetch['id'] . '">' . $fetch['namasumberdana'] . '</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
+
+
 
                 <!-- ComboBox 3 -->
                 <div class="col-md-4">
@@ -127,13 +91,12 @@ include 'component/pengaturantampilan.view.php';
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
-                            <th>Nomor Sp2d</th>
-                            <th>Keterangan Sp2d</th>
-                            <th>Nilai Sp2d</th>
-                            <th>Jenis</th>
-                            <th>Status Berkas</th>
                             <th>Nomor Penguji</th>
-                            <th>Tanggal</th>
+                            <th>Item Sp2d</th>
+                            <th>Pejabat TTD</th>
+                            <th>Total</th>
+                            <th>action</th>
+                           
                         </tr>
                     </thead>
                     <tbody >

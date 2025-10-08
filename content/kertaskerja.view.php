@@ -80,11 +80,17 @@ include 'component/pengaturantampilan.view.php';
              <div class="row">
                 <div class="col-md-6">
                    <div class="btn-list">
-                    <a type="button" href ="/daftarpenguji" class="btn btn-primary btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
+                    <a type="button" href ="/daftarpenguji" class="btn btn-primary-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
                         Report SP2D
                     </a>
-                     <a type="button" href ="/listpenguji" class="btn btn-warning btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
+                     <a type="button" href ="/listpenguji" class="btn btn-warning-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
                         Report Penguji
+                    </a>
+                    <a type="button" href ="/listpotongan" class="btn btn-secondary-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
+                        Report Potongan
+                    </a>
+                    <a type="button" href ="/listpotongan" class="btn btn-danger-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
+                        Report SumberDana
                     </a>
             
                    </div>
