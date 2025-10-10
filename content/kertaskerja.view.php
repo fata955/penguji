@@ -77,25 +77,28 @@ include 'component/pengaturantampilan.view.php';
             <!-- Page Header Close -->
 
             <!-- Start::row-1 -->
-             <div class="row">
+            <div class="row">
                 <div class="col-md-6">
-                   <div class="btn-list">
-                    <a type="button" href ="/daftarpenguji" class="btn btn-primary-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
-                        Report SP2D
-                    </a>
-                     <a type="button" href ="/listpenguji" class="btn btn-warning-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
-                        Report Penguji
-                    </a>
-                    <a type="button" href ="/listpotongan" class="btn btn-secondary-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
-                        Report Potongan
-                    </a>
-                    <a type="button" href ="/listpotongan" class="btn btn-danger-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
-                        Report SumberDana
-                    </a>
-            
-                   </div>
+                    <div class="btn-list">
+                        <a type="button" href="/daftarpenguji" class="btn btn-success-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
+                            Report SP2D
+                        </a>
+                        <a type="button" href="/listpenguji" class="btn btn-warning-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
+                            Report Penguji
+                        </a>
+                        <a type="button" href="/listpotongan" class="btn btn-info-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
+                            Report Belanja
+                        </a>
+                        <a type="button" href="/listpotongan" class="btn btn-secondary-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
+                            Report Potongan
+                        </a>
+                        <a type="button" href="/listpotongan" class="btn btn-danger-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Laporan Penguji">
+                            Report SumberDana
+                        </a>
+
+                    </div>
                 </div>
-             </div><br>
+            </div><br>
             <div class="row">
                 <div class="col-xl-8 col-md-12">
                     <!-- <form action="proses/sp2d/page.php?action=fetchSingle" method="post"> -->
@@ -318,12 +321,14 @@ include 'component/pengaturantampilan.view.php';
                 order: [
                     [3, 'desc']
                 ]
+             
+
             });
             // let table2 = new DataTable("#tablelistspm");
             fetchCart();
             fetchPenguji();
             kosong();
-            $("#tab").hide(); 
+            $("#tab").hide();
 
             function formatRupiah(angka, prefix) {
                 var number_string = angka.replace(/[^,\d]/g, '').toString(),

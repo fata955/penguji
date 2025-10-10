@@ -32,7 +32,7 @@ if ($_GET["action"] === "cariData") {
     // $year = $koneksi->real_escape_string($_POST['year'] ?? '');
     // Bangun query dinamis
     $where = [];
-    if ($keyword) $where[] = "id_spm LIKE '%$keyword%'";
+    if ($keyword) $where[] = "id_sp2d LIKE '%$keyword%'";
     // if ($location) $where[] = "a.jenis LIKE '%$location%'";
     // if ($category) $where[] = "b.status_berkas = '$category'";
     // if ($status) $where[] = "b.statuspenguji = '$status'";

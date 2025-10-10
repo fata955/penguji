@@ -94,7 +94,7 @@ include 'component/pengaturantampilan.view.php';
                             <th>Nomor Penguji</th>
                             <th>Item Sp2d</th>
                             <th>Pejabat TTD</th>
-                            <th>Total</th>
+                            <th>Total Nilai</th>
                             <th>action</th>
                            
                         </tr>

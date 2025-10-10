@@ -40,15 +40,15 @@ include 'component/pengaturantampilan.view.php';
             <h5 class="mb-4">Filter</h5>
 
             <!-- Filter Section -->
-            <form class="row g-3 mb-4" method="POST" >
+            <form class="row g-3 mb-4" method="POST">
                 <!-- Text Input 1 -->
                 <div class="col-md-4">
                     <label for="keyword" class="form-label">Nomor SP2D</label>
-                    <input type="text" class="form-control" id="sp2d" placeholder="Masukkan Nomor SP2D">
+                    <input type="text" class="form-control" id="sp2d" name="sp2d" placeholder="Masukkan Nomor SP2D">
                 </div>
                 <div class="col-md-4">
                     <label for="category" class="form-label">Jenis Dokumen</label>
-                    <select class="form-select" id="jenis">
+                    <select class="form-select" id="jenis" name="jenis">
                         <option selected disabled>Pilih kategori</option>
                         <option value="LS">LS</option>
                         <option value="GU">GU</option>
@@ -112,8 +112,9 @@ include 'component/pengaturantampilan.view.php';
                         <option value="11">November</option>
                         <option value="12">Desember</option>
                     </select>
-
                 </div>
+
+
 
                 <!-- Submit Button -->
                 <div class="col-md-4 d-flex align-items-end">
@@ -127,16 +128,17 @@ include 'component/pengaturantampilan.view.php';
                     <thead class="table-dark">
                         <tr>
                             <th>#</th>
-                            <th>Nomor Sp2d</th>
+                            <th>Nomor SPM</th>
                             <th>Keterangan Sp2d</th>
                             <th>Nilai Sp2d</th>
                             <th>Jenis</th>
+                            <th>Potongan</th>
                             <th>Status Berkas</th>
+                            <th>Nomor SP2D</th>
                             <th>Nomor Penguji</th>
-                            <th>Tanggal</th>
                         </tr>
                     </thead>
-                    <tbody >
+                    <tbody>
 
                         <!-- Tambahkan baris data lainnya di sini -->
                     </tbody>
@@ -159,64 +161,123 @@ include 'component/footer.view.php';
     $(document).ready(function() {
         fetchData()
 
-    let table = new DataTable("#mytable");
+        let table = new DataTable("#mytable");
 
-     function fetchData() {
-                $.ajax({
-                    url: "proses/sp2d/listsp2d.php?action=fetchData",
-                    type: "POST",
-                    dataType: "json",
-                    success: function(response) {
-                        var data = response.data;
-                        table.clear().draw();
-                        var counter = 1;
-                        $.each(data, function(index, value) {
-                            table.row
-                                .add([
-                                    counter,
-                                    value.nomor_spm,
-                                    value.keterangan_spm,
-                                    value.nilai_spm,
-                                    value.jenis,
-                                    value.status_berkas,
-                                    value.id_sp2d,
-                                    value.nomorpenguji
-                                ])
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
-                                .draw(false);
-                            counter++;
-                        });
-                    }
-                });
+            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
             }
 
-        // $('form').on('submit', function(e) {
-        //     e.preventDefault();
-        //     $.ajax({
-        //         url: 'proses/sp2d/listsp2d.php?action=cariData',
-        //         method: 'POST',
-        //         data: $(this).serialize(),
-        //         dataType: 'json',
-        //         success: function(response) {
-        //             let rows = '';
-        //             if (response.length > 0) {
-        //                 $.each(response, function(i, item) {
-        //                     rows += `<tr>
-        //       <td>${i+1}</td>
-        //       <td>${item.nama}</td>
-        //       <td>${item.lokasi}</td>
-        //       <td>${item.kategori}</td>
-        //       <td>${item.status}</td>
-        //       <td>${item.tahun}</td>
-        //     </tr>`;
-        //                 });
-        //             } else {
-        //                 rows = '<tr><td colspan="6" class="text-center">Data tidak ditemukan</td></tr>';
-        //             }
-        //             $('table tbody').html(rows);
-        //         }
-        //     });
-        // });
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+
+        function fetchData() {
+            $.ajax({
+                url: "proses/sp2d/listsp2d.php?action=fetchData",
+                type: "POST",
+                dataType: "json",
+                success: function(response) {
+                    var data = response.data;
+                    table.clear().draw();
+                    var counter = 1;
+                    $.each(data, function(index, value) {
+                        table.row
+                            .add([
+                                counter,
+                                value.nomor_spm,
+                                value.keterangan_spm,
+                                formatRupiah(value.nilai_spm),
+                                value.jenis,
+                                formatRupiah(value.potongan),
+                                value.status_berkas,
+                                value.id_sp2d,
+                                value.nomorpenguji
+                            ])
+
+                            .draw(false);
+                        counter++;
+                    });
+                }
+            });
+        }
+
+        function cariSP2D() {
+
+            const sp2d = $('#sp2d').val();
+            const jenis = $('#jenis').val();
+
+            $.ajax({
+                url: 'proses/sp2d/listsp2d.php?action=cariData',
+                method: 'POST',
+                data: {
+                    sp2d: sp2d,
+                    jenis: jenis
+                },
+                success: function(data) {
+                    var data = response.data;
+                    table.clear().draw();
+                    var counter = 1;
+                    $.each(data, function(index, value) {
+                        table.row
+                            .add([
+                                counter,
+                                value.nomor_spm,
+                                value.keterangan_spm,
+                                formatRupiah(value.nilai_spm),
+                                value.jenis,
+                                formatRupiah(value.potongan),
+                                value.status_berkas,
+                                value.id_sp2d,
+                                value.nomorpenguji
+                            ])
+
+                            .draw(false);
+                        counter++;
+                    });
+                }
+            });
+        }
+        $('#sp2d, #jenis').on('input', function() {
+            clearTimeout(window.timer);
+            window.timer = setTimeout(cariSP2D, 300); // debounce
+        });
+
+        $('form').on('submit', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: 'proses/sp2d/listsp2d.php?action=cariData',
+                method: 'POST',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    let rows = '';
+                    if (response.length > 0) {
+                        $.each(response, function(i, item) {
+                            rows += `<tr>
+              <td>${i+1}</td>
+              <td>${item.nama}</td>
+              <td>${item.lokasi}</td>
+              <td>${item.kategori}</td>
+              <td>${item.status}</td>
+              <td>${item.tahun}</td>
+            </tr>`;
+                        });
+                    } else {
+                        rows = '<tr><td colspan="6" class="text-center">Data tidak ditemukan</td></tr>';
+                    }
+                    $('table tbody').html(rows);
+                }
+            });
+        });
     });
 </script>
 
@@ -313,5 +374,3 @@ include 'component/footer.view.php';
         </div>
     </form>
 </div>
-
-
