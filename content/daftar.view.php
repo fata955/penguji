@@ -118,7 +118,7 @@ include 'component/pengaturantampilan.view.php';
 
                 <!-- Submit Button -->
                 <div class="col-md-4 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">Cari</button>
+                    <button type="submit" class="btn btn-primary w-100" id="cari">Cari</button>
                 </div>
             </form>
 
@@ -161,7 +161,8 @@ include 'component/footer.view.php';
     $(document).ready(function() {
         fetchData()
 
-        let table = new DataTable("#mytable");
+        // let table = new DataTable("#mytable");
+        var table = $('#mytable').DataTable();
 
         function formatRupiah(angka, prefix) {
             var number_string = angka.replace(/[^,\d]/g, '').toString(),
@@ -186,9 +187,12 @@ include 'component/footer.view.php';
                 type: "POST",
                 dataType: "json",
                 success: function(response) {
+
                     var data = response.data;
+                    // var table = $('#mytable').DataTable();
                     table.clear().draw();
                     var counter = 1;
+
                     $.each(data, function(index, value) {
                         table.row
                             .add([
@@ -202,26 +206,22 @@ include 'component/footer.view.php';
                                 value.id_sp2d,
                                 value.nomorpenguji
                             ])
-
                             .draw(false);
                         counter++;
                     });
                 }
             });
         }
-
-        function cariSP2D() {
-
-            const sp2d = $('#sp2d').val();
-            const jenis = $('#jenis').val();
-
+        $('#cari').on('click', function() {
+            
+           const sp2d = $('#sp2d').val();
             $.ajax({
                 url: 'proses/sp2d/listsp2d.php?action=cariData',
                 method: 'POST',
                 data: {
-                    sp2d: sp2d,
-                    jenis: jenis
+                    sp2d: sp2d
                 },
+                dataType: 'json',
                 success: function(data) {
                     var data = response.data;
                     table.clear().draw();
@@ -239,45 +239,25 @@ include 'component/footer.view.php';
                                 value.id_sp2d,
                                 value.nomorpenguji
                             ])
-
                             .draw(false);
                         counter++;
+
                     });
                 }
             });
-        }
-        $('#sp2d, #jenis').on('input', function() {
-            clearTimeout(window.timer);
-            window.timer = setTimeout(cariSP2D, 300); // debounce
+            // clearTimeout(window.timer);
+            
+         
+
+            // window.timer = setTimeout(cariSP2D, 10000); 
+            // debounce
         });
 
-        $('form').on('submit', function(e) {
-            e.preventDefault();
-            $.ajax({
-                url: 'proses/sp2d/listsp2d.php?action=cariData',
-                method: 'POST',
-                data: $(this).serialize(),
-                dataType: 'json',
-                success: function(response) {
-                    let rows = '';
-                    if (response.length > 0) {
-                        $.each(response, function(i, item) {
-                            rows += `<tr>
-              <td>${i+1}</td>
-              <td>${item.nama}</td>
-              <td>${item.lokasi}</td>
-              <td>${item.kategori}</td>
-              <td>${item.status}</td>
-              <td>${item.tahun}</td>
-            </tr>`;
-                        });
-                    } else {
-                        rows = '<tr><td colspan="6" class="text-center">Data tidak ditemukan</td></tr>';
-                    }
-                    $('table tbody').html(rows);
-                }
-            });
-        });
+        function cariSP2D() {
+
+        }
+
+
     });
 </script>
 

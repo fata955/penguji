@@ -16,7 +16,7 @@ switch ($request) {
     case $me . 'home':
         include 'content/home.view.php';
         break;
-    case $me . 'daftarpenguji':
+    case $me . 'daftarsp2d':
         require "content/daftar.view.php";
         break;
     case $me . 'listpenguji':
