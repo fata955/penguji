@@ -44,7 +44,7 @@ include 'component/pengaturantampilan.view.php';
                 <!-- Text Input 1 -->
                 <div class="col-md-4">
                     <label for="keyword" class="form-label">Nomor SP2D</label>
-                    <input type="text" class="form-control" id="sp2d" name="sp2d" placeholder="Masukkan Nomor SP2D">
+                    <input type="text" class="form-control" id="sp2d" name="sp2d" placeholder="Masukkan Nomor SP2D langsung pencarian">
                 </div>
                 <div class="col-md-4">
                     <label for="category" class="form-label">Jenis Dokumen</label>
@@ -127,7 +127,7 @@ include 'component/pengaturantampilan.view.php';
                 <table class="table table-bordered table-striped" id="mytable">
                     <thead class="table-dark">
                         <tr>
-                            <th>#</th>
+                            <th>No</th>
                             <th>Nomor SPM</th>
                             <th>Keterangan Sp2d</th>
                             <th>Nilai Sp2d</th>
@@ -138,7 +138,7 @@ include 'component/pengaturantampilan.view.php';
                             <th>Nomor Penguji</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tes">
 
                         <!-- Tambahkan baris data lainnya di sini -->
                     </tbody>
@@ -162,7 +162,7 @@ include 'component/footer.view.php';
         fetchData()
 
         // let table = new DataTable("#mytable");
-        var table = $('#mytable').DataTable();
+        // var table = $('#mytable').DataTable();
 
         function formatRupiah(angka, prefix) {
             var number_string = angka.replace(/[^,\d]/g, '').toString(),
@@ -187,34 +187,79 @@ include 'component/footer.view.php';
                 type: "POST",
                 dataType: "json",
                 success: function(response) {
-
+                    var tbody = $('#mytable #tes');
+                    tbody.empty(); // kosongkan isi sebelumnya
                     var data = response.data;
                     // var table = $('#mytable').DataTable();
-                    table.clear().draw();
+                    // let baris_html = '';
+                    // table.clear().draw();
                     var counter = 1;
-
                     $.each(data, function(index, value) {
-                        table.row
-                            .add([
-                                counter,
-                                value.nomor_spm,
-                                value.keterangan_spm,
-                                formatRupiah(value.nilai_spm),
-                                value.jenis,
-                                formatRupiah(value.potongan),
-                                value.status_berkas,
-                                value.id_sp2d,
-                                value.nomorpenguji
-                            ])
-                            .draw(false);
+                        // 4. Bangun Baris HTML untuk setiap item data
+
+                        // console.log(response);
+                        var row = `
+                        '<tr>' +
+                            '<td>` + counter + `</td>' +
+                            '<td>` + value.nomor_spm + `</td>' +
+                            '<td>` + value.keterangan_spm + `</td>' +
+                            '<td class="text-end">` + formatRupiah(value.nilai_spm) + `</td>' +
+                            '<td>` + value.jenis + `</td>' +
+                            '<td class="text-end">` + formatRupiah(value.potongan) + `</td>' +
+                            '<td>` + value.status_berkas + `</td>' +
+                            '<td class="text-end">` + value.id_sp2d + `</td>' +
+                            '<td class="text-end">` + value.nomorpenguji + `</td>' +
+                            
+                        '</tr>'
+                       `;
                         counter++;
+                        tbody.append(row);
+
                     });
+
+                },
+
+                error: function(xhr, status, error) {
+                    console.error("Gagal memuat data: " + status + " - " + error);
+                    $('#mytable #tes').html('<tr><td colspan="3">Gagal memuat data dari server.</td></tr>');
                 }
             });
         }
-        $('#cari').on('click', function() {
-            
-           const sp2d = $('#sp2d').val();
+
+        // function fetchData() {
+        //     $.ajax({
+        //         url: "proses/sp2d/listsp2d.php?action=fetchData",
+        //         type: "POST",
+        //         dataType: "json",
+        //         success: function(response) {
+
+        //             var data = response.data;
+        //             // var table = $('#mytable').DataTable();
+        //             table.clear().draw();
+        //             var counter = 1;
+
+        //             $.each(data, function(index, value) {
+        //                 table.row
+        //                     .add([
+        //                         counter,
+        //                         value.nomor_spm,
+        //                         value.keterangan_spm,
+        //                         formatRupiah(value.nilai_spm),
+        //                         value.jenis,
+        //                         formatRupiah(value.potongan),
+        //                         value.status_berkas,
+        //                         value.id_sp2d,
+        //                         value.nomorpenguji
+        //                     ])
+        //                     .draw(false);
+        //                 counter++;
+        //             });
+        //         }
+        //     });
+        // }
+        $('#sp2d').on('input', function() {
+
+            const sp2d = $('#sp2d').val();
             $.ajax({
                 url: 'proses/sp2d/listsp2d.php?action=cariData',
                 method: 'POST',
@@ -222,32 +267,45 @@ include 'component/footer.view.php';
                     sp2d: sp2d
                 },
                 dataType: 'json',
-                success: function(data) {
+                success: function(response) {
+                    var tbody = $('#mytable #tes');
+                    tbody.empty(); // kosongkan isi sebelumnya
                     var data = response.data;
-                    table.clear().draw();
+                    // var table = $('#mytable').DataTable();
+                    // let baris_html = '';
+                    // table.clear().draw();
                     var counter = 1;
                     $.each(data, function(index, value) {
-                        table.row
-                            .add([
-                                counter,
-                                value.nomor_spm,
-                                value.keterangan_spm,
-                                formatRupiah(value.nilai_spm),
-                                value.jenis,
-                                formatRupiah(value.potongan),
-                                value.status_berkas,
-                                value.id_sp2d,
-                                value.nomorpenguji
-                            ])
-                            .draw(false);
+                        // 4. Bangun Baris HTML untuk setiap item data
+
+                        // console.log(response);
+                        var row = `
+                        '<tr>' +
+                            '<td>` + counter + `</td>' +
+                            '<td>` + value.nomor_spm + `</td>' +
+                            '<td>` + value.keterangan_spm + `</td>' +
+                            '<td class="text-end">` + formatRupiah(value.nilai_spm) + `</td>' +
+                            '<td>` + value.jenis + `</td>' +
+                            '<td class="text-end">` + formatRupiah(value.potongan) + `</td>' +
+                            '<td>` + value.status_berkas + `</td>' +
+                            '<td class="text-end">` + value.id_sp2d + `</td>' +
+                            '<td class="text-end">` + value.nomorpenguji + `</td>' +
+                            
+                        '</tr>'
+                       `;
                         counter++;
+                        tbody.append(row);
 
                     });
+                },
+                error: function(xhr, status, error) {
+                    console.error("Gagal memuat data: " + status + " - " + error);
+                    $('#mytable #tes').html('<tr><td colspan="3">Gagal memuat data dari server.</td></tr>');
                 }
             });
             // clearTimeout(window.timer);
-            
-         
+
+
 
             // window.timer = setTimeout(cariSP2D, 10000); 
             // debounce
