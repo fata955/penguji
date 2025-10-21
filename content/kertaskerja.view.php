@@ -493,7 +493,7 @@ include 'component/pengaturantampilan.view.php';
                                     '<label>000' + value.nomor + '/MANDIRI/BPKAD/2025 </label>',
                                     value.count,
                                     formatRupiah(value.nilai),
-                                    '<button type="button" data-bs-effect="effect-fall"  data-bs-toggle="modal" href="#modaldemo8print" class="btn btn-sm btn-success btn-b  printBtnpenguji" value="' +
+                                    '<button onclick="window.open("http://localhost/proses/sp2d/proseskertaskerja.php?action=cetakpenguji&id="'+value.nomor +', "_blank") " type="button" data-bs-effect="effect-fall"  data-bs-toggle="modal" href="#modaldemo8print" class="btn btn-sm btn-success btn-b  printBtnpenguji" value="' +
                                     value.nomor +
                                     '"><i class="mdi mdi-printer"></i></button>' +
                                     '<button type="button" data-bs-effect="effect-fall" data-bs-toggle="modal" href="#modaldemo8edit" class="btn btn-sm btn-info btn-b  lihatBtn" value="' +
@@ -808,9 +808,9 @@ include 'component/pengaturantampilan.view.php';
                 //     }
                 // });
 
-                window.location.href = "proses/sp2d/proseskertaskerja.php?action=cetakpenguji&id=" + id + "";
+                // window.location.href = "proses/sp2d/proseskertaskerja.php?action=cetakpenguji&id=" + id + "";
 
-
+                 window.open('proses/sp2d/proseskertaskerja.php?action=cetakpenguji&id=' + id, '_blank');
             });
         });
     </script>

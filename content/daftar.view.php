@@ -36,9 +36,19 @@ include 'component/pengaturantampilan.view.php';
     <!-- Start::app-content -->
     <div class="main-content app-content">
         <div class="container-fluid">
-            <h2 class="mb-4">LIST SP2D</h2>
-            <h5 class="mb-4">Filter</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="mb-4">LIST SP2D</h2>
+                    <h5 class="mb-4">Filter</h5>
+                </div>
+                <div class="col-md-6 text-end">
+                        <a type="button" href="/kertaskerja" class="btn btn-success-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Kembali Ke Kertas Kerja">
+                <-- Kembali
+            </a>
+                </div>
+            </div>
 
+            
             <!-- Filter Section -->
             <form class="row g-3 mb-4" method="POST">
                 <!-- Text Input 1 -->
