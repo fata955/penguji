@@ -42,15 +42,15 @@ include 'component/pengaturantampilan.view.php';
                     <h5 class="mb-4">Filter</h5>
                 </div>
                 <div class="col-md-6 text-end">
-                        <a type="button" href="/kertaskerja" class="btn btn-success-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Kembali Ke Kertas Kerja">
-                <-- Kembali
-            </a>
+                    <a type="button" href="/kertaskerja" class="btn btn-success-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Kembali Ke Kertas Kerja">
+                        <-- Kembali
+                            </a>
                 </div>
             </div>
 
-            
+
             <!-- Filter Section -->
-            <form class="row g-3 mb-4" method="POST">
+            <form class="row g-3 mb-4" method="POST" id="formcari" action="">
                 <!-- Text Input 1 -->
                 <div class="col-md-4">
                     <label for="keyword" class="form-label">Nomor SP2D</label>
@@ -171,7 +171,7 @@ include 'component/footer.view.php';
     $(document).ready(function() {
         fetchData()
 
-        // let table = new DataTable("#mytable");
+        // let tbody = new DataTable("#mytable #tes");
         // var table = $('#mytable').DataTable();
 
         function formatRupiah(angka, prefix) {
@@ -235,56 +235,27 @@ include 'component/footer.view.php';
                 }
             });
         }
+        $('#formcari').on('click', "#cari", function(e) {
 
-        // function fetchData() {
-        //     $.ajax({
-        //         url: "proses/sp2d/listsp2d.php?action=fetchData",
-        //         type: "POST",
-        //         dataType: "json",
-        //         success: function(response) {
-
-        //             var data = response.data;
-        //             // var table = $('#mytable').DataTable();
-        //             table.clear().draw();
-        //             var counter = 1;
-
-        //             $.each(data, function(index, value) {
-        //                 table.row
-        //                     .add([
-        //                         counter,
-        //                         value.nomor_spm,
-        //                         value.keterangan_spm,
-        //                         formatRupiah(value.nilai_spm),
-        //                         value.jenis,
-        //                         formatRupiah(value.potongan),
-        //                         value.status_berkas,
-        //                         value.id_sp2d,
-        //                         value.nomorpenguji
-        //                     ])
-        //                     .draw(false);
-        //                 counter++;
-        //             });
-        //         }
-        //     });
-        // }
-        $('#sp2d').on('input', function() {
+            e.preventDefault();
 
             const sp2d = $('#sp2d').val();
+            const jenis = $('#jenis').val();
+
             $.ajax({
                 url: 'proses/sp2d/listsp2d.php?action=cariData',
                 method: 'POST',
                 data: {
-                    sp2d: sp2d
+                    sp2d: sp2d,
+                    jenis: jenis
                 },
                 dataType: 'json',
                 success: function(response) {
-                    var tbody = $('#mytable #tes');
-                    tbody.empty(); // kosongkan isi sebelumnya
                     var data = response.data;
-                    // var table = $('#mytable').DataTable();
-                    // let baris_html = '';
-                    // table.clear().draw();
-                    var counter = 1;
+                    let tbody = $('#mytable #tes');
+                    tbody.empty();
+                    // tbody.clear().draw();
+
                     $.each(data, function(index, value) {
                         // 4. Bangun Baris HTML untuk setiap item data
 
@@ -308,18 +279,69 @@ include 'component/footer.view.php';
 
                     });
                 },
+
                 error: function(xhr, status, error) {
                     console.error("Gagal memuat data: " + status + " - " + error);
                     $('#mytable #tes').html('<tr><td colspan="3">Gagal memuat data dari server.</td></tr>');
                 }
             });
-            // clearTimeout(window.timer);
-
-
-
-            // window.timer = setTimeout(cariSP2D, 10000); 
-            // debounce
         });
+
+        // $('#cari').on('click', function() {
+
+        //     const sp2d = $('#sp2d').val();
+        //     const jenis = $('#jenis').val();
+        //     $.ajax({
+        //         url: 'proses/sp2d/listsp2d.php?action=cariData',
+        //         method: 'POST',
+        //         data: {
+        //             sp2d: sp2d,
+        //             jenis: jenis
+        //         },
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             var tbody = $('#mytable #tes');
+        //             tbody.empty(); // kosongkan isi sebelumnya
+        //             var data = response.data;
+        //             // var table = $('#mytable').DataTable();
+        //             // let baris_html = '';
+        //             // table.clear().draw();
+        //             var counter = 1;
+        //             $.each(data, function(index, value) {
+        //                 // 4. Bangun Baris HTML untuk setiap item data
+
+        //                 // console.log(response);
+        //                 var row = `
+        //                 '<tr>' +
+        //                     '<td>` + counter + `</td>' +
+        //                     '<td>` + value.nomor_spm + `</td>' +
+        //                     '<td>` + value.keterangan_spm + `</td>' +
+        //                     '<td class="text-end">` + formatRupiah(value.nilai_spm) + `</td>' +
+        //                     '<td>` + value.jenis + `</td>' +
+        //                     '<td class="text-end">` + formatRupiah(value.potongan) + `</td>' +
+        //                     '<td>` + value.status_berkas + `</td>' +
+        //                     '<td class="text-end">` + value.id_sp2d + `</td>' +
+        //                     '<td class="text-end">` + value.nomorpenguji + `</td>' +
+
+        //                 '</tr>'
+        //                `;
+        //                 counter++;
+        //                 tbody.append(row);
+
+        //             });
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error("Gagal memuat data: " + status + " - " + error);
+        //             $('#mytable #tes').html('<tr><td colspan="3">Gagal memuat data dari server.</td></tr>');
+        //         }
+        //     });
+        //     // clearTimeout(window.timer);
+
+
+
+        //     // window.timer = setTimeout(cariSP2D, 10000); 
+        //     // debounce
+        // });
 
         function cariSP2D() {
 

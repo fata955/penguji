@@ -36,7 +36,7 @@ include 'component/pengaturantampilan.view.php';
     <!-- Start::app-content -->
     <div class="main-content app-content">
         <div class="container-fluid">
-            <h2 class="mb-4">LIST PENGUJI</h2>
+            <h2 class="mb-4">Masukkan Berkas</h2>
             <h5 class="mb-4">Filter</h5>
 
             <!-- Filter Section -->
