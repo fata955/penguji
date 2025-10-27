@@ -340,6 +340,51 @@ include 'component/footer.view.php';
             fetchData(1, 5, keyword, jenis);
         });
 
+        function renderPagination(page, totalPages) {
+            const pagination = $('#pagination');
+            pagination.empty();
+
+            const maxVisiblePages = 10;
+            let startPage = Math.floor((page - 1) / maxVisiblePages) * maxVisiblePages + 1;
+            let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+            // Tombol "First" dan "Previous"
+            if (page > 1) {
+                pagination.append(`<button class="page-btn" data-page="1">⏮️</button>`);
+                pagination.append(`<button class="page-btn" data-page="${page - 1}">Previous</button>`);
+            }
+
+            // Jika ada halaman sebelum window aktif
+            if (startPage > 1) {
+                pagination.append(`<button class="page-btn disabled">...</button>`);
+            }
+
+            // Tombol halaman aktif
+            for (let i = startPage; i <= endPage; i++) {
+                const activeClass = (i === page) ? 'active' : '';
+                pagination.append(`<button class="page-btn ${activeClass}" data-page="${i}">${i}</button>`);
+            }
+
+            // Jika ada halaman setelah window aktif
+            if (endPage < totalPages) {
+                pagination.append(`<button class="page-btn disabled">...</button>`);
+            }
+
+            // Tombol "Next" dan "Last"
+            if (page < totalPages) {
+                pagination.append(`<button class="page-btn" data-page="${page + 1}">Next</button>`);
+                pagination.append(`<button class="page-btn" data-page="${totalPages}">⏭️</button>`);
+            }
+
+            // Event klik
+            $('.page-btn').off('click').on('click', function() {
+                const selectedPage = $(this).data('page');
+                if (!selectedPage || $(this).hasClass('disabled')) return;
+                const keyword = $('#sp2d').val();
+                const jenis = $('#jenis').val();
+                fetchData(selectedPage, itemsPerPage, spm, jenis);
+            });
+        }
 
         // $('#formcari').on('click', "#cari", function(e) {
 
