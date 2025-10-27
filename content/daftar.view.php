@@ -53,7 +53,7 @@ include 'component/pengaturantampilan.view.php';
             <form class="row g-3 mb-4" method="POST" id="formcari" action="">
                 <!-- Text Input 1 -->
                 <div class="col-md-4">
-                    <label for="keyword" class="form-label">Nomor SP2D</label>
+                    <label for="keyword" class="form-label">Nomor SPM</label>
                     <input type="text" class="form-control" id="sp2d" name="sp2d" placeholder="Masukkan Nomor SP2D langsung pencarian">
                 </div>
                 <div class="col-md-4">
@@ -131,7 +131,7 @@ include 'component/pengaturantampilan.view.php';
                     <button type="submit" class="btn btn-primary-gradient w-100" id="cari">Cari</button>
                 </div>
                 <div class="col-md-2 d-flex align-items-end">
-                    <button  class="btn btn-success-gradient btn-wave w-100" id="print">Cetak</button>
+                    <button class="btn btn-success-gradient btn-wave w-100" id="print">Cetak</button>
                 </div>
             </form>
 
@@ -155,7 +155,11 @@ include 'component/pengaturantampilan.view.php';
 
                         <!-- Tambahkan baris data lainnya di sini -->
                     </tbody>
+
+
                 </table>
+                <br>
+                <div id="pagination"></div>
             </div>
         </div>
 
@@ -177,20 +181,21 @@ include 'component/footer.view.php';
         // let tbody = new DataTable("#mytable #tes");
         // var table = $('#mytable').DataTable();
 
-        function statusberkas (x){
+        function statusberkas(x) {
 
-            if (x == 1){
+            if (x == 1) {
                 status = "GAJI";
-            }else if(x == 2) {
+            } else if (x == 2) {
                 status = "TPP PNS";
-            }else if (x==3){
+            } else if (x == 3) {
                 status = "TPP PPPK";
-            }else {
-                status =  "LAINNYA";
+            } else {
+                status = "LAINNYA";
             }
-            
-            return(status);
+
+            return (status);
         }
+
         function formatRupiah(angka, prefix) {
             var number_string = angka.replace(/[^,\d]/g, '').toString(),
                 split = number_string.split(','),
@@ -208,118 +213,202 @@ include 'component/footer.view.php';
             return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
 
-        function fetchData() {
+        // function fetchData() {
+        //     $.ajax({
+        //         url: "proses/sp2d/listsp2d.php?action=fetchData",
+        //         type: "POST",
+        //         dataType: "json",
+        //         success: function(response) {
+        //             var tbody = $('#mytable #tes');
+        //             tbody.empty(); // kosongkan isi sebelumnya
+        //             var data = response.data;
+        //             // var table = $('#mytable').DataTable();
+        //             // let baris_html = '';
+        //             // table.clear().draw();
+        //             var counter = 1;
+        //             $.each(data, function(index, value) {
+        //                 // 4. Bangun Baris HTML untuk setiap item data
+
+        //                 // console.log(response);
+        //                 var row = `
+        //                 '<tr>' +
+        //                     '<td>` + counter + `</td>' +
+        //                     '<td>` + value.nomor_spm + `</td>' +
+        //                     '<td>` + value.keterangan_spm + `</td>' +
+        //                     '<td class="text-end">` + formatRupiah(value.nilai_spm) + `</td>' +
+        //                     '<td>` + value.jenis + `</td>' +
+        //                     '<td class="text-end">` + formatRupiah(value.potongan) + `</td>' +
+        //                     '<td>` + statusberkas(value.status_berkas) + `</td>' +
+        //                     '<td class="text-end">` + value.id_sp2d + `</td>' +
+        //                     '<td class="text-end">` + value.nomorpenguji + `</td>' +
+
+        //                 '</tr>'
+        //                `;
+        //                 counter++;
+        //                 tbody.append(row);
+
+        //             });
+
+        //         },
+
+        //         error: function(xhr, status, error) {
+        //             console.error("Gagal memuat data: " + status + " - " + error);
+        //             $('#mytable #tes').html('<tr><td colspan="3">Gagal memuat data dari server.</td></tr>');
+        //         }
+        //     });
+        // }
+        function fetchData(page = 1, itemsPerPage = 5, spm = '', jenis = '') {
             $.ajax({
                 url: "proses/sp2d/listsp2d.php?action=fetchData",
                 type: "POST",
                 dataType: "json",
+                data: {
+                    page: page,
+                    itemsPerPage: itemsPerPage,
+                    spm: spm,
+                    jenis: jenis
+                },
                 success: function(response) {
                     var tbody = $('#mytable #tes');
-                    tbody.empty(); // kosongkan isi sebelumnya
-                    var data = response.data;
-                    // var table = $('#mytable').DataTable();
-                    // let baris_html = '';
-                    // table.clear().draw();
-                    var counter = 1;
-                    $.each(data, function(index, value) {
-                        // 4. Bangun Baris HTML untuk setiap item data
+                    tbody.empty();
 
-                        // console.log(response);
+                    var data = response.data;
+                    var totalItems = response.totalItems;
+                    var totalPages = Math.ceil(totalItems / itemsPerPage);
+                    var counter = (page - 1) * itemsPerPage + 1;
+
+                    $.each(data, function(index, value) {
                         var row = `
-                        '<tr>' +
-                            '<td>` + counter + `</td>' +
-                            '<td>` + value.nomor_spm + `</td>' +
-                            '<td>` + value.keterangan_spm + `</td>' +
-                            '<td class="text-end">` + formatRupiah(value.nilai_spm) + `</td>' +
-                            '<td>` + value.jenis + `</td>' +
-                            '<td class="text-end">` + formatRupiah(value.potongan) + `</td>' +
-                            '<td>` + statusberkas(value.status_berkas) + `</td>' +
-                            '<td class="text-end">` + value.id_sp2d + `</td>' +
-                            '<td class="text-end">` + value.nomorpenguji + `</td>' +
-                            
-                        '</tr>'
-                       `;
+                    <tr>
+                        <td>${counter}</td>
+                        <td>${value.nomor_spm}</td>
+                        <td>${value.keterangan_spm}</td>
+                        <td class="text-end">${formatRupiah(value.nilai_spm)}</td>
+                        <td>${value.jenis}</td>
+                        <td class="text-end">${formatRupiah(value.potongan)}</td>
+                        <td>${statusberkas(value.status_berkas)}</td>
+                        <td class="text-end">${value.id_sp2d}</td>
+                        <td class="text-end">${value.nomorpenguji}</td>
+                    </tr>
+                `;
                         counter++;
                         tbody.append(row);
-
                     });
 
-                },
+                    var pagination = $('#pagination');
+                    pagination.empty();
 
+                    const maxVisiblePages = 10;
+                    let startPage = Math.floor((page - 1) / maxVisiblePages) * maxVisiblePages + 1;
+                    let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
+
+                    // Tombol Previous
+                    if (page > 1) {
+                        pagination.append(`<button class="page-btn" data-page="${page - 1}">Previous</button> `);
+                    }
+
+                    // Tombol halaman terbatas
+                    for (let i = startPage; i <= endPage; i++) {
+                        const activeClass = (i === page) ? 'active' : '';
+                        pagination.append(`<button class="page-btn ${activeClass}" data-page="${i}">${i}</button> `);
+                    }
+
+                    // Tombol Next
+                    if (page < totalPages) {
+                        pagination.append(`<button class="page-btn" data-page="${page + 1}">Next</button>`);
+                    }
+
+
+
+                    $('.page-btn').off('click').on('click', function() {
+                        var selectedPage = $(this).data('page');
+                        fetchData(selectedPage, itemsPerPage, spm, jenis);
+                    });
+                },
                 error: function(xhr, status, error) {
                     console.error("Gagal memuat data: " + status + " - " + error);
-                    $('#mytable #tes').html('<tr><td colspan="3">Gagal memuat data dari server.</td></tr>');
+                    $('#mytable #tes').html('<tr><td colspan="9">Gagal memuat data dari server.</td></tr>');
                 }
             });
         }
-        $('#formcari').on('click', "#cari", function(e) {
 
+        // Trigger pencarian
+        $('#formcari').on('submit', function(e) {
             e.preventDefault();
-
-            const sp2d = $('#sp2d').val();
-            const jenis = $('#jenis').val();
-            const status_berkas = $('#status_berkas').val();
-
-            $.ajax({
-                url: 'proses/sp2d/listsp2d.php?action=cariData',
-                method: 'POST',
-                data: {
-                    sp2d: sp2d,
-                    jenis: jenis,
-                    status: status_berkas
-                },
-                dataType: 'json',
-                success: function(response) {
-                    var data = response.data;
-                    let tbody = $('#mytable #tes');
-                    tbody.empty();
-                    // tbody.clear().draw();
-            
-                    var counter = 1;
-                    $.each(data, function(index, value) {
-                        let potongan = (value.potongan).toString();
-                         $('#mytable #tes').append(`<tr><td>`+ counter + `</td>
-                         <td>`+ value.nomor_spm + `</td>
-                         <td>`+ value.keterangan_spm + `</td>
-                         <td class='text-end'>`+ formatRupiah(value.nilai_spm)  + `</td>
-                         <td>`+ value.jenis  + `</td>
-                         <td class='text-end'>`+ formatRupiah(potongan) + `</td>
-                         <td>`+ statusberkas(value.status_berkas)+ `</td>
-                         <td class='text-end'>`+ value.id_sp2d  + `</td>
-                         <td class='text-end'>`+ value.nomorpenguji   + `</td>
-                         </tr>`)
-
-                        counter++;
-                        // 4. Bangun Baris HTML untuk setiap item data
-
-                        // var counter = 1;
-                        // console.log(response);
-                        //     var tabelrow = `
-                        //     '<tr>' +
-                        //         '<td>` + counter + `</td>' +
-                        //         '<td>` + value.nomor_spm + `</td>' +
-                        //         '<td>` + value.keterangan_spm + `</td>' +
-                        //         '<td class="text-end">` + formatRupiah(value.nilai_spm) + `</td>' +
-                        //         '<td>` + value.jenis + `</td>' +
-                        //         '<td class="text-end">` + formatRupiah(value.potongan) + `</td>' +
-                        //         '<td>` + value.status_berkas + `</td>' +
-                        //         '<td class="text-end">` + value.id_sp2d + `</td>' +
-                        //         '<td class="text-end">` + value.nomorpenguji + `</td>' +
-
-                        //     '</tr>'
-                        //    `;
-                        //     counter++;
-                        //     tbody.append(tabelrow);
-
-                    });
-                },
-
-                error: function(xhr, status, error) {
-                    console.error("Gagal memuat data: " + status + " - " + error);
-                    $('#mytable #tes').html('<tr><td colspan="3">Gagal memuat data dari server.</td></tr>');
-                }
-            });
+            var keyword = $('#sp2d').val();
+            var jenis = $('#jenis').val();
+            fetchData(1, 5, keyword, jenis);
         });
+
+
+        // $('#formcari').on('click', "#cari", function(e) {
+
+        //     e.preventDefault();
+
+        //     const sp2d = $('#sp2d').val();
+        //     const jenis = $('#jenis').val();
+        //     const status_berkas = $('#status_berkas').val();
+
+        //     $.ajax({
+        //         url: 'proses/sp2d/listsp2d.php?action=cariData',
+        //         method: 'POST',
+        //         data: {
+        //             sp2d: sp2d,
+        //             jenis: jenis,
+        //             status: status_berkas
+        //         },
+        //         dataType: 'json',
+        //         success: function(response) {
+        //             var data = response.data;
+        //             let tbody = $('#mytable #tes');
+        //             tbody.empty();
+        //             // tbody.clear().draw();
+
+        //             var counter = 1;
+        //             $.each(data, function(index, value) {
+        //                 let potongan = (value.potongan).toString();
+        //                 $('#mytable #tes').append(`<tr><td>` + counter + `</td>
+        //                  <td>` + value.nomor_spm + `</td>
+        //                  <td>` + value.keterangan_spm + `</td>
+        //                  <td class='text-end'>` + formatRupiah(value.nilai_spm) + `</td>
+        //                  <td>` + value.jenis + `</td>
+        //                  <td class='text-end'>` + formatRupiah(potongan) + `</td>
+        //                  <td>` + statusberkas(value.status_berkas) + `</td>
+        //                  <td class='text-end'>` + value.id_sp2d + `</td>
+        //                  <td class='text-end'>` + value.nomorpenguji + `</td>
+        //                  </tr>`)
+
+        //                 counter++;
+        //                 // 4. Bangun Baris HTML untuk setiap item data
+
+        //                 // var counter = 1;
+        //                 // console.log(response);
+        //                 //     var tabelrow = `
+        //                 //     '<tr>' +
+        //                 //         '<td>` + counter + `</td>' +
+        //                 //         '<td>` + value.nomor_spm + `</td>' +
+        //                 //         '<td>` + value.keterangan_spm + `</td>' +
+        //                 //         '<td class="text-end">` + formatRupiah(value.nilai_spm) + `</td>' +
+        //                 //         '<td>` + value.jenis + `</td>' +
+        //                 //         '<td class="text-end">` + formatRupiah(value.potongan) + `</td>' +
+        //                 //         '<td>` + value.status_berkas + `</td>' +
+        //                 //         '<td class="text-end">` + value.id_sp2d + `</td>' +
+        //                 //         '<td class="text-end">` + value.nomorpenguji + `</td>' +
+
+        //                 //     '</tr>'
+        //                 //    `;
+        //                 //     counter++;
+        //                 //     tbody.append(tabelrow);
+
+        //             });
+        //         },
+
+        //         error: function(xhr, status, error) {
+        //             console.error("Gagal memuat data: " + status + " - " + error);
+        //             $('#mytable #tes').html('<tr><td colspan="3">Gagal memuat data dari server.</td></tr>');
+        //         }
+        //     });
+        // });
 
         // $('#cari').on('click', function() {
 
