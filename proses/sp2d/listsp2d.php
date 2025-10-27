@@ -24,6 +24,7 @@ if ($_GET["action"] === "cariData") {
 
   $sp2d = $_POST['sp2d'] ?? '';
   $jenis = $_POST['jenis'] ?? '';
+  $statusberkas= $_POST['status'] ?? '';
 
   // Query dengan prepared statement
   $sql = "
@@ -47,13 +48,15 @@ AND c.id_sp2d=b.id_spm
 AND a.nomor_spm
   AND a.nomor_spm LIKE ?
   AND a.jenis LIKE ?
+  AND b.status_berkas LIKE ?
 ";
 
   // Eksekusi query
   $stmt = $koneksi->prepare($sql);
   $param_sp2d = "%$sp2d%";
   $param_jenis = "%$jenis%";
-  $stmt->bind_param("ss", $param_sp2d, $param_jenis);
+  $param_statusberkas = "%$statusberkas%";
+  $stmt->bind_param("sss", $param_sp2d, $param_jenis, $param_statusberkas);
   $stmt->execute();
   $result = $stmt->get_result();
   while ($row = mysqli_fetch_assoc($result)) {
@@ -73,21 +76,6 @@ AND a.nomor_spm
       "data" => $data
     ]);
   }
-
-
-
-
-  // if ($row = null) {
-  //   header('Content-Type: application/json');
-  //   echo json_encode([
-  //     "message" => "Data Tidak Ditemukan"
-  //   ]);
-  // } else {
-  //   header('Content-Type: application/json');
-  //   echo json_encode([
-  //     "data" => $data
-  //   ]);
-  // }
   $stmt->close();
   $koneksi->close();
 

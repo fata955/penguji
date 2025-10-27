@@ -475,7 +475,7 @@ include 'component/pengaturantampilan.view.php';
                                 ])
 
                                 .draw(false);
-                            // counter++;
+                          
                         });
                         // $("#totalfix").append(formatRupiah(nilai));
                         // $("#jumlah").append(jumlah);

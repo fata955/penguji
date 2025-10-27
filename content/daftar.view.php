@@ -72,7 +72,7 @@ include 'component/pengaturantampilan.view.php';
                 <!-- ComboBox 1 -->
                 <div class="col-md-4">
                     <label for="category" class="form-label">status Berkas</label>
-                    <select class="form-select" id="status_berkas">
+                    <select class="form-select" id="status_berkas" name="status_berkas">
                         <option selected disabled>Pilih kategori</option>
                         <option value="1">GAJI</option>
                         <option value="2">TPP PNS</option>
@@ -127,8 +127,11 @@ include 'component/pengaturantampilan.view.php';
 
 
                 <!-- Submit Button -->
-                <div class="col-md-4 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100" id="cari">Cari</button>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary-gradient w-100" id="cari">Cari</button>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button  class="btn btn-success-gradient btn-wave w-100" id="print">Cetak</button>
                 </div>
             </form>
 
@@ -174,6 +177,20 @@ include 'component/footer.view.php';
         // let tbody = new DataTable("#mytable #tes");
         // var table = $('#mytable').DataTable();
 
+        function statusberkas (x){
+
+            if (x == 1){
+                status = "GAJI";
+            }else if(x == 2) {
+                status = "TPP PNS";
+            }else if (x==3){
+                status = "TPP PPPK";
+            }else {
+                status =  "LAINNYA";
+            }
+            
+            return(status);
+        }
         function formatRupiah(angka, prefix) {
             var number_string = angka.replace(/[^,\d]/g, '').toString(),
                 split = number_string.split(','),
@@ -216,7 +233,7 @@ include 'component/footer.view.php';
                             '<td class="text-end">` + formatRupiah(value.nilai_spm) + `</td>' +
                             '<td>` + value.jenis + `</td>' +
                             '<td class="text-end">` + formatRupiah(value.potongan) + `</td>' +
-                            '<td>` + value.status_berkas + `</td>' +
+                            '<td>` + statusberkas(value.status_berkas) + `</td>' +
                             '<td class="text-end">` + value.id_sp2d + `</td>' +
                             '<td class="text-end">` + value.nomorpenguji + `</td>' +
                             
@@ -241,13 +258,15 @@ include 'component/footer.view.php';
 
             const sp2d = $('#sp2d').val();
             const jenis = $('#jenis').val();
+            const status_berkas = $('#status_berkas').val();
 
             $.ajax({
                 url: 'proses/sp2d/listsp2d.php?action=cariData',
                 method: 'POST',
                 data: {
                     sp2d: sp2d,
-                    jenis: jenis
+                    jenis: jenis,
+                    status: status_berkas
                 },
                 dataType: 'json',
                 success: function(response) {
@@ -255,27 +274,42 @@ include 'component/footer.view.php';
                     let tbody = $('#mytable #tes');
                     tbody.empty();
                     // tbody.clear().draw();
-
+            
+                    var counter = 1;
                     $.each(data, function(index, value) {
+                        let potongan = (value.potongan).toString();
+                         $('#mytable #tes').append(`<tr><td>`+ counter + `</td>
+                         <td>`+ value.nomor_spm + `</td>
+                         <td>`+ value.keterangan_spm + `</td>
+                         <td class='text-end'>`+ formatRupiah(value.nilai_spm)  + `</td>
+                         <td>`+ value.jenis  + `</td>
+                         <td class='text-end'>`+ formatRupiah(potongan) + `</td>
+                         <td>`+ statusberkas(value.status_berkas)+ `</td>
+                         <td class='text-end'>`+ value.id_sp2d  + `</td>
+                         <td class='text-end'>`+ value.nomorpenguji   + `</td>
+                         </tr>`)
+
+                        counter++;
                         // 4. Bangun Baris HTML untuk setiap item data
 
+                        // var counter = 1;
                         // console.log(response);
-                        var row = `
-                        '<tr>' +
-                            '<td>` + counter + `</td>' +
-                            '<td>` + value.nomor_spm + `</td>' +
-                            '<td>` + value.keterangan_spm + `</td>' +
-                            '<td class="text-end">` + formatRupiah(value.nilai_spm) + `</td>' +
-                            '<td>` + value.jenis + `</td>' +
-                            '<td class="text-end">` + formatRupiah(value.potongan) + `</td>' +
-                            '<td>` + value.status_berkas + `</td>' +
-                            '<td class="text-end">` + value.id_sp2d + `</td>' +
-                            '<td class="text-end">` + value.nomorpenguji + `</td>' +
-                            
-                        '</tr>'
-                       `;
-                        counter++;
-                        tbody.append(row);
+                        //     var tabelrow = `
+                        //     '<tr>' +
+                        //         '<td>` + counter + `</td>' +
+                        //         '<td>` + value.nomor_spm + `</td>' +
+                        //         '<td>` + value.keterangan_spm + `</td>' +
+                        //         '<td class="text-end">` + formatRupiah(value.nilai_spm) + `</td>' +
+                        //         '<td>` + value.jenis + `</td>' +
+                        //         '<td class="text-end">` + formatRupiah(value.potongan) + `</td>' +
+                        //         '<td>` + value.status_berkas + `</td>' +
+                        //         '<td class="text-end">` + value.id_sp2d + `</td>' +
+                        //         '<td class="text-end">` + value.nomorpenguji + `</td>' +
+
+                        //     '</tr>'
+                        //    `;
+                        //     counter++;
+                        //     tbody.append(tabelrow);
 
                     });
                 },
