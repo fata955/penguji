@@ -218,7 +218,7 @@ if ($_GET["action"] === "cetakpenguji") {
   $sql = mysqli_fetch_row(mysqli_query($koneksi, "SELECT * FROM tb_penguji where nomor=$id"));
   // $row = mysqli_fetch_row($sql);
   if ($sql != null) {
-    $sql = mysqli_query($koneksi, "SELECT a.nomor,a.pejabat,a.tanggal,a.user,b.id_sp2d,c.keterangan_sp2d,c.no_rek_pihak_ketiga as nomor_rekening,c.nomor_sp2d,c.tanggal_sp2d,c.nama_skpd,c.nilai_sp2d, (select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') as belanja, (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as potongan,(select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as netto, (select sum(a.nilai_sp2d) from sp2d a, tb_control b where b.id_sp2d=a.idhalaman AND b.id_penguji=$id) as totalsp2d from tb_penguji a, tb_control b, sp2d c where a.nomor=$id AND id_penguji=$id AND b.id_sp2d=c.idhalaman");
+    $sql = mysqli_query($koneksi, "SELECT a.nomor,a.pejabat,a.tanggal,a.user,b.id_sp2d,c.keterangan_sp2d,c.no_rek_pihak_ketiga,c.bank_pihak_ketiga as nomor_rekening,c.nomor_sp2d,c.tanggal_sp2d,c.nama_skpd,c.nilai_sp2d, (select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') as belanja, (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as potongan,(select sum(d.nilai) from belanja d where d.id_sp2d=c.idhalaman AND d.uraian like '%belanja%') - (select sum(e.nilai) from potongan e where e.id_sp2d=c.idhalaman) as netto, (select sum(a.nilai_sp2d) from sp2d a, tb_control b where b.id_sp2d=a.idhalaman AND b.id_penguji=$id) as totalsp2d from tb_penguji a, tb_control b, sp2d c where a.nomor=$id AND id_penguji=$id AND b.id_sp2d=c.idhalaman");
     $tanggalpenguji = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM tb_penguji where nomor=$id"));
     $tanggalpenguji = $tanggalpenguji['tanggal'];
     $no = 1;
@@ -231,7 +231,7 @@ if ($_GET["action"] === "cetakpenguji") {
     $pdf->SetAuthor('Fatahillah');
     $pdf->SetTitle('Daftar Penguji');
     $pdf->SetSubject('Pemerintah Kota Palu');
-    $pdf->SetKeywords('Pemerintah Kota pAlu');
+    $pdf->SetKeywords('Pemerintah Kota Palu');
 
     // $data1 = mysqli_fetch_array($sql);
     //  $data1       = date($data1['tanggal']);
@@ -276,7 +276,7 @@ if ($_GET["action"] === "cetakpenguji") {
       $pdf->Cell(25, 8, rupiah($data['potongan']), 1, 0, 'C');
       $pdf->Cell(25, 8, rupiah($data['netto']), 1, 0, 'C');
       $pdf->Cell(90, 8, $data['nama_skpd'], 1, 0);
-      $pdf->Cell(25, 8, $data['nomor_rekening'], 1, 1);
+      $pdf->Cell(25, 8, $data['bank_pihak_ketiga'], 1, 1);
       // $pdf->Cell(120,8,$data->nomor_sp2d,1,0);
       // $pdf->Cell(37,8,$data->nilai_sp2d,1,1);
     }
