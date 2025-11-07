@@ -36,17 +36,26 @@ include 'component/pengaturantampilan.view.php';
     <!-- Start::app-content -->
     <div class="main-content app-content">
         <div class="container-fluid">
-            <h2 class="mb-4">LIST PENGUJI</h2>
-            <h5 class="mb-4">Filter</h5>
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="mb-4">LIST PENGUJI</h2>
+                    <h5 class="mb-4">Filter</h5>
+                </div>
+                <div class="col-md-6 text-end">
+                    <a type="button" href="/kertaskerja" class="btn btn-warning-gradient btn-wave" data-bs-toggle="tooltip" data-bs-placement="top" title="Kembali Ke Kertas Kerja">
+                        <-- Kembali
+                            </a>
+                </div>
+            </div>
 
             <!-- Filter Section -->
-            <form class="row g-3 mb-4" method="POST" >
+            <form class="row g-3 mb-4" method="POST">
                 <!-- Text Input 1 -->
                 <div class="col-md-4">
                     <label for="keyword" class="form-label">Nomor Penguji</label>
                     <input type="text" class="form-control" id="sp2d" placeholder="Masukkan Nomor Penguji">
                 </div>
-                
+
 
                 <!-- Text Input 2 -->
 
@@ -90,16 +99,17 @@ include 'component/pengaturantampilan.view.php';
                 <table class="table table-bordered table-striped" id="mytable">
                     <thead class="table-dark">
                         <tr>
-                            <th>#</th>
+                            <th>No</th>
                             <th>Nomor Penguji</th>
                             <th>Item Sp2d</th>
                             <th>Pejabat TTD</th>
+                            <th>Tanggal</th>
                             <th>Total Nilai</th>
                             <th>action</th>
-                           
+
                         </tr>
                     </thead>
-                    <tbody >
+                    <tbody>
 
                         <!-- Tambahkan baris data lainnya di sini -->
                     </tbody>
@@ -122,36 +132,55 @@ include 'component/footer.view.php';
     $(document).ready(function() {
         fetchData()
 
-    let table = new DataTable("#mytable");
+        let table = new DataTable("#mytable");
 
-     function fetchData() {
-                $.ajax({
-                    url: "proses/sp2d/listpenguji.php?action=fetchData",
-                    type: "POST",
-                    dataType: "json",
-                    success: function(response) {
-                        var data = response.data;
-                        table.clear().draw();
-                        var counter = 1;
-                        $.each(data, function(index, value) {
-                            table.row
-                                .add([
-                                    counter,
-                                    value.nomor_spm,
-                                    value.keterangan_spm,
-                                    value.nilai_spm,
-                                    value.jenis,
-                                    value.status_berkas,
-                                    value.id_sp2d,
-                                    value.nomorpenguji
-                                ])
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
 
-                                .draw(false);
-                            counter++;
-                        });
-                    }
-                });
+            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
             }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+
+        function fetchData() {
+            $.ajax({
+                url: "proses/sp2d/listpenguji.php?action=fetchData",
+                type: "POST",
+                dataType: "json",
+                success: function(response) {
+                    var data = response.data;
+                    table.clear().draw();
+                    var counter = 1;
+                    $.each(data, function(index, value) {
+                        table.row
+                            .add([
+                                counter,
+                                '<label>000' + value.nomor + '/MANDIRI/BPKAD/2025 </label>',
+                                value.count + '-' + 'ITEM',
+                                value.pejabat,
+                                value.tanggal,
+                                '<td class="text-end">' + formatRupiah(value.nilai) + '</td>',
+
+                                '<Button type="button" class="btn btn-sm btn-success viewsBtn" value="' +
+                                value.id +
+                                '"><i class="las la-eye"></i></Button>'
+                            ])
+
+                            .draw(false);
+                        counter++;
+                    });
+                }
+            });
+        }
 
         // $('form').on('submit', function(e) {
         //     e.preventDefault();
@@ -276,5 +305,3 @@ include 'component/footer.view.php';
         </div>
     </form>
 </div>
-
-

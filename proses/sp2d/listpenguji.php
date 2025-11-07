@@ -7,7 +7,7 @@ include '../../lib/dbh.inc.php';
 
 
 if ($_GET["action"] === "fetchData") {
-  $sql = "SELECT FROM tb_penguji a,tb_control b,tspm c, tspmsub d WHERE a.nomor=b.id_penguji AND c.id_spm=d.id_spm AND b.id_sp2d=d.id_sp2d ";
+  $sql = "SELECT a.id,a.nomor,a.pejabat,a.tanggal,(select sum(c.nilai_spm) from tb_control b, tspm c, tspmsub d where a.nomor=b.id_penguji AND b.id_sp2d=c.id_spm AND c.id_spm=d.id_spm AND d.statuspenguji=3) as nilai,(select COUNT(c.nomor_spm) from tb_control b, tspm c, tspmsub d where c.id_spm=d.id_spm AND a.nomor=b.id_penguji AND b.id_sp2d=c.id_spm AND d.statuspenguji=3 ) as count FROM tb_penguji a ORDER BY a.id DESC ";
   $result = mysqli_query($koneksi, $sql);
   $data = [];
   while ($row = mysqli_fetch_assoc($result)) {
