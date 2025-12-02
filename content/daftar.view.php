@@ -192,10 +192,8 @@ include 'component/footer.view.php';
             } else {
                 status = "LAINNYA";
             }
-
             return (status);
         }
-
         function formatRupiah(angka, prefix) {
             var number_string = angka.replace(/[^,\d]/g, '').toString(),
                 split = number_string.split(','),
@@ -213,50 +211,6 @@ include 'component/footer.view.php';
             return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }
 
-        // function fetchData() {
-        //     $.ajax({
-        //         url: "proses/sp2d/listsp2d.php?action=fetchData",
-        //         type: "POST",
-        //         dataType: "json",
-        //         success: function(response) {
-        //             var tbody = $('#mytable #tes');
-        //             tbody.empty(); // kosongkan isi sebelumnya
-        //             var data = response.data;
-        //             // var table = $('#mytable').DataTable();
-        //             // let baris_html = '';
-        //             // table.clear().draw();
-        //             var counter = 1;
-        //             $.each(data, function(index, value) {
-        //                 // 4. Bangun Baris HTML untuk setiap item data
-
-        //                 // console.log(response);
-        //                 var row = `
-        //                 '<tr>' +
-        //                     '<td>` + counter + `</td>' +
-        //                     '<td>` + value.nomor_spm + `</td>' +
-        //                     '<td>` + value.keterangan_spm + `</td>' +
-        //                     '<td class="text-end">` + formatRupiah(value.nilai_spm) + `</td>' +
-        //                     '<td>` + value.jenis + `</td>' +
-        //                     '<td class="text-end">` + formatRupiah(value.potongan) + `</td>' +
-        //                     '<td>` + statusberkas(value.status_berkas) + `</td>' +
-        //                     '<td class="text-end">` + value.id_sp2d + `</td>' +
-        //                     '<td class="text-end">` + value.nomorpenguji + `</td>' +
-
-        //                 '</tr>'
-        //                `;
-        //                 counter++;
-        //                 tbody.append(row);
-
-        //             });
-
-        //         },
-
-        //         error: function(xhr, status, error) {
-        //             console.error("Gagal memuat data: " + status + " - " + error);
-        //             $('#mytable #tes').html('<tr><td colspan="3">Gagal memuat data dari server.</td></tr>');
-        //         }
-        //     });
-        // }
         function fetchData(page = 1, itemsPerPage = 5, spm = '', jenis = '') {
             $.ajax({
                 url: "proses/sp2d/listsp2d.php?action=fetchData",
@@ -317,8 +271,6 @@ include 'component/footer.view.php';
                     if (page < totalPages) {
                         pagination.append(`<button class="page-btn" data-page="${page + 1}">Next</button>`);
                     }
-
-
 
                     $('.page-btn').off('click').on('click', function() {
                         var selectedPage = $(this).data('page');

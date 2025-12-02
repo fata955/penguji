@@ -36,112 +36,204 @@ include 'component/pengaturantampilan.view.php';
     <!-- Start::app-content -->
     <div class="main-content app-content">
         <div class="container-fluid">
-            <h2 class="mb-4">Masukkan Berkas</h2>
-            <h5 class="mb-4">Filter</h5>
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12"><br>
+                    <div class="card">
+                        <div class="card-body p-2">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search ...">
+                                <button class="btn btn-primary" type="button">Search</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row row-sm">
+                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
+                            <div class="card">
+                                <div class="card-body h-100">
+                                    <div class="pro-img-box">
+                                        <div class="product-sale">
+                                            <!-- <div class="badge bg-pink">New</div> -->
+                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart-outline ms-auto wishlist"></i></a> -->
+                                        </div>
+                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/BPBD.png"
+                                                alt="product-image">
+                                        </a>
+                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
+                                        </a> -->
+                                    </div>
+                                    <div class="text-center pt-3">
+                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">BPBD</h3>
+                                        <span class="fs-15 ms-auto">
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star-half text-warning"></i>
+                                            <i class="ion ion-md-star-outline text-warning"></i>
+                                        </span>
+                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$26 <span
+                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$59</span>
+                                        </h4> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
+                            <div class="card">
+                                <div class="card-body h-100">
+                                    <div class="pro-img-box">
+                                        <div class="product-sale">
+                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart text-danger ms-auto wishlist"></i></a> -->
+                                        </div>
+                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/Kominfo.png"
+                                                alt="product-image"></a>
+                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
+                                        </a> -->
+                                    </div>
+                                    <div class="text-center pt-3">
+                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">Dinas Komdigi</h3>
+                                        <span class="fs-15 ms-auto">
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star-half text-warning"></i>
+                                            <i class="ion ion-md-star-outline text-warning"></i>
+                                        </span>
+                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$35 <span
+                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$79</span>
+                                        </h4> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
+                            <div class="card">
+                                <div class="card-body h-100">
+                                    <div class="pro-img-box">
+                                        <div class="product-sale">
+                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart text-danger ms-auto wishlist"></i></a> -->
+                                        </div>
+                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/DPRD.png"
+                                                alt="product-image"></a>
+                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
+                                        </a> -->
+                                    </div>
+                                    <div class="text-center pt-3">
+                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">DPRD</h3>
+                                        <span class="fs-15 ms-auto">
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star-half text-warning"></i>
+                                            <i class="ion ion-md-star-outline text-warning"></i>
+                                        </span>
+                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$35 <span
+                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$79</span>
+                                        </h4> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
+                            <div class="card">
+                                <div class="card-body h-100">
+                                    <div class="pro-img-box">
+                                        <div class="product-sale">
+                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart text-danger ms-auto wishlist"></i></a> -->
+                                        </div>
+                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/Dispora.jpg"
+                                                alt="product-image"></a>
+                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
+                                        </a> -->
+                                    </div>
+                                    <div class="text-center pt-3">
+                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">DISPORA</h3>
+                                        <span class="fs-15 ms-auto">
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star-half text-warning"></i>
+                                            <i class="ion ion-md-star-outline text-warning"></i>
+                                        </span>
+                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$35 <span
+                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$79</span>
+                                        </h4> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
+                            <div class="card">
+                                <div class="card-body h-100">
+                                    <div class="pro-img-box">
+                                        <div class="product-sale">
+                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart text-danger ms-auto wishlist"></i></a> -->
+                                        </div>
+                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/pemadam.png"
+                                                alt="product-image"></a>
+                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
+                                        </a> -->
+                                    </div>
+                                    <div class="text-center pt-3">
+                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">DAMKAR</h3>
+                                        <span class="fs-15 ms-auto">
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star-half text-warning"></i>
+                                            <i class="ion ion-md-star-outline text-warning"></i>
+                                        </span>
+                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$35 <span
+                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$79</span>
+                                        </h4> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
+                            <div class="card">
+                                <div class="card-body h-100">
+                                    <div class="pro-img-box">
+                                        <div class="product-sale">
+                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart text-danger ms-auto wishlist"></i></a> -->
+                                        </div>
+                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/Dinas sosial.png"
+                                                alt="product-image"></a>
+                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
+                                        </a> -->
+                                    </div>
+                                    <div class="text-center pt-3">
+                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">Dinas Sosial</h3>
+                                        <span class="fs-15 ms-auto">
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star-half text-warning"></i>
+                                            <i class="ion ion-md-star-outline text-warning"></i>
+                                        </span>
+                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$35 <span
+                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$79</span>
+                                        </h4> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-            <!-- Filter Section -->
-            <form class="row g-3 mb-4" method="POST" >
-                <!-- Text Input 1 -->
-                <div class="col-md-4">
-                    <label for="keyword" class="form-label">Nomor SP2D</label>
-                    <input type="text" class="form-control" id="sp2d" placeholder="Masukkan Nomor SP2D">
+                        <ul class="pagination product-pagination ms-auto float-end mb-3 ps-2">
+                            <li class="page-item page-prev disabled">
+                                <a class="page-link" href="javascript:void(0);" tabindex="-1">Prev</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="javascript:void(0);">1</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);">2</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);">3</a></li>
+                            <li class="page-item"><a class="page-link" href="javascript:void(0);">4</a></li>
+                            <li class="page-item page-next">
+                                <a class="page-link" href="javascript:void(0);">Next</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-md-4">
-                    <label for="category" class="form-label">Jenis Dokumen</label>
-                    <select class="form-select" id="jenis">
-                        <option selected disabled>Pilih kategori</option>
-                        <option value="LS">LS</option>
-                        <option value="GU">GU</option>
-                        <option value="UP">UP</option>
-                    </select>
-                </div>
-
-                <!-- Text Input 2 -->
-
-
-                <!-- ComboBox 1 -->
-                <div class="col-md-4">
-                    <label for="category" class="form-label">status Berkas</label>
-                    <select class="form-select" id="status_berkas">
-                        <option selected disabled>Pilih kategori</option>
-                        <option value="1">GAJI</option>
-                        <option value="2">TPP PNS</option>
-                        <option value="3">TPP PPPK</option>
-                        <option value="4">LAINNYA</option>
-                    </select>
-                </div>
-
-                <!-- ComboBox 2 -->
-                <div class="col-md-4">
-                    <label for="status" class="form-label">Status Verifikasi</label>
-                    <select class="form-select" id="statuspenguji">
-                        <option selected disabled>Pilih status</option>
-                        <option value="1">BELUM VERIFIKASI</option>
-                        <option value="3">SUDAH VERIFIKASI</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label for="status" class="form-label">Sumber Dana</label>
-                    <select class="form-select" id="sumberdana">
-                        <option selected disabled>Pilih status</option>
-                        <?php
-                        // include '../../lib/conn.php';
-                        $menu = mysqli_query($koneksi, "SELECT * from t_sumberdana");
-                        while ($fetch = mysqli_fetch_array($menu)) {
-                            echo '<option value="' . $fetch['id'] . '">' . $fetch['namasumberdana'] . '</option>';
-                        }
-                        ?>
-                    </select>
-                </div>
-
-                <!-- ComboBox 3 -->
-                <div class="col-md-4">
-                    <label for="bulan" class="form-label">Bulan</label>
-                    <select class="form-select" id="bulan" name="bulan">
-                        <option selected disabled>Pilih bulan</option>
-                        <option value="01">Januari</option>
-                        <option value="02">Februari</option>
-                        <option value="03">Maret</option>
-                        <option value="04">April</option>
-                        <option value="05">Mei</option>
-                        <option value="06">Juni</option>
-                        <option value="07">Juli</option>
-                        <option value="08">Agustus</option>
-                        <option value="09">September</option>
-                        <option value="10">Oktober</option>
-                        <option value="11">November</option>
-                        <option value="12">Desember</option>
-                    </select>
-
-                </div>
-
-                <!-- Submit Button -->
-                <div class="col-md-4 d-flex align-items-end">
-                    <button type="submit" class="btn btn-primary w-100">Cari</button>
-                </div>
-            </form>
-
-            <!-- Table Section -->
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped" id="mytable">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>#</th>
-                            <th>Nomor Sp2d</th>
-                            <th>Keterangan Sp2d</th>
-                            <th>Nilai Sp2d</th>
-                            <th>Jenis</th>
-                            <th>Status Berkas</th>
-                            <th>Nomor Penguji</th>
-                            <th>Tanggal</th>
-                        </tr>
-                    </thead>
-                    <tbody >
-
-                        <!-- Tambahkan baris data lainnya di sini -->
-                    </tbody>
-                </table>
             </div>
+
         </div>
 
         <!-- Page Header Close -->
@@ -159,36 +251,36 @@ include 'component/footer.view.php';
     $(document).ready(function() {
         fetchData()
 
-    let table = new DataTable("#mytable");
+        let table = new DataTable("#mytable");
 
-     function fetchData() {
-                $.ajax({
-                    url: "proses/sp2d/listpenguji.php?action=fetchData",
-                    type: "POST",
-                    dataType: "json",
-                    success: function(response) {
-                        var data = response.data;
-                        table.clear().draw();
-                        var counter = 1;
-                        $.each(data, function(index, value) {
-                            table.row
-                                .add([
-                                    counter,
-                                    value.nomor_spm,
-                                    value.keterangan_spm,
-                                    value.nilai_spm,
-                                    value.jenis,
-                                    value.status_berkas,
-                                    value.id_sp2d,
-                                    value.nomorpenguji
-                                ])
+        function fetchData() {
+            $.ajax({
+                url: "proses/sp2d/listpenguji.php?action=fetchData",
+                type: "POST",
+                dataType: "json",
+                success: function(response) {
+                    var data = response.data;
+                    table.clear().draw();
+                    var counter = 1;
+                    $.each(data, function(index, value) {
+                        table.row
+                            .add([
+                                counter,
+                                value.nomor_spm,
+                                value.keterangan_spm,
+                                value.nilai_spm,
+                                value.jenis,
+                                value.status_berkas,
+                                value.id_sp2d,
+                                value.nomorpenguji
+                            ])
 
-                                .draw(false);
-                            counter++;
-                        });
-                    }
-                });
-            }
+                            .draw(false);
+                        counter++;
+                    });
+                }
+            });
+        }
 
         // $('form').on('submit', function(e) {
         //     e.preventDefault();
@@ -313,5 +405,3 @@ include 'component/footer.view.php';
         </div>
     </form>
 </div>
-
-
