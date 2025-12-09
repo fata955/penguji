@@ -37,7 +37,7 @@ include 'component/pengaturantampilan.view.php';
     <div class="main-content app-content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xl-12 col-lg-12 col-md-12"><br>
+                <div class="col-xl-12 col-lg-12 col-md-12">
                     <div class="card">
                         <div class="card-body p-2">
                             <div class="input-group">
@@ -48,7 +48,7 @@ include 'component/pengaturantampilan.view.php';
                     </div>
                     <div class="row row-sm">
                         <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card">
+                            <div class="card" style="min-height: 350px; ">
                                 <div class="card-body h-100">
                                     <div class="pro-img-box">
                                         <div class="product-sale">
@@ -78,7 +78,7 @@ include 'component/pengaturantampilan.view.php';
                             </div>
                         </div>
                         <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card">
+                            <div class="card" style="min-height: 350px;">
                                 <div class="card-body h-100">
                                     <div class="pro-img-box">
                                         <div class="product-sale">
@@ -106,7 +106,7 @@ include 'component/pengaturantampilan.view.php';
                             </div>
                         </div>
                         <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card">
+                            <div class="card" style="min-height: 350px;">
                                 <div class="card-body h-100">
                                     <div class="pro-img-box">
                                         <div class="product-sale">
@@ -134,7 +134,7 @@ include 'component/pengaturantampilan.view.php';
                             </div>
                         </div>
                         <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card">
+                            <div class="card" style="min-height: 350px;">
                                 <div class="card-body h-100">
                                     <div class="pro-img-box">
                                         <div class="product-sale">
@@ -162,7 +162,7 @@ include 'component/pengaturantampilan.view.php';
                             </div>
                         </div>
                         <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card">
+                            <div class="card" style="min-height: 350px;">
                                 <div class="card-body h-100">
                                     <div class="pro-img-box">
                                         <div class="product-sale">
@@ -190,7 +190,7 @@ include 'component/pengaturantampilan.view.php';
                             </div>
                         </div>
                         <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card">
+                            <div class="card" style="min-height: 350px;">
                                 <div class="card-body h-100">
                                     <div class="pro-img-box">
                                         <div class="product-sale">
