@@ -321,8 +321,6 @@ include 'component/pengaturantampilan.view.php';
                 order: [
                     [3, 'desc']
                 ]
-             
-
             });
             // let table2 = new DataTable("#tablelistspm");
             fetchCart();

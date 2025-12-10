@@ -55,7 +55,7 @@ include 'component/pengaturantampilan.view.php';
                                             <!-- <div class="badge bg-pink">New</div> -->
                                             <!-- <a href="wish-list.html"><i class="mdi mdi-heart-outline ms-auto wishlist"></i></a> -->
                                         </div>
-                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/BPBD.png"
+                                        <a href="spm/1"><img class="w-100 rounded-3" src="../Logo/BPBD.png"
                                                 alt="product-image">
                                         </a>
                                         <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
@@ -77,148 +77,9 @@ include 'component/pengaturantampilan.view.php';
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card" style="min-height: 350px;">
-                                <div class="card-body h-100">
-                                    <div class="pro-img-box">
-                                        <div class="product-sale">
-                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart text-danger ms-auto wishlist"></i></a> -->
-                                        </div>
-                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/Kominfo.png"
-                                                alt="product-image"></a>
-                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
-                                        </a> -->
-                                    </div>
-                                    <div class="text-center pt-3">
-                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">Dinas Komdigi</h3>
-                                        <span class="fs-15 ms-auto">
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star-half text-warning"></i>
-                                            <i class="ion ion-md-star-outline text-warning"></i>
-                                        </span>
-                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$35 <span
-                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$79</span>
-                                        </h4> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card" style="min-height: 350px;">
-                                <div class="card-body h-100">
-                                    <div class="pro-img-box">
-                                        <div class="product-sale">
-                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart text-danger ms-auto wishlist"></i></a> -->
-                                        </div>
-                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/DPRD.png"
-                                                alt="product-image"></a>
-                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
-                                        </a> -->
-                                    </div>
-                                    <div class="text-center pt-3">
-                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">DPRD</h3>
-                                        <span class="fs-15 ms-auto">
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star-half text-warning"></i>
-                                            <i class="ion ion-md-star-outline text-warning"></i>
-                                        </span>
-                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$35 <span
-                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$79</span>
-                                        </h4> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card" style="min-height: 350px;">
-                                <div class="card-body h-100">
-                                    <div class="pro-img-box">
-                                        <div class="product-sale">
-                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart text-danger ms-auto wishlist"></i></a> -->
-                                        </div>
-                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/Dispora.jpg"
-                                                alt="product-image"></a>
-                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
-                                        </a> -->
-                                    </div>
-                                    <div class="text-center pt-3">
-                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">DISPORA</h3>
-                                        <span class="fs-15 ms-auto">
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star-half text-warning"></i>
-                                            <i class="ion ion-md-star-outline text-warning"></i>
-                                        </span>
-                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$35 <span
-                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$79</span>
-                                        </h4> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card" style="min-height: 350px;">
-                                <div class="card-body h-100">
-                                    <div class="pro-img-box">
-                                        <div class="product-sale">
-                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart text-danger ms-auto wishlist"></i></a> -->
-                                        </div>
-                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/pemadam.png"
-                                                alt="product-image"></a>
-                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
-                                        </a> -->
-                                    </div>
-                                    <div class="text-center pt-3">
-                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">DAMKAR</h3>
-                                        <span class="fs-15 ms-auto">
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star-half text-warning"></i>
-                                            <i class="ion ion-md-star-outline text-warning"></i>
-                                        </span>
-                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$35 <span
-                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$79</span>
-                                        </h4> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card" style="min-height: 350px;">
-                                <div class="card-body h-100">
-                                    <div class="pro-img-box">
-                                        <div class="product-sale">
-                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart text-danger ms-auto wishlist"></i></a> -->
-                                        </div>
-                                        <a href="product-details.html"><img class="w-100 rounded-3" src="../Logo/Dinas sosial.png"
-                                                alt="product-image"></a>
-                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
-                                        </a> -->
-                                    </div>
-                                    <div class="text-center pt-3">
-                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">Dinas Sosial</h3>
-                                        <span class="fs-15 ms-auto">
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star-half text-warning"></i>
-                                            <i class="ion ion-md-star-outline text-warning"></i>
-                                        </span>
-                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$35 <span
-                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$79</span>
-                                        </h4> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                        <ul class="pagination product-pagination ms-auto float-end mb-3 ps-2">
+                        <!-- pagination -->
+                        <!-- <ul class="pagination product-pagination ms-auto float-end mb-3 ps-2">
                             <li class="page-item page-prev disabled">
                                 <a class="page-link" href="javascript:void(0);" tabindex="-1">Prev</a>
                             </li>
@@ -229,7 +90,7 @@ include 'component/pengaturantampilan.view.php';
                             <li class="page-item page-next">
                                 <a class="page-link" href="javascript:void(0);">Next</a>
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
             </div>
