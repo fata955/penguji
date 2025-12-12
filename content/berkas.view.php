@@ -14,9 +14,7 @@ include 'component/pengaturantampilan.view.php';
     ?>
     <!--End modal -->
     <!-- Start::app-sidebar -->
-    <!-- <aside class="app-sidebar sticky" id="sidebar">
-
-        
+    <aside class="app-sidebar sticky" id="sidebar">
         <div class="main-sidebar-header">
             <a href="index.html" class="header-logo">
                 <img src="assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
@@ -25,12 +23,12 @@ include 'component/pengaturantampilan.view.php';
                 <img src="assets/images/brand-logos/toggle-white.png" alt="logo" class="toggle-white">
             </a>
         </div>
-    
+
         <?php
-        // include 'component/sidebar.view.php';
+        include 'component/sidebar.view.php';
         ?>
 
-    </aside> -->
+    </aside>
     <!-- End::app-sidebar -->
 
     <!-- Start::app-content -->
@@ -40,13 +38,13 @@ include 'component/pengaturantampilan.view.php';
                 <div class="col-xl-12 col-lg-12 col-md-12">
                     <div class="card">
                         <div class="card-body p-2">
-                           <form action="" method="post" id="cari">
-                            <div class="card-body d-flex p-3 align-items-center">
-                                <input class="form-control" placeholder="CARI NAMA OPD"
-                                    type="search" id="datasearch"> <button type="submit" class="btn"><i
-                                        class="fa fa-search d-none d-md-block"></i></button>
-                            </div>
-                        </form>
+                            <form action="" method="post" id="cari">
+                                <div class="card-body d-flex p-3 align-items-center">
+                                    <input class="form-control" placeholder="CARI NAMA OPD"
+                                        type="search" id="datasearch"> <button type="submit" class="btn"><i
+                                            class="fa fa-search d-none d-md-block"></i></button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div class="row row-sm" id="tablespm">
@@ -82,106 +80,8 @@ include 'component/pengaturantampilan.view.php';
 include 'component/footer.view.php';
 ?>
 
-<script>
-    $(document).ready(function() {
-
-
-    });
-</script>
-
 <!-- End::app-content -->
 
-
-<div class="modal fade" id="modaldemo8insert">
-    <form method="post" id="form_inputmenu">
-        <div class="modal-dialog modal-dialog-centered text-center" role="document">
-            <div class="modal-content modal-content-demo">
-                <div class="modal-header">
-                    <h6 class="modal-title">Form Input Menu</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-start">
-                    <div class="input-group">
-                        <input type="text" class="form-control " placeholder="Judul Menu" name="judul" id="judul">
-                    </div><br>
-                    <div class="input-group">
-                        <input type="text" class="form-control " placeholder="Isi Link" name="link" id="link">
-                    </div><br>
-                    <div class="input-group">
-                        <input type="text" class="form-control " placeholder="Isi Urutan Menu" name="urutan"
-                            id="urutan">
-                    </div>
-
-
-                    <!-- //MESSAGE -->
-
-                    <div class="alert custom-alert1 alert-secondary" id="error">
-                        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"
-                            aria-label="Close"><i class="bi bi-x"></i></button>
-                        <div class="text-center px-5 pb-0">
-                            <svg class="custom-alert-icon svg-secondary" xmlns="http://www.w3.org/2000/svg"
-                                height="1.5rem" viewBox="0 0 24 24" width="1.5rem" fill="#000000">
-                                <path d="M0 0h24v24H0z" fill="none" />
-                                <path
-                                    d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                            </svg>
-                            <h5>Confirmed</h5>
-                            <p class="">This alert is created to just show the confirmation message.</p>
-                            <div class="">
-                                <button class="btn btn-sm btn-secondary m-1">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ENDMESSAGE -->
-
-
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="simpan">
-                        Simpan
-                    </button>
-                    <!-- <button type="button" class="btn btn-light" data-bs-dismiss="modal" >Close</button> -->
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
-
-
-<div class="modal fade" id="modaldemo8edit">
-    <form method="post" id="editForm">
-        <div class="modal-dialog modal-dialog-centered text-center" role="document">
-            <div class="modal-content modal-content-demo">
-                <div class="modal-header">
-                    <h6 class="modal-title">Form edit Menu</h6>
-                    <!-- <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button> -->
-                </div>
-                <div class="modal-body text-start">
-                    <input type="hidden" class="form-control " id="id" name="id">
-                    <div class="input-group">
-
-                        <input type="text" class="form-control " name="judul">
-                    </div><br>
-                    <div class="input-group">
-                        <input type="text" class="form-control " name="link">
-                    </div><br>
-                    <div class="input-group">
-                        <input type="text" class="form-control " name="urutan">
-                    </div>
-
-
-
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" id="update">
-                        Update
-                    </button>
-                    <!-- <button class="btn btn-light" data-bs-dismiss="modal" >Close</button> -->
-                </div>
-            </div>
-        </div>
-    </form>
-</div>
 
 
 <script>
@@ -264,8 +164,11 @@ include 'component/footer.view.php';
                                     </div>
                                     
                                     <div class="text-center pt-3">
-                                    <button class="btn btn-outline-primary ms-auto float-center cariBtn"
-                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id_sipd + `" title="View Task">Cari SPM</button>
+                                        <div class="col-sm-6 col-md-4 col-xl-3">
+                                             <a class="modal-effect btn btn-primary d-grid mb-3 cariBtn" data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" value="` + value.id_sipd + `" href="#exampleModalXl">Slide In Bottom</a>
+                                        </div>
+                                     <button class="btn btn-outline-primary ms-auto float-center tampilkan"
+                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id_sipd + `" title="View Task"></button>
                                     </div>  
                                 </div>
                             </div>
@@ -334,8 +237,12 @@ include 'component/footer.view.php';
                                     </div>
                                     
                                     <div class="text-center pt-3">
-                                    <button class="btn btn-outline-primary ms-auto float-center cariBtn"
-                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id_sipd + `" title="View Task">Cari SPM</button>
+                                        <div class="col-sm-6 col-md-4 col-xl-3">
+                                            <a class="modal-effect btn btn-primary d-grid mb-3 cariBtn" data-bs-effect="effect-slide-in-bottom" data-bs-toggle="modal" value="` + value.id_sipd + `" href="#exampleModalXl">Slide In Bottom</a>
+                                        </div>
+                                        <button class="btn btn-outline-primary ms-auto float-center tampilkan"
+                                        data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task"></button>
+                                   
                                     </div>  
                                 </div>
                             </div>
@@ -347,11 +254,317 @@ include 'component/footer.view.php';
                 });
             } else {
                 fetchData();
-
             }
 
         });
 
 
+        $("#tablespm").on("click", ".tampilkan", function() {
+            // if (confirm("Apakah yakin memasukkan dalam Keranjang?")) {
+            var id = $(this).val();
+            console.log(id);
+
+
+            // }
+        });
+
+
+
     });
 </script>
+<div class="modal fade" id="modaldemo8insert">
+    <form method="post" id="form_inputmenu">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Form Input Menu</h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- <div class="modal-body text-start">
+                    <div class="input-group">
+                        <input type="text" class="form-control " placeholder="Judul Menu" name="judul" id="judul">
+                    </div><br>
+                    <div class="input-group">
+                        <input type="text" class="form-control " placeholder="Isi Link" name="link" id="link">
+                    </div><br>
+                    <div class="input-group">
+                        <input type="text" class="form-control " placeholder="Isi Urutan Menu" name="urutan"
+                            id="urutan">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" id="simpan">
+                        Simpan
+                    </button>
+                </div> -->
+
+                <div class="table-responsive">
+                    <table class="table text-nowrap table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">User</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar avatar-xs me-2 online avatar-rounded">
+                                            <img src="../assets/images/faces/13.jpg" alt="img">
+                                        </span>Sukuro Kim
+                                    </div>
+                                </th>
+                                <td><span class="badge bg-success-transparent">Active</span></td>
+                                <td>kimosukuro@gmail.com</td>
+                                <td>
+                                    <div class="hstack gap-2 flex-wrap">
+                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
+                                                class="ri-edit-line"></i></a>
+                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
+                                                class="ri-delete-bin-5-line"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar avatar-xs me-2 offline avatar-rounded">
+                                            <img src="../assets/images/faces/6.jpg" alt="img">
+                                        </span>Hasimna
+                                    </div>
+                                </th>
+                                <td><span class="badge bg-light text-dark">Inactive</span></td>
+                                <td>hasimna2132@gmail.com</td>
+                                <td>
+                                    <div class="hstack gap-2 flex-wrap">
+                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
+                                                class="ri-edit-line"></i></a>
+                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
+                                                class="ri-delete-bin-5-line"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar avatar-xs me-2 online avatar-rounded">
+                                            <img src="../assets/images/faces/15.jpg" alt="img">
+                                        </span>Azimo Khan
+                                    </div>
+                                </th>
+                                <td><span class="badge bg-success-transparent">Active</span></td>
+                                <td>azimokhan421@gmail.com</td>
+                                <td>
+                                    <div class="hstack gap-2 flex-wrap">
+                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
+                                                class="ri-edit-line"></i></a>
+                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
+                                                class="ri-delete-bin-5-line"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar avatar-xs me-2 online avatar-rounded">
+                                            <img src="../assets/images/faces/5.jpg" alt="img">
+                                        </span>Samantha Julia
+                                    </div>
+                                </th>
+                                <td><span class="badge bg-success-transparent">Active</span></td>
+                                <td>julianasams143@gmail.com</td>
+                                <td>
+                                    <div class="hstack gap-2 flex-wrap">
+                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
+                                                class="ri-edit-line"></i></a>
+                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
+                                                class="ri-delete-bin-5-line"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+    <!-- <h1>tes</h1> -->
+
+</div>
+
+<div class="modal fade" id="exampleModalXl" tabindex="-1"
+    aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalXlLabel">LIST SPM</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table text-nowrap table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">No SPM</th>
+                                <th scope="col">Dokumen</th>
+                                <th scope="col">Keterangan</th>
+                                <th scope="col">Nilai</th>
+                                <th scope="col">Potongan</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar avatar-xs me-2 online avatar-rounded">
+                                            <img src="../assets/images/faces/13.jpg" alt="img">
+                                        </span>72.71/03/02383/LS/1.938.434.23./M/2025
+                                    </div>
+                                </th>
+                               
+                                <td>LS</td>
+                                <td>
+                                    Pembayaran Gaji PNS dan PPPK
+                                </td>
+                                <td>19.112.022</td>
+                                <td>200.000</td>
+                                <td>
+                                    <div class="hstack gap-2 flex-wrap">
+                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
+                                                class="ri-edit-line"></i></a>
+                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
+                                                class="ri-delete-bin-5-line"></i></a>
+                                    </div>
+                                </td>
+                                 <!-- <td><span class="badge bg-success-transparent">Active</span></td> -->
+                            </tr>
+                            <!-- <tr>
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar avatar-xs me-2 offline avatar-rounded">
+                                            <img src="../assets/images/faces/6.jpg" alt="img">
+                                        </span>Hasimna
+                                    </div>
+                                </th>
+                                <td><span class="badge bg-light text-dark">Inactive</span></td>
+                                <td>hasimna2132@gmail.com</td>
+                                <td>
+                                    <div class="hstack gap-2 flex-wrap">
+                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
+                                                class="ri-edit-line"></i></a>
+                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
+                                                class="ri-delete-bin-5-line"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar avatar-xs me-2 online avatar-rounded">
+                                            <img src="../assets/images/faces/15.jpg" alt="img">
+                                        </span>Azimo Khan
+                                    </div>
+                                </th>
+                                <td><span class="badge bg-success-transparent">Active</span></td>
+                                <td>azimokhan421@gmail.com</td>
+                                <td>
+                                    <div class="hstack gap-2 flex-wrap">
+                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
+                                                class="ri-edit-line"></i></a>
+                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
+                                                class="ri-delete-bin-5-line"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    <div class="d-flex align-items-center">
+                                        <span class="avatar avatar-xs me-2 online avatar-rounded">
+                                            <img src="../assets/images/faces/5.jpg" alt="img">
+                                        </span>Samantha Julia
+                                    </div>
+                                </th>
+                                <td><span class="badge bg-success-transparent">Active</span></td>
+                                <td>julianasams143@gmail.com</td>
+                                <td>
+                                    <div class="hstack gap-2 flex-wrap">
+                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
+                                                class="ri-edit-line"></i></a>
+                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
+                                                class="ri-delete-bin-5-line"></i></a>
+                                    </div>
+                                </td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modaldemo8edit">
+    <form method="post" id="editForm">
+        <div class="modal-dialog modal-dialog-centered text-center" role="document">
+            <div class="modal-content modal-content-demo">
+                <div class="modal-header">
+                    <h6 class="modal-title">Form edit Menu</h6>
+                    <!-- <button aria-label="Close" class="btn-close" data-bs-dismiss="modal"></button> -->
+                </div>
+                <div class="modal-body text-start">
+                    <input type="hidden" class="form-control " id="id" name="id">
+                    <div class="input-group">
+
+                        <input type="text" class="form-control " name="judul">
+                    </div><br>
+                    <div class="input-group">
+                        <input type="text" class="form-control " name="link">
+                    </div><br>
+                    <div class="input-group">
+                        <input type="text" class="form-control " name="urutan">
+                    </div>
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="update">
+                        Update
+                    </button>
+                    <!-- <button class="btn btn-light" data-bs-dismiss="modal" >Close</button> -->
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+<!-- <div class="alert custom-alert1 alert-secondary" id="error">
+    <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert"
+        aria-label="Close"><i class="bi bi-x"></i></button>
+    <div class="text-center px-5 pb-0">
+        <svg class="custom-alert-icon svg-secondary" xmlns="http://www.w3.org/2000/svg"
+            height="1.5rem" viewBox="0 0 24 24" width="1.5rem" fill="#000000">
+            <path d="M0 0h24v24H0z" fill="none" />
+            <path
+                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+        </svg>
+        <h5>Confirmed</h5>
+        <p class="">This alert is created to just show the confirmation message.</p>
+        <div class="">
+            <button class="btn btn-sm btn-secondary m-1">Close</button>
+        </div>
+    </div>
+</div> -->
