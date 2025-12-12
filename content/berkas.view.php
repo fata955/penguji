@@ -14,9 +14,9 @@ include 'component/pengaturantampilan.view.php';
     ?>
     <!--End modal -->
     <!-- Start::app-sidebar -->
-    <aside class="app-sidebar sticky" id="sidebar">
+    <!-- <aside class="app-sidebar sticky" id="sidebar">
 
-        <!-- Start::main-sidebar-header -->
+        
         <div class="main-sidebar-header">
             <a href="index.html" class="header-logo">
                 <img src="assets/images/brand-logos/desktop-logo.png" alt="logo" class="desktop-logo">
@@ -25,12 +25,12 @@ include 'component/pengaturantampilan.view.php';
                 <img src="assets/images/brand-logos/toggle-white.png" alt="logo" class="toggle-white">
             </a>
         </div>
-        <!-- End::main-sidebar-header -->
+    
         <?php
-        include 'component/sidebar.view.php';
+        // include 'component/sidebar.view.php';
         ?>
 
-    </aside>
+    </aside> -->
     <!-- End::app-sidebar -->
 
     <!-- Start::app-content -->
@@ -40,43 +40,17 @@ include 'component/pengaturantampilan.view.php';
                 <div class="col-xl-12 col-lg-12 col-md-12">
                     <div class="card">
                         <div class="card-body p-2">
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search ...">
-                                <button class="btn btn-primary" type="button">Search</button>
+                           <form action="" method="post" id="cari">
+                            <div class="card-body d-flex p-3 align-items-center">
+                                <input class="form-control" placeholder="CARI NAMA OPD"
+                                    type="search" id="datasearch"> <button type="submit" class="btn"><i
+                                        class="fa fa-search d-none d-md-block"></i></button>
                             </div>
+                        </form>
                         </div>
                     </div>
-                    <div class="row row-sm">
-                        <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
-                            <div class="card" style="min-height: 350px; ">
-                                <div class="card-body h-100">
-                                    <div class="pro-img-box">
-                                        <div class="product-sale">
-                                            <!-- <div class="badge bg-pink">New</div> -->
-                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart-outline ms-auto wishlist"></i></a> -->
-                                        </div>
-                                        <a href="spm/1"><img class="w-100 rounded-3" src="../Logo/BPBD.png"
-                                                alt="product-image">
-                                        </a>
-                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
-                                        </a> -->
-                                    </div>
-                                    <div class="text-center pt-3">
-                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">BPBD</h3>
-                                        <span class="fs-15 ms-auto">
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star text-warning"></i>
-                                            <i class="ion ion-md-star-half text-warning"></i>
-                                            <i class="ion ion-md-star-outline text-warning"></i>
-                                        </span>
-                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$26 <span
-                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$59</span>
-                                        </h4> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="row row-sm" id="tablespm">
+
 
                         <!-- pagination -->
                         <!-- <ul class="pagination product-pagination ms-auto float-end mb-3 ps-2">
@@ -110,66 +84,8 @@ include 'component/footer.view.php';
 
 <script>
     $(document).ready(function() {
-        fetchData()
 
-        let table = new DataTable("#mytable");
 
-        function fetchData() {
-            $.ajax({
-                url: "proses/sp2d/listpenguji.php?action=fetchData",
-                type: "POST",
-                dataType: "json",
-                success: function(response) {
-                    var data = response.data;
-                    table.clear().draw();
-                    var counter = 1;
-                    $.each(data, function(index, value) {
-                        table.row
-                            .add([
-                                counter,
-                                value.nomor_spm,
-                                value.keterangan_spm,
-                                value.nilai_spm,
-                                value.jenis,
-                                value.status_berkas,
-                                value.id_sp2d,
-                                value.nomorpenguji
-                            ])
-
-                            .draw(false);
-                        counter++;
-                    });
-                }
-            });
-        }
-
-        // $('form').on('submit', function(e) {
-        //     e.preventDefault();
-        //     $.ajax({
-        //         url: 'proses/sp2d/listsp2d.php?action=cariData',
-        //         method: 'POST',
-        //         data: $(this).serialize(),
-        //         dataType: 'json',
-        //         success: function(response) {
-        //             let rows = '';
-        //             if (response.length > 0) {
-        //                 $.each(response, function(i, item) {
-        //                     rows += `<tr>
-        //       <td>${i+1}</td>
-        //       <td>${item.nama}</td>
-        //       <td>${item.lokasi}</td>
-        //       <td>${item.kategori}</td>
-        //       <td>${item.status}</td>
-        //       <td>${item.tahun}</td>
-        //     </tr>`;
-        //                 });
-        //             } else {
-        //                 rows = '<tr><td colspan="6" class="text-center">Data tidak ditemukan</td></tr>';
-        //             }
-        //             $('table tbody').html(rows);
-        //         }
-        //     });
-        // });
     });
 </script>
 
@@ -266,3 +182,176 @@ include 'component/footer.view.php';
         </div>
     </form>
 </div>
+
+
+<script>
+    $(document).ready(function() {
+        // setInterval(fetchData, 9990);
+        fetchData();
+        // let table = new DataTable("#mytablelist");
+        // let table1 = new DataTable("#mytablePenguji", {
+        //     order: [
+        //         [3, 'desc']
+        //     ]
+        // });
+        // let table2 = new DataTable("#tablelistspm");
+        // fetchCart();
+        // fetchPenguji();
+        // kosong();
+        // $("#tab").hide();
+
+        function formatRupiah(angka, prefix) {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split = number_string.split(','),
+                sisa = split[0].length % 3,
+                rupiah = split[0].substr(0, sisa),
+                ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+            // tambahkan titik jika yang di input sudah menjadi angka ribuan
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        }
+
+        // function to fetch data from database
+        function fetchData(data) {
+            $("#tablespm").empty();
+            $.ajax({
+                url: "proses/berkas/page.php?action=fetchData",
+                type: "POST",
+                dataType: "json",
+                success: function(response) {
+                    var data = response.data;
+
+                    // $("#tablespm").hide();
+
+                    $.each(data, function(index, value) {
+
+                        $("#tablespm").append(`
+                            <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
+                            <div class="card" style="min-height: 350px; ">
+                                <div class="card-body h-100">
+                                    <div class="pro-img-box">
+                                        <div class="product-sale">
+                                            <!-- <div class="badge bg-pink">New</div> -->
+                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart-outline ms-auto wishlist"></i></a> -->
+                                        </div>
+                                        <a href="spm/1"><img class="w-100 rounded-3" src=""
+                                                alt="product-image">
+                                        </a>
+                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
+                                        </a> -->
+                                    </div>
+                                    <div class="text-center pt-3">
+                                 
+                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">` + value.nama_opd + `
+                                        </h3> 
+                                      
+                                        <span class="fs-15 ms-auto">
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star-half text-warning"></i>
+                                            <i class="ion ion-md-star-outline text-warning"></i>
+                                        </span>
+                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$26 <span
+                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$59</span>
+                                        </h4> -->
+                                    </div>
+                                    
+                                    <div class="text-center pt-3">
+                                    <button class="btn btn-outline-primary ms-auto float-center cariBtn"
+                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id_sipd + `" title="View Task">Cari SPM</button>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                    
+                        `)
+                        // .draw(false);
+                    });
+
+                }
+            });
+        }
+
+
+        // function to update data in database
+        $("#cari").on("submit", function(e) {
+            // $("#editBtn").attr("disabled");
+            $("#tablespm").empty();
+            var dsearch = $("#datasearch").val();
+            e.preventDefault();
+            if (dsearch) {
+                $.ajax({
+                    url: "proses/berkas/page.php?action=searchopd",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        dsearch: dsearch
+                    },
+                    success: function(response) {
+                        var data = response.data;
+
+                        // $("#tablespm").hide();
+
+                        $.each(data, function(index, value) {
+
+                            $("#tablespm").append(`
+                             <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4">
+                            <div class="card" style="min-height: 350px; ">
+                                <div class="card-body h-100">
+                                    <div class="pro-img-box">
+                                        <div class="product-sale">
+                                            <!-- <div class="badge bg-pink">New</div> -->
+                                            <!-- <a href="wish-list.html"><i class="mdi mdi-heart-outline ms-auto wishlist"></i></a> -->
+                                        </div>
+                                        <a href="spm/1"><img class="w-100 rounded-3" src=""
+                                                alt="product-image">
+                                        </a>
+                                        <!-- <a href="product-cart.html" class="adtocart"> <i class="las la-shopping-cart "></i>
+                                        </a> -->
+                                    </div>
+                                    <div class="text-center pt-3">
+                                 
+                                        <h3 class="h6 mb-2 mt-4 fw-bold text-uppercase">` + value.nama_opd + `
+                                        </h3> 
+                                      
+                                        <span class="fs-15 ms-auto">
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star text-warning"></i>
+                                            <i class="ion ion-md-star-half text-warning"></i>
+                                            <i class="ion ion-md-star-outline text-warning"></i>
+                                        </span>
+                                        <!-- <h4 class="h5 mb-0 mt-2 text-center fw-bold text-danger">$26 <span
+                                                class="text-secondary fw-normal fs-13 ms-1 prev-price">$59</span>
+                                        </h4> -->
+                                    </div>
+                                    
+                                    <div class="text-center pt-3">
+                                    <button class="btn btn-outline-primary ms-auto float-center cariBtn"
+                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id_sipd + `" title="View Task">Cari SPM</button>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+                        `)
+                            // .draw(false);
+                        });
+                    }
+                });
+            } else {
+                fetchData();
+
+            }
+
+        });
+
+
+    });
+</script>

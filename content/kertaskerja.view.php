@@ -360,7 +360,7 @@ include 'component/pengaturantampilan.view.php';
                         $.each(data, function(index, value) {
 
                             $("#tablespm").append(`
-                            <div class="col-xl-4 col-md-6">
+                        <div class="col-xl-4 col-md-6">
                             <div class="card mb-4">
                                 <div class="card-body p-0">
                                     <div class="todo-widget-header d-flex pb-2 p-4">

@@ -30,6 +30,10 @@ switch ($request) {
     case $me . 'kertaskerja':
         require "content/kertaskerja.view.php";
         break;
+    case $me . 'spm':
+        require "content/getdataspm.view.php";
+        break;
+   
    
    
     default:
