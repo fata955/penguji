@@ -8,7 +8,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>PENGUJI SP2D </title>
-    <meta name="Description" content="Bootstrap Responsive Admin Web Dashboard HTML5 Template">
+    <meta name="Description" content="Penatausahaan dan Akuntasi BPKAD ">
     <meta name="Author" content="Administrasi">
     <meta name="keywords" content="admin dashboard template,admin panel html,bootstrap dashboard,admin dashboard,html template,template dashboard html,html css,bootstrap 5 admin template,bootstrap admin template,bootstrap 5 dashboard,admin panel html template,dashboard template bootstrap,admin dashboard html template,bootstrap admin panel,simple html template,admin dashboard bootstrap">
 
@@ -54,6 +54,7 @@
     <link rel="stylesheet" href="assets/libs/dropzone/dropzone.css">
     <script src="assets/js/show-password.js"></script>
     <script src="assets/js/authentication-main.js"></script>
+    <link rel="stylesheet" href="assets/libs/prismjs/themes/prism-coy.min.css">
     <!-- <link rel="stylesheet" href="../assets/ckeditor/content.css"> -->
        
     

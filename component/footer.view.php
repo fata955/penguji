@@ -46,13 +46,14 @@
 
     <!-- Color Picker JS -->
     <script src="assets/libs/@simonwep/pickr/pickr.es5.min.js"></script>
+    <!-- <script src="assets/js/Toasts.js"></script> -->
 
  
     
     <!-- Custom-Switcher JS -->
     <script src="assets/js/custom-switcher.min.js"></script>
 
-    <!-- Toast JS -->
+    <!-- Toast JS --> 
     <script src="assets/js/Toasts.js"></script>
     <!-- Custom JS -->
     <script src="assets/js/custom.js"></script>

@@ -36,4 +36,90 @@ if ($_GET["action"] === "searchopd") {
   ]);
 }
 
-?>
+if ($_GET["action"] === "sumberdana") {
+  $sql = " SELECT * FROM t_sumberdana           
+          ";
+  $result = mysqli_query($koneksi, $sql);
+  $data = [];
+  while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+  }
+  mysqli_close($koneksi);
+  header('Content-Type: application/json');
+  echo json_encode([
+    "data" => $data
+    // "potongan" => $result1
+  ]);
+}
+
+
+if ($_GET["action"] === "listspm") {
+  $id = $_POST["id"];
+  $sql = " 
+        SELECT 
+            a.id_spm,
+            a.nomor_spm,
+            a.jenis,
+            c.nama_opd,
+            a.keterangan_spm,
+            a.nilai_spm,
+            a.tanggal_spm,
+            COALESCE(e.namasumberdana, '-') AS namasumberdana,
+            d.id_dana,
+            (
+                SELECT COALESCE(SUM(b.nilai), 0)
+                FROM potongan b
+                WHERE a.id_spm = b.id_spm
+            ) AS potongan
+        FROM tspm a
+        LEFT JOIN tspmsub d ON a.id_spm = d.id_spm
+        LEFT JOIN t_sumberdana e ON e.id = d.id_dana
+        LEFT JOIN skpd c ON a.id_skpd = c.id_sipd
+        WHERE a.id_skpd = $id AND d.id_sp2d= '0';
+    ";
+  $result = mysqli_query($koneksi, $sql);
+  $data = [];
+  while ($row = mysqli_fetch_assoc($result)) {
+    $data[] = $row;
+  }
+  mysqli_close($koneksi);
+  header('Content-Type: application/json');
+  echo json_encode([
+    "data" => $data
+    // "potongan" => $result1
+  ]);
+}
+
+
+if ($_GET["action"] === "updateSd") {
+  // header("Content-Type: application/json");
+
+  // $input = json_decode(file_get_contents("php://input"), true);
+
+  // $id_spm  = $input["id_sipd"];
+  // $id_dana = $input["id_dana"];
+  $id = $_POST['id'];
+  $id_dana = $_POST['id_dana'];
+
+  // Jika id_dana kosong, set ke 0
+  if ($id_dana == "" || $id_dana == null) {
+    $id_dana = 0;
+  }
+
+  $sql = "UPDATE tspmsub SET id_dana = ? WHERE id_spm = ?";
+  $stmt = $koneksi->prepare($sql);
+  $stmt->bind_param("ii", $id_dana, $id);
+
+  if ($stmt->execute()) {
+    echo json_encode(["status" => "success", "message" => "Sumber dana diperbarui"]);
+  } else {
+    echo json_encode(["status" => "error", "message" => $stmt->error]);
+  }
+
+  mysqli_close($koneksi);
+  // header('Content-Type: application/json');
+  // echo json_encode([
+  //   "data" => $data
+  //   // "potongan" => $result1
+  // ]);
+}
