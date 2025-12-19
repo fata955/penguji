@@ -66,6 +66,35 @@ include 'component/pengaturantampilan.view.php';
 include 'component/footer.view.php';
 ?>
 
+<div class="modal fade" id="modaldemo8insert" tabindex="-1"
+    aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="exampleModalXlLabel">Upload Berkas</h6>
+                <!-- <button class="btn btn-outline-warning ms-auto float-center tampilkan"
+                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">Laporan SPM</button>
+                <button class="btn btn-outline-secondary ms-auto float-center tampilkan"
+                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">SPM Masuk</button> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf">
+                    <button type="button" id="uploadBtn" class="btn btn-primary">Upload PDF</button>
+                </form>
+
+                <div class="progress mt-3" style="height: 25px;">
+                    <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated"
+                        role="progressbar" style="width: 0%">0%</div>
+                </div>
+
+                <div id="status" class="mt-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="exampleModalXl" tabindex="-1"
     aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
@@ -333,12 +362,12 @@ include 'component/footer.view.php';
                                     selected +
                                     '</select>',
                                     '<button class="btn btn-outline-secondary ms-auto float-center tampilkan" ' +
-                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Rincian Belanja</button><br><br>'+ 
-                                    '<button class="btn btn-outline-warning ms-auto float-center tampilkan" ' +
+                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Rincian Belanja</button><br><br>' +
+                                    '<button class="btn btn-outline-warning ms-auto float-center tampilkan2" ' +
                                     ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Potongan</button><br><br>' +
-                                    '<button class="btn btn-outline-danger ms-auto float-center tampilkan" ' +
+                                    '<button class="btn btn-outline-danger ms-auto float-center tampilkan3" ' +
                                     ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Upload Berkas</button>'
-                                    
+
                                 ])
                                 .draw(false);
 
@@ -379,6 +408,72 @@ include 'component/footer.view.php';
                 }
             });
         });
+        $(document).on("click", ".tampilkan3", function() {
+            $("#exampleModalXl").modal("hide");
+            $("#modaldemo8insert").modal("show");
+        });
+
+        $("#uploadBtn").on("click", function() {
+            const file = $("#pdfFile")[0].files[0];
+            if (!file) {
+                alert("Pilih file PDF terlebih dahulu!");
+                return;
+            }
+
+            const chunkSize = 5 * 1024 * 1024; // 5MB
+            const totalChunks = Math.ceil(file.size / chunkSize);
+            let currentChunk = 0;
+
+            // Cek ke server: chunk terakhir yang sudah diupload
+            $.ajax({
+                url: "proses/berkas/resume.php",
+                type: "POST",
+                data: {
+                    fileName: file.name
+                },
+                success: function(response) {
+                    currentChunk = parseInt(response) || 0;
+                    uploadNextChunk();
+                }
+            });
+
+            function uploadNextChunk() {
+                if (currentChunk >= totalChunks) {
+                    $("#status").html("<b>Upload selesai!</b>");
+                    $("#progressBar").removeClass("progress-bar-animated");
+                    return;
+                }
+
+                const start = currentChunk * chunkSize;
+                const end = Math.min(start + chunkSize, file.size);
+                const chunk = file.slice(start, end);
+
+                const formData = new FormData();
+                formData.append("chunk", chunk);
+                formData.append("index", currentChunk);
+                formData.append("total", totalChunks);
+                formData.append("fileName", file.name);
+
+                $.ajax({
+                    url: "proses/berkas/upload.php",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        let percent = Math.round(((currentChunk + 1) / totalChunks) * 100);
+                        $("#progressBar").css("width", percent + "%").text(percent + "%");
+                        $("#status").html("Chunk " + (currentChunk + 1) + " dari " + totalChunks + " selesai.");
+
+                        currentChunk++;
+                        uploadNextChunk();
+                    },
+                    error: function() {
+                        $("#status").html("Terjadi kesalahan pada chunk " + (currentChunk + 1));
+                    }
+                });
+            }
+        });
 
 
 
@@ -387,130 +482,7 @@ include 'component/footer.view.php';
 
     });
 </script>
-<div class="modal fade" id="modaldemo8insert">
-    <form method="post" id="form_inputmenu">
-        <div class="modal-dialog modal-dialog-centered text-center" role="document">
-            <div class="modal-content modal-content-demo">
-                <div class="modal-header">
-                    <h6 class="modal-title">Form Input Menu</h6>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <!-- <div class="modal-body text-start">
-                    <div class="input-group">
-                        <input type="text" class="form-control " placeholder="Judul Menu" name="judul" id="judul">
-                    </div><br>
-                    <div class="input-group">
-                        <input type="text" class="form-control " placeholder="Isi Link" name="link" id="link">
-                    </div><br>
-                    <div class="input-group">
-                        <input type="text" class="form-control " placeholder="Isi Urutan Menu" name="urutan"
-                            id="urutan">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="simpan">
-                        Simpan
-                    </button>
-                </div> -->
 
-                <div class="table-responsive">
-                    <table class="table text-nowrap table-bordered">
-                        <thead>
-                            <tr>
-                                <th scope="col">User</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center">
-                                        <span class="avatar avatar-xs me-2 online avatar-rounded">
-                                            <img src="../assets/images/faces/13.jpg" alt="img">
-                                        </span>Sukuro Kim
-                                    </div>
-                                </th>
-                                <td><span class="badge bg-success-transparent">Active</span></td>
-                                <td>kimosukuro@gmail.com</td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
-                                                class="ri-edit-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
-                                                class="ri-delete-bin-5-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center">
-                                        <span class="avatar avatar-xs me-2 offline avatar-rounded">
-                                            <img src="../assets/images/faces/6.jpg" alt="img">
-                                        </span>Hasimna
-                                    </div>
-                                </th>
-                                <td><span class="badge bg-light text-dark">Inactive</span></td>
-                                <td>hasimna2132@gmail.com</td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
-                                                class="ri-edit-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
-                                                class="ri-delete-bin-5-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center">
-                                        <span class="avatar avatar-xs me-2 online avatar-rounded">
-                                            <img src="../assets/images/faces/15.jpg" alt="img">
-                                        </span>Azimo Khan
-                                    </div>
-                                </th>
-                                <td><span class="badge bg-success-transparent">Active</span></td>
-                                <td>azimokhan421@gmail.com</td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
-                                                class="ri-edit-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
-                                                class="ri-delete-bin-5-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">
-                                    <div class="d-flex align-items-center">
-                                        <span class="avatar avatar-xs me-2 online avatar-rounded">
-                                            <img src="../assets/images/faces/5.jpg" alt="img">
-                                        </span>Samantha Julia
-                                    </div>
-                                </th>
-                                <td><span class="badge bg-success-transparent">Active</span></td>
-                                <td>julianasams143@gmail.com</td>
-                                <td>
-                                    <div class="hstack gap-2 flex-wrap">
-                                        <a href="javascript:void(0);" class="text-info fs-14 lh-1"><i
-                                                class="ri-edit-line"></i></a>
-                                        <a href="javascript:void(0);" class="text-danger fs-14 lh-1"><i
-                                                class="ri-delete-bin-5-line"></i></a>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-
-    </form>
-    <!-- <h1>tes</h1> -->
-
-</div>
 
 
 
