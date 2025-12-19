@@ -73,6 +73,10 @@ include 'component/footer.view.php';
         <div class="modal-content">
             <div class="modal-header">
                 <h6 class="modal-title" id="exampleModalXlLabel">LIST SPM</h6>
+                <!-- <button class="btn btn-outline-warning ms-auto float-center tampilkan"
+                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">Laporan SPM</button>
+                <button class="btn btn-outline-secondary ms-auto float-center tampilkan"
+                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">SPM Masuk</button> -->
                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                     aria-label="Close"></button>
             </div>
@@ -87,7 +91,8 @@ include 'component/footer.view.php';
                                 <th scope="col">Nilai</th>
                                 <th scope="col">Potongan</th>
                                 <th scope="col">Input Sumber Dana</th>
-                                <th scope="col">Sync Belanja</th>
+                                <th scope="col">Inputan Berkas</th>
+
                             </tr>
                         </thead>
                         <tbody>
@@ -181,7 +186,7 @@ include 'component/footer.view.php';
                                     
                                     <div class="text-center pt-3">
                                      <button class="btn btn-outline-warning ms-auto float-center tampilkan"
-                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id_sipd + `" title="View Task"></button>
+                                        data-bs-placement="top" data-bs-toggle="tooltip"  value="` + value.id_sipd + `" title="View Task">SPM Masuk</button>
                                     </div>  
                                 </div>
                             </div>
@@ -328,7 +333,12 @@ include 'component/footer.view.php';
                                     selected +
                                     '</select>',
                                     '<button class="btn btn-outline-secondary ms-auto float-center tampilkan" ' +
-                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Rincian Belanja</button>'
+                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Rincian Belanja</button><br><br>'+ 
+                                    '<button class="btn btn-outline-warning ms-auto float-center tampilkan" ' +
+                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Potongan</button><br><br>' +
+                                    '<button class="btn btn-outline-danger ms-auto float-center tampilkan" ' +
+                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Upload Berkas</button>'
+                                    
                                 ])
                                 .draw(false);
 
@@ -361,7 +371,7 @@ include 'component/footer.view.php';
                 success: function(res) {
                     console.log("RESPON PHP:", res);
                     $("#successToast").toast("show");
-            
+
                 },
                 error: function(xhr) {
                     console.log("AJAX ERROR:", xhr.status, xhr.responseText);
