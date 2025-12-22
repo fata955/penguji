@@ -81,6 +81,8 @@ include 'component/footer.view.php';
             </div>
             <div class="modal-body">
                 <form id="uploadForm" enctype="multipart/form-data">
+                    <input type="hidden" name="idspmhidden" id="idspmhidden" value="">
+
                     <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf">
                     <button type="button" id="uploadBtn" class="btn btn-primary">Upload PDF</button>
                 </form>
@@ -244,11 +246,8 @@ include 'component/footer.view.php';
                     },
                     success: function(response) {
                         var data = response.data;
-
                         // $("#tablespm").hide();
-
                         $.each(data, function(index, value) {
-
                             $("#tablespm").append(`
                              <div class="col-md-4 col-lg-4 col-xl-2  col-sm-4" >
                             <div class="card " style="min-height: 250px;" value="` + value.id_sipd + `">
@@ -366,7 +365,7 @@ include 'component/footer.view.php';
                                     '<button class="btn btn-outline-warning ms-auto float-center tampilkan2" ' +
                                     ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Potongan</button><br><br>' +
                                     '<button class="btn btn-outline-danger ms-auto float-center tampilkan3" ' +
-                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Upload Berkas</button>'
+                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  data-id="' + value.id_spm + '" value="' + value.id_spm + '" title="View Task">Upload Berkas</button>'
 
                                 ])
                                 .draw(false);
@@ -411,10 +410,15 @@ include 'component/footer.view.php';
         $(document).on("click", ".tampilkan3", function() {
             $("#exampleModalXl").modal("hide");
             $("#modaldemo8insert").modal("show");
+            var id = $(this).data('id');
+             $('#idspmhidden').val(id);
+
         });
 
         $("#uploadBtn").on("click", function() {
             const file = $("#pdfFile")[0].files[0];
+            let id = $('#idspmhidden').val();
+            // console.log(id);
             if (!file) {
                 alert("Pilih file PDF terlebih dahulu!");
                 return;
@@ -429,7 +433,8 @@ include 'component/footer.view.php';
                 url: "proses/berkas/resume.php",
                 type: "POST",
                 data: {
-                    fileName: file.name
+                    fileName: file.name,
+                    id:id
                 },
                 success: function(response) {
                     currentChunk = parseInt(response) || 0;
@@ -453,6 +458,7 @@ include 'component/footer.view.php';
                 formData.append("index", currentChunk);
                 formData.append("total", totalChunks);
                 formData.append("fileName", file.name);
+                formData.append("id", id);
 
                 $.ajax({
                     url: "proses/berkas/upload.php",
@@ -467,6 +473,7 @@ include 'component/footer.view.php';
 
                         currentChunk++;
                         uploadNextChunk();
+                        console.log(id);
                     },
                     error: function() {
                         $("#status").html("Terjadi kesalahan pada chunk " + (currentChunk + 1));
@@ -474,11 +481,6 @@ include 'component/footer.view.php';
                 });
             }
         });
-
-
-
-
-
 
     });
 </script>

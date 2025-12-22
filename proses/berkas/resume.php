@@ -1,6 +1,7 @@
 <?php
 $targetDir = __DIR__ . "/uploads/";
 $fileName  = $_POST['fileName'];
+$id  = $_POST['id'];
 
 // Cari chunk terakhir yang sudah ada
 $lastChunk = -1;
@@ -12,5 +13,5 @@ for ($i = 0; $i < 10000; $i++) { // batas aman
     }
 }
 
-echo $lastChunk + 1; // index chunk berikutnya yang harus diupload
+echo $lastChunk + 1; 
 ?>
