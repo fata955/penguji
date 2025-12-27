@@ -33,6 +33,9 @@ switch ($request) {
     case $me . 'spm':
         require "content/getdataspm.view.php";
         break;
+        case $me . 'logout':
+        require "proses/logout/page.php";
+        break;
    
    
    

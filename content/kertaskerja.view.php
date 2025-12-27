@@ -310,8 +310,6 @@ include 'component/pengaturantampilan.view.php';
     include 'component/footer.view.php';
     ?>
 
-
-
     <script>
         $(document).ready(function() {
             // setInterval(fetchData, 9990);
@@ -356,9 +354,7 @@ include 'component/pengaturantampilan.view.php';
                         var data = response.data;
 
                         // $("#tablespm").hide();
-
                         $.each(data, function(index, value) {
-
                             $("#tablespm").append(`
                         <div class="col-xl-4 col-md-6">
                             <div class="card mb-4">
