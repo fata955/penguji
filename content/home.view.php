@@ -449,7 +449,7 @@ $page = "beranda";
                 <div class="col-md-12 col-lg-8 col-xl-8">
                     <div class="card card-table">
                         <div class=" card-header p-0 d-flex justify-content-between">
-                            <h4 class="card-title mb-1">Your Most Recent Earnings</h4>
+                            <h4 class="card-title mb-1">SumberDana</h4>
                             <a href="javascript:void(0);" class="btn btn-icon btn-sm btn-light bg-transparent rounded-pill" data-bs-toggle="dropdown"><i
                                     class="fe fe-more-horizontal"></i></a>
                             <div class="dropdown-menu">
@@ -460,44 +460,50 @@ $page = "beranda";
                                     Here</a>
                             </div>
                         </div>
-                        <span class="fs-12 text-muted mb-3 ">This is your most recent earnings for today's date.</span>
+                        <span class="fs-12 text-muted mb-3 ">Laporan Sumber Dana</span>
                         <div class="table-responsive country-table">
                             <table class="table table-striped table-bordered mb-0 text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th class="wd-lg-25p">Date</th>
-                                        <th class="wd-lg-25p">Sales Count</th>
-                                        <th class="wd-lg-25p">Earnings</th>
-                                        <th class="wd-lg-25p">Tax Witheld</th>
+                                        <th class="wd-lg-25p">SumberDana</th>
+                                        <th class="wd-lg-25p">Anggaran</th>
+                                        <th class="wd-lg-25p">Realisasi</th>
+                                        <th class="wd-lg-25p">Sisa</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>05 Dec 2019</td>
+                                        <td>DAU GAJI</td>
                                         <td class="fw-medium">34</td>
                                         <td class="fw-medium">$658.20</td>
                                         <td class="text-danger fw-medium">-$45.10</td>
                                     </tr>
                                     <tr>
-                                        <td>06 Dec 2019</td>
+                                        <td>DAU BG GAJI P3K</td>
                                         <td class="fw-medium">26</td>
                                         <td class="fw-medium">$453.25</td>
                                         <td class="text-danger fw-medium">-$15.02</td>
                                     </tr>
                                     <tr>
-                                        <td>07 Dec 2019</td>
+                                        <td>DAU yang ditentukan PEMDA</td>
                                         <td class="fw-medium">34</td>
                                         <td class="fw-medium">$653.12</td>
                                         <td class="text-danger fw-medium">-$13.45</td>
                                     </tr>
                                     <tr>
-                                        <td>08 Dec 2019</td>
+                                        <td>PAD (TPP)</td>
                                         <td class="fw-medium">45</td>
                                         <td class="fw-medium">$546.47</td>
                                         <td class="text-danger fw-medium">-$24.22</td>
                                     </tr>
                                     <tr>
-                                        <td>09 Dec 2019</td>
+                                        <td>DBH PUSAT yang ditentukan PEMDA</td>
+                                        <td class="fw-medium">31</td>
+                                        <td class="fw-medium">$425.72</td>
+                                        <td class="text-danger fw-medium">-$25.01</td>
+                                    </tr>
+                                     <tr>
+                                        <td>DBH PROV yang ditentukan OPD</td>
                                         <td class="fw-medium">31</td>
                                         <td class="fw-medium">$425.72</td>
                                         <td class="text-danger fw-medium">-$25.01</td>
