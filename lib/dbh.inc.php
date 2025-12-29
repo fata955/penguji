@@ -4,7 +4,6 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $database = "spm";
-$charset = 'utf8mb4';
 // $servername = "localhost";
 // $username = "root";
 // $password = "nadirad3mi208";
