@@ -39,78 +39,77 @@
                          <!-- <span class="badge bg-success ms-auto menu-badge">1</span> -->
                      </a>
                  </li>
-                 <li class="slide">
-                     <a href="/mocking" class="side-menu__item">
+                  <!-- Start::slide -->
+                 <li class="slide has-sub">
+                     <a href="javascript:void(0);" class="side-menu__item">
                          <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                              <path d="M0 0h24v24H0V0z" fill="none" />
-                             <path d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.5 4c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm-7 0c.83 0 1.5.67 1.5 1.5S9.33 11 8.5 11 7 10.33 7 9.5 7.67 8 8.5 8zm3.5 9.5c-2.33 0-4.32-1.45-5.12-3.5h1.67c.7 1.19 1.97 2 3.45 2s2.76-.81 3.45-2h1.67c-.8 2.05-2.79 3.5-5.12 3.5z" opacity=".3" />
-                             <circle cx="15.5" cy="9.5" r="1.5" />
-                             <circle cx="8.5" cy="9.5" r="1.5" />
-                             <path d="M12 16c-1.48 0-2.75-.81-3.45-2H6.88c.8 2.05 2.79 3.5 5.12 3.5s4.32-1.45 5.12-3.5h-1.67c-.69 1.19-1.97 2-3.45 2zm-.01-14C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
+                             <path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3" />
+                             <path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z" />
                          </svg>
-                         <span class="side-menu__label">Tarik Data</span>
+                         <span class="side-menu__label">Input Berkas</span>
+                         <i class="fe fe-chevron-right side-menu__angle"></i>
                      </a>
+                     <ul class="slide-menu child1 mega-menu">
+                         <li class="slide side-menu__label1">
+                             <a href="javascript:void(0);">Input</a>
+                         </li>
+                         <li class="slide">
+                             <a href="/berkas" class="side-menu__item">Input Kertas Kerja</a>
+                         </li>
+
+                     </ul>
                  </li>
-                 <li class="slide">
-                     <a href="/berkas" class="side-menu__item">
+                 <!-- End::slide -->
+                 <!-- Start::slide -->
+                 <li class="slide has-sub">
+                     <a href="javascript:void(0);" class="side-menu__item">
                          <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                              <path d="M0 0h24v24H0V0z" fill="none" />
-                             <path d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.5 4c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm-7 0c.83 0 1.5.67 1.5 1.5S9.33 11 8.5 11 7 10.33 7 9.5 7.67 8 8.5 8zm3.5 9.5c-2.33 0-4.32-1.45-5.12-3.5h1.67c.7 1.19 1.97 2 3.45 2s2.76-.81 3.45-2h1.67c-.8 2.05-2.79 3.5-5.12 3.5z" opacity=".3" />
-                             <circle cx="15.5" cy="9.5" r="1.5" />
-                             <circle cx="8.5" cy="9.5" r="1.5" />
-                             <path d="M12 16c-1.48 0-2.75-.81-3.45-2H6.88c.8 2.05 2.79 3.5 5.12 3.5s4.32-1.45 5.12-3.5h-1.67c-.69 1.19-1.97 2-3.45 2zm-.01-14C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
-                         </svg>
-                         <span class="side-menu__label">Upload Berkas</span>
-                     </a>
-                 </li>
-                  <li class="slide">
-                     <a href="/verifikasi" class="side-menu__item">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
-                             <path d="M0 0h24v24H0V0z" fill="none" />
-                             <path d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.5 4c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm-7 0c.83 0 1.5.67 1.5 1.5S9.33 11 8.5 11 7 10.33 7 9.5 7.67 8 8.5 8zm3.5 9.5c-2.33 0-4.32-1.45-5.12-3.5h1.67c.7 1.19 1.97 2 3.45 2s2.76-.81 3.45-2h1.67c-.8 2.05-2.79 3.5-5.12 3.5z" opacity=".3" />
-                             <circle cx="15.5" cy="9.5" r="1.5" />
-                             <circle cx="8.5" cy="9.5" r="1.5" />
-                             <path d="M12 16c-1.48 0-2.75-.81-3.45-2H6.88c.8 2.05 2.79 3.5 5.12 3.5s4.32-1.45 5.12-3.5h-1.67c-.69 1.19-1.97 2-3.45 2zm-.01-14C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
+                             <path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3" />
+                             <path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z" />
                          </svg>
                          <span class="side-menu__label">Verifikasi</span>
+                         <i class="fe fe-chevron-right side-menu__angle"></i>
                      </a>
+                     <ul class="slide-menu child1 mega-menu">
+                         <li class="slide side-menu__label1">
+                             <a href="javascript:void(0);">Input</a>
+                         </li>
+                         <li class="slide">
+                             <a href="/verifikasi" class="side-menu__item">Input Kertas Kerja</a>
+                         </li>
+
+                     </ul>
                  </li>
-                  <li class="slide">
-                     <a href="/validasi" class="side-menu__item">
+                 <!-- End::slide -->
+
+                 <!-- Start::slide -->
+                 <li class="slide has-sub">
+                     <a href="javascript:void(0);" class="side-menu__item">
                          <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
                              <path d="M0 0h24v24H0V0z" fill="none" />
-                             <path d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.5 4c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm-7 0c.83 0 1.5.67 1.5 1.5S9.33 11 8.5 11 7 10.33 7 9.5 7.67 8 8.5 8zm3.5 9.5c-2.33 0-4.32-1.45-5.12-3.5h1.67c.7 1.19 1.97 2 3.45 2s2.76-.81 3.45-2h1.67c-.8 2.05-2.79 3.5-5.12 3.5z" opacity=".3" />
-                             <circle cx="15.5" cy="9.5" r="1.5" />
-                             <circle cx="8.5" cy="9.5" r="1.5" />
-                             <path d="M12 16c-1.48 0-2.75-.81-3.45-2H6.88c.8 2.05 2.79 3.5 5.12 3.5s4.32-1.45 5.12-3.5h-1.67c-.69 1.19-1.97 2-3.45 2zm-.01-14C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
+                             <path d="M6.26 9L12 13.47 17.74 9 12 4.53z" opacity=".3" />
+                             <path d="M19.37 12.8l-7.38 5.74-7.37-5.73L3 14.07l9 7 9-7zM12 2L3 9l1.63 1.27L12 16l7.36-5.73L21 9l-9-7zm0 11.47L6.26 9 12 4.53 17.74 9 12 13.47z" />
                          </svg>
-                         <span class="side-menu__label">Validasi</span>
+                         <span class="side-menu__label">Daftar Penguji</span>
+                         <i class="fe fe-chevron-right side-menu__angle"></i>
                      </a>
+                     <ul class="slide-menu child1 mega-menu">
+                         <li class="slide side-menu__label1">
+                             <a href="javascript:void(0);">Input</a>
+                         </li>
+                         <li class="slide">
+                             <a href="/kertaskerja" class="side-menu__item">Input Kertas Kerja</a>
+                         </li>
+
+                     </ul>
                  </li>
-                 <li class="slide">
-                     <a href="/kertaskerja" class="side-menu__item">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
-                             <path d="M0 0h24v24H0V0z" fill="none" />
-                             <path d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.5 4c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm-7 0c.83 0 1.5.67 1.5 1.5S9.33 11 8.5 11 7 10.33 7 9.5 7.67 8 8.5 8zm3.5 9.5c-2.33 0-4.32-1.45-5.12-3.5h1.67c.7 1.19 1.97 2 3.45 2s2.76-.81 3.45-2h1.67c-.8 2.05-2.79 3.5-5.12 3.5z" opacity=".3" />
-                             <circle cx="15.5" cy="9.5" r="1.5" />
-                             <circle cx="8.5" cy="9.5" r="1.5" />
-                             <path d="M12 16c-1.48 0-2.75-.81-3.45-2H6.88c.8 2.05 2.79 3.5 5.12 3.5s4.32-1.45 5.12-3.5h-1.67c-.69 1.19-1.97 2-3.45 2zm-.01-14C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
-                         </svg>
-                         <span class="side-menu__label">Pembayaran/Penguji</span>
-                     </a>
-                 </li>
-                 <li class="slide">
-                     <a href="/sumberdana" class="side-menu__item">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="side-menu__icon" viewBox="0 0 24 24">
-                             <path d="M0 0h24v24H0V0z" fill="none" />
-                             <path d="M12 4c-4.42 0-8 3.58-8 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm3.5 4c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm-7 0c.83 0 1.5.67 1.5 1.5S9.33 11 8.5 11 7 10.33 7 9.5 7.67 8 8.5 8zm3.5 9.5c-2.33 0-4.32-1.45-5.12-3.5h1.67c.7 1.19 1.97 2 3.45 2s2.76-.81 3.45-2h1.67c-.8 2.05-2.79 3.5-5.12 3.5z" opacity=".3" />
-                             <circle cx="15.5" cy="9.5" r="1.5" />
-                             <circle cx="8.5" cy="9.5" r="1.5" />
-                             <path d="M12 16c-1.48 0-2.75-.81-3.45-2H6.88c.8 2.05 2.79 3.5 5.12 3.5s4.32-1.45 5.12-3.5h-1.67c-.69 1.19-1.97 2-3.45 2zm-.01-14C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z" />
-                         </svg>
-                         <span class="side-menu__label">Sumber Dana</span>
-                     </a>
-                 </li>
+                 <!-- End::slide -->
+
+                 <!-- Start::slide__category -->
+                 <li class="slide__category"><span class="category-name">Laporan</span></li>
+                 <!-- End::slide__category -->
 
                  <!-- Start::slide -->
                  <li class="slide has-sub">
