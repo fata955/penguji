@@ -39,6 +39,12 @@ switch ($request) {
     case $me . 'mocking':
         require "content/tarik.view.php";
         break;
+    case $me . 'verifikasi':
+        require "content/verif.view.php";
+        break;
+     case $me . 'status':
+        require "content/statusberkas.view.php";
+        break;   
    
    
    

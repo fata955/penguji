@@ -122,7 +122,8 @@ include 'component/footer.view.php';
                                 <th scope="col">Nilai</th>
                                 <th scope="col">Potongan</th>
                                 <th scope="col">Input Sumber Dana</th>
-                                <th scope="col">Inputan Berkas</th>
+                                <th scope="col">Views</th>
+                                <th scope="col">Status</th>
 
                             </tr>
                         </thead>
@@ -346,6 +347,17 @@ include 'component/footer.view.php';
                                     'value="' + value.namasumberdana + '" selected'
                                 );
                             }
+
+
+                            var selectHtml = `
+                                                <select class="form-select mySelect">
+                                                    <option value="">--Pilih--</option>
+                                                    <option value="A">OK</option>
+                                                    <option value="B">Tolak</option>
+                                                    
+                                                </select>
+                                                `;
+
                             table.row
                                 .add([
                                     // counter,
@@ -360,12 +372,14 @@ include 'component/footer.view.php';
                                     '<select class="form-select pilih-sumber" data-id="' + value.id_spm + '">' +
                                     selected +
                                     '</select>',
-                                    // '<button class="btn btn-outline-secondary ms-auto float-center tampilkan" ' +
-                                    // ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Rincian Belanja</button><br><br>' +
-                                    // '<button class="btn btn-outline-warning ms-auto float-center tampilkan2" ' +
-                                    // ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Potongan</button><br><br>' +
+                                    '<button class="btn btn-outline-secondary ms-auto float-center tampilkan" ' +
+                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Rincian Belanja</button><br><br>' +
+                                    '<button class="btn btn-outline-warning ms-auto float-center tampilkan2" ' +
+                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Potongan</button><br><br>' +
                                     '<button class="btn btn-outline-danger ms-auto float-center tampilkan3" ' +
-                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  data-id="' + value.id_spm + '" value="' + value.id_spm + '" title="View Task">Upload Berkas</button>'
+                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  data-id="' + value.id_spm + '" value="' + value.id_spm + '" title="View Task">Lihat Berkas</button>',
+                                     selectHtml
+
 
                                 ])
                                 .draw(false);
@@ -411,7 +425,7 @@ include 'component/footer.view.php';
             $("#exampleModalXl").modal("hide");
             $("#modaldemo8insert").modal("show");
             var id = $(this).data('id');
-             $('#idspmhidden').val(id);
+            $('#idspmhidden').val(id);
 
         });
 
@@ -434,7 +448,7 @@ include 'component/footer.view.php';
                 type: "POST",
                 data: {
                     fileName: file.name,
-                    id:id
+                    id: id
                 },
                 success: function(response) {
                     currentChunk = parseInt(response) || 0;
