@@ -65,39 +65,6 @@ include 'component/pengaturantampilan.view.php';
 <?php
 include 'component/footer.view.php';
 ?>
-
-<div class="modal fade" id="modaldemo8insert" tabindex="-1"
-    aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="exampleModalXlLabel">Upload Berkas</h6>
-                <!-- <button class="btn btn-outline-warning ms-auto float-center tampilkan"
-                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">Laporan SPM</button>
-                <button class="btn btn-outline-secondary ms-auto float-center tampilkan"
-                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">SPM Masuk</button> -->
-                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="uploadForm" enctype="multipart/form-data">
-                    <input type="hidden" name="idspmhidden" id="idspmhidden" value="">
-
-                    <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf">
-                    <button type="button" id="uploadBtn" class="btn btn-primary">Upload PDF</button>
-                </form>
-
-                <div class="progress mt-3" style="height: 25px;">
-                    <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated"
-                        role="progressbar" style="width: 0%">0%</div>
-                </div>
-
-                <div id="status" class="mt-2"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="modal fade" id="exampleModalXl" tabindex="-1"
     aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -135,6 +102,46 @@ include 'component/footer.view.php';
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="modaldemo8insert" tabindex="-1"
+    aria-labelledby="exampleModalXlLabel" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title">Upload Berkas</h6>
+
+                <!-- <button class="btn btn-outline-warning ms-auto float-center tampilkan"
+                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">Laporan SPM</button>
+                <button class="btn btn-outline-secondary ms-auto float-center tampilkan"
+                    data-bs-placement="top" data-bs-toggle="tooltip" value="` + value.id_sipd + `" title="View Task">SPM Masuk</button> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <h6>Nomor SPM</h6> <label class="form-control" for="" name="nomorspm" id="nomorspm"></label><br>
+                    <h6>Nama OPD</h6><label class="form-control" for="" name="namaopd" id="namaopd"></label><br>
+                    <h6>Nilai SPM</h6><label class="form-control" for="" name="nilaispm" id="nilaispm"></label>
+                    <br>
+
+                    <input type="hidden" name="idspmhidden" id="idspmhidden" value="">
+
+                    <input type="file" id="pdfFile" name="pdfFile" accept="application/pdf">
+                    <button type="button" id="uploadBtn" class="btn btn-primary">Upload PDF</button>
+                </form>
+
+                <div class="progress mt-3" style="height: 25px;">
+                    <div id="progressBar" class="progress-bar progress-bar-striped progress-bar-animated"
+                        role="progressbar" style="width: 0%">0%</div>
+                </div>
+
+                <div id="status" class="mt-2"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <!-- End::app-content -->
 
 
@@ -315,7 +322,7 @@ include 'component/footer.view.php';
             // if (confirm("Apakah yakin memasukkan dalam Keranjang?")) {
 
             var id = $(this).val();
-            console.log(id);
+            // console.log(id);
             // $("#listspm").empty();
             e.preventDefault();
             if (id) {
@@ -365,7 +372,7 @@ include 'component/footer.view.php';
                                     // '<button class="btn btn-outline-warning ms-auto float-center tampilkan2" ' +
                                     // ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Potongan</button><br><br>' +
                                     '<button class="btn btn-outline-danger ms-auto float-center tampilkan3" ' +
-                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  data-id="' + value.id_spm + '" value="' + value.id_spm + '" title="View Task">Upload Berkas</button>'
+                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  nilaispm="' + value.nilai_spm + '" namaopd="' + value.nama_opd + '" nomorspm="' + value.nomor_spm + '"  data-id="' + value.id_spm + '" value="' + value.id_spm + '" title="View Task">Upload Berkas</button>'
 
                                 ])
                                 .draw(false);
@@ -411,13 +418,23 @@ include 'component/footer.view.php';
             $("#exampleModalXl").modal("hide");
             $("#modaldemo8insert").modal("show");
             var id = $(this).data('id');
-             $('#idspmhidden').val(id);
+            var nomorspm = $(".tampilkan3").attr("nomorspm");
+            var nilaispm = $(".tampilkan3").attr("nilaispm");
+            var namaopd = $(".tampilkan3").attr("namaopd");
+            // console.log(namaopd);
+            $('#idspmhidden').val(id);
+            $('#nomorspm').text(nomorspm);
+            $('#namaopd').text(namaopd);
+            $('#nilaispm').text(nilaispm);
+
 
         });
 
         $("#uploadBtn").on("click", function() {
             const file = $("#pdfFile")[0].files[0];
             let id = $('#idspmhidden').val();
+            let name = $('#nameopd').val();
+            let nomorspm = $('#nomorspm').text();
             // console.log(id);
             if (!file) {
                 alert("Pilih file PDF terlebih dahulu!");
@@ -433,14 +450,16 @@ include 'component/footer.view.php';
                 url: "proses/berkas/resume.php",
                 type: "POST",
                 data: {
+                    nomorspm:nomorspm, 
                     fileName: file.name,
-                    id:id
+                    id: id
                 },
                 success: function(response) {
                     currentChunk = parseInt(response) || 0;
                     uploadNextChunk();
                 }
             });
+            fetchData();
 
             function uploadNextChunk() {
                 if (currentChunk >= totalChunks) {
@@ -458,6 +477,7 @@ include 'component/footer.view.php';
                 formData.append("index", currentChunk);
                 formData.append("total", totalChunks);
                 formData.append("fileName", file.name);
+                formData.append("nomorspm", nomorspm);
                 formData.append("id", id);
 
                 $.ajax({
@@ -480,6 +500,7 @@ include 'component/footer.view.php';
                     }
                 });
             }
+            fetchData();
         });
 
     });

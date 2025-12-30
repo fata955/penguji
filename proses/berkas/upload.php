@@ -9,6 +9,7 @@ if (!is_dir($targetDir)) {
 }
 
 $fileName = $_POST['fileName'];
+$nomor = $_POST['nomorspm'];
 $id = $_POST['id'];
 
 
@@ -40,7 +41,11 @@ for ($i = 0; $i < $total; $i++) {
 }
 
 if ($allUploaded) {
-    $finalFile = $targetDir . $fileName;
+    // $ext = pathinfo($_POST['fileName'], PATHINFO_EXTENSION);
+    $ext = pathinfo($_POST['fileName'], PATHINFO_EXTENSION);
+    $newName = $skpd . "_" . $tanggal . "_" . $jenis . "." . $ext;
+
+    $finalFile = $targetDir . $newName;
     if (file_exists($finalFile)) unlink($finalFile);
 
     // Gabungkan semua chunk
@@ -49,7 +54,6 @@ if ($allUploaded) {
         file_put_contents($finalFile, file_get_contents($chunkFile), FILE_APPEND);
         unlink($chunkFile); // hapus chunk setelah digabung
     }
-    echo "Upload selesai: " . htmlspecialchars($fileName);
 } else {
     echo "Part $index berhasil diupload.";
 }
