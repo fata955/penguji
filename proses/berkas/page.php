@@ -54,8 +54,8 @@ if ($_GET["action"] === "sumberdana") {
 
 
 if ($_GET["action"] === "listspm") {
-  $id = $_POST["id"];
-  $sql = " 
+    $id = $_POST["id"];
+    $sql = "
         SELECT 
             a.id_spm,
             a.nomor_spm,
@@ -64,6 +64,7 @@ if ($_GET["action"] === "listspm") {
             a.keterangan_spm,
             a.nilai_spm,
             a.tanggal_spm,
+            d.berkas,  -- ambil nama file dari database
             COALESCE(e.namasumberdana, '-') AS namasumberdana,
             d.id_dana,
             (
@@ -75,20 +76,31 @@ if ($_GET["action"] === "listspm") {
         LEFT JOIN tspmsub d ON a.id_spm = d.id_spm
         LEFT JOIN t_sumberdana e ON e.id = d.id_dana
         LEFT JOIN skpd c ON a.id_skpd = c.id_sipd
-        WHERE a.id_skpd = $id AND d.id_sp2d= '0';
+        WHERE a.id_skpd = $id AND d.id_sp2d = '0';
     ";
-  $result = mysqli_query($koneksi, $sql);
-  $data = [];
-  while ($row = mysqli_fetch_assoc($result)) {
-    $data[] = $row;
-  }
-  mysqli_close($koneksi);
-  header('Content-Type: application/json');
-  echo json_encode([
-    "data" => $data
-    // "potongan" => $result1
-  ]);
+
+    $result = mysqli_query($koneksi, $sql);
+    $data = [];
+
+    // base URL untuk akses file dari browser
+    $baseUrl = "http://localhost/proses/berkas/uploads/";
+
+    while ($row = mysqli_fetch_assoc($result)) {
+        // cek apakah file berkas ada di folder uploads
+        $finalFile = __DIR__ . "/uploads/" . $row['berkas'];
+        $row['file_exists'] = (!empty($row['berkas']) && file_exists($finalFile));
+        $row['file_url']    = (!empty($row['berkas'])) ? $baseUrl . $row['berkas'] : null;
+
+        $data[] = $row;
+    }
+
+    mysqli_close($koneksi);
+    header('Content-Type: application/json');
+    echo json_encode([
+        "data" => $data
+    ]);
 }
+
 
 
 if ($_GET["action"] === "updateSd") {
