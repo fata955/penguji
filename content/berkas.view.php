@@ -319,11 +319,7 @@ include 'component/footer.view.php';
             }
         });
         $("#tablespm").on("click", ".tampilkan", function(e) {
-            // if (confirm("Apakah yakin memasukkan dalam Keranjang?")) {
-
             var id = $(this).val();
-            // console.log(id);
-            // $("#listspm").empty();
             e.preventDefault();
             if (id) {
                 $.ajax({
@@ -337,48 +333,47 @@ include 'component/footer.view.php';
                         var data = response.data;
                         console.log(data);
 
-                        // console.log(nilai);
                         table.clear().draw();
 
-                        // var counter = 1;
                         $.each(data, function(index, value) {
                             let selected = "";
                             if (value.id_dana == 0 || value.id_dana == null) {
-                                // pilih default
                                 selected = opsiSumberDana;
                             } else {
-                                // pilih sesuai id_dana
                                 selected = opsiSumberDana.replace(
                                     'value="' + value.id_dana + '"',
                                     'value="' + value.namasumberdana + '" selected'
                                 );
                             }
-                            table.row
-                                .add([
-                                    // counter,
-                                    value.nomor_spm,
-                                    value.jenis,
-                                    value.keterangan_spm,
-                                    formatRupiah(value.nilai_spm),
-                                    formatRupiah(value.potongan),
-                                    // '<select class="form-select pilih-sumber" data-id="' + value.id_sipd + '">' +
-                                    // opsiSumberDana.replace('value="' + value.id_dana + '"', 'value="' + value.namasumberdana + '" selected') +
-                                    // '</select>',
-                                    '<select class="form-select pilih-sumber" data-id="' + value.id_spm + '">' +
-                                    selected +
-                                    '</select>',
-                                    // '<button class="btn btn-outline-secondary ms-auto float-center tampilkan" ' +
-                                    // ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Rincian Belanja</button><br><br>' +
-                                    // '<button class="btn btn-outline-warning ms-auto float-center tampilkan2" ' +
-                                    // ' data-bs-placement="top" data-bs-toggle="tooltip"  value="' + value.id_spm + '" title="View Task">Potongan</button><br><br>' +
+
+                            let tombolBerkas = "";
+                            if (value.file_exists) {
+                                // jika file sudah ada → tombol View Berkas
+                                tombolBerkas =
+                                    '<a href="' + value.file_url + '" target="_blank" ' +
+                                    'class="btn btn-outline-success ms-auto float-center tampilkan3" ' +
+                                    'data-id="' + value.id_spm + '" title="View Berkas">View Berkas</a>';
+                            } else {
+                                // jika file belum ada → tombol Upload Berkas
+                                tombolBerkas =
                                     '<button class="btn btn-outline-danger ms-auto float-center tampilkan3" ' +
-                                    ' data-bs-placement="top" data-bs-toggle="tooltip"  nilaispm="' + value.nilai_spm + '" namaopd="' + value.nama_opd + '" nomorspm="' + value.nomor_spm + '"  data-id="' + value.id_spm + '" value="' + value.id_spm + '" title="View Task">Upload Berkas</button>'
+                                    'nilaispm="' + value.nilai_spm + '" namaopd="' + value.nama_opd + '" ' +
+                                    'nomorspm="' + value.nomor_spm + '" data-id="' + value.id_spm + '" ' +
+                                    'value="' + value.id_spm + '" title="Upload Berkas">Upload Berkas</button>';
+                            }
 
-                                ])
-                                .draw(false);
-
-                            // counter++;
+                            table.row.add([
+                                value.nomor_spm,
+                                value.jenis,
+                                value.keterangan_spm,
+                                formatRupiah(value.nilai_spm),
+                                formatRupiah(value.potongan),
+                                '<select class="form-select pilih-sumber" data-id="' + value.id_spm + '">' + selected + '</select>',
+                                tombolBerkas
+                            ]).draw(false);
                         });
+
+
                         $("#exampleModalXl").modal('show');
                     }
                 });
@@ -414,21 +409,32 @@ include 'component/footer.view.php';
                 }
             });
         });
-        $(document).on("click", ".tampilkan3", function() {
-            $("#exampleModalXl").modal("hide");
-            $("#modaldemo8insert").modal("show");
-            var id = $(this).data('id');
-            var nomorspm = $(".tampilkan3").attr("nomorspm");
-            var nilaispm = $(".tampilkan3").attr("nilaispm");
-            var namaopd = $(".tampilkan3").attr("namaopd");
-            // console.log(namaopd);
-            $('#idspmhidden').val(id);
-            $('#nomorspm').text(nomorspm);
-            $('#namaopd').text(namaopd);
-            $('#nilaispm').text(nilaispm);
+        $(document).on("click", ".tampilkan3", function(e) {
+            e.preventDefault();
 
+            let fileUrl = $(this).attr("href");
 
+            if (fileUrl) {
+                // View Berkas → buka file PDF di tab baru
+                window.open(fileUrl, "_blank");
+            } else {
+                // Upload Berkas → jalankan modal insert
+                $("#exampleModalXl").modal("hide");
+                $("#modaldemo8insert").modal("show");
+
+                var id = $(this).data('id');
+                var nomorspm = $(this).attr("nomorspm");
+                var nilaispm = $(this).attr("nilaispm");
+                var namaopd = $(this).attr("namaopd");
+
+                $('#idspmhidden').val(id);
+                $('#nomorspm').text(nomorspm);
+                $('#namaopd').text(namaopd);
+                $('#nilaispm').text(nilaispm);
+            }
         });
+
+
 
         $("#uploadBtn").on("click", function() {
             const file = $("#pdfFile")[0].files[0];
@@ -450,7 +456,7 @@ include 'component/footer.view.php';
                 url: "proses/berkas/resume.php",
                 type: "POST",
                 data: {
-                    nomorspm:nomorspm, 
+                    nomorspm: nomorspm,
                     fileName: file.name,
                     id: id
                 },
@@ -460,6 +466,7 @@ include 'component/footer.view.php';
                 }
             });
             fetchData();
+
 
             function uploadNextChunk() {
                 if (currentChunk >= totalChunks) {
@@ -499,8 +506,11 @@ include 'component/footer.view.php';
                         $("#status").html("Terjadi kesalahan pada chunk " + (currentChunk + 1));
                     }
                 });
+
+
             }
             fetchData();
+            $('#pdfFile').replaceWith($('#pdfFile').clone());
         });
 
     });
